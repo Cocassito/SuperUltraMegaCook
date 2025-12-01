@@ -7,16 +7,27 @@ import { OrbitControls } from "./lib/drei";
 interface BoxProps {
   alimentSrc: string;
   baseSrc: string | null;
-    autreSrc: string | null;
+  autreSrc: string | null;
   assietteModel: string;
 }
 
-function Model({ src, scale }: { src: string; scale?: [number, number, number] }) {
+function Model({
+  src,
+  scale,
+}: {
+  src: string;
+  scale?: [number, number, number];
+}) {
   const gltf = useLoader(GLTFLoader, src);
   return <primitive object={gltf.scene.clone()} scale={scale} />;
 }
 
-export default function Box({ alimentSrc, baseSrc, autreSrc, assietteModel }: BoxProps) {
+export default function Box({
+  alimentSrc,
+  baseSrc,
+  autreSrc,
+  assietteModel,
+}: BoxProps) {
   const boxRef = useRef<Group>(null);
 
   useFrame(() => {
