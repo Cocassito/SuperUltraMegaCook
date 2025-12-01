@@ -1,0 +1,68 @@
+# -----------------------
+# OS & Éditeurs
+# -----------------------
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# VSCode
+.vscode/
+.history/
+
+# JetBrains IDE (IntelliJ / WebStorm / PyCharm)
+.idea/
+*.iml
+
+# -----------------------
+# Node.js
+# -----------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+
+# -----------------------
+# Python
+# -----------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyd
+*.pdb
+*.egg-info/
+.env/
+venv/
+.envrc
+
+# -----------------------
+# Logs
+# -----------------------
+*.log
+logs/
+
+# -----------------------
+# Environment / Secrets
+# -----------------------
+*.env
+*.env.local
+.env.*
+.env.local
+
+# -----------------------
+# Misc
+# -----------------------
+*.swp
+*.swo
+*.tmp
+*.bak
