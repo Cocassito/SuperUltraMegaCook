@@ -1,6 +1,8 @@
-import { Canvas } from "./lib/fiber";
+import { Canvas, useFrame, useThree } from "./lib/fiber";
 import Box from "./FoodScene";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPixelatedPass } from "three/addons/postprocessing/RenderPixelatedPass.js";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { Asset } from "expo-asset";
 import modelsData, { ModelType } from "./data/modelsData";
@@ -19,6 +21,34 @@ const getRandomItems = <T,>(items: T[], count: number = 3): T[] => {
   // Prend les 3 premiers éléments
   return melange.slice(0, count);
 };
+
+function PixelatedPass({ pixelSize = 6 }: { pixelSize?: number }) {
+  const { gl, scene, camera, size } = useThree();
+  const composerRef = useRef<any>(null);
+
+  useEffect(() => {
+    const composer = new EffectComposer(gl);
+    const pass = new RenderPixelatedPass(pixelSize, scene, camera);
+    composer.addPass(pass);
+    composer.setSize(size.width, size.height);
+    composerRef.current = composer;
+
+    return () => {
+      if (composer && (composer as any).dispose) (composer as any).dispose();
+    };
+  }, [gl, scene, camera, pixelSize]);
+
+  useEffect(() => {
+    if (composerRef.current)
+      composerRef.current.setSize(size.width, size.height);
+  }, [size]);
+
+  useFrame(() => {
+    if (composerRef.current) composerRef.current.render();
+  }, 1);
+
+  return null;
+}
 
 export default function ThreeDemo() {
   const [showAlimentModal, setShowAlimentModal] = useState(false);
@@ -230,6 +260,7 @@ export default function ThreeDemo() {
               assietteModel={modelUris.assiette}
             />
           )}
+          <PixelatedPass pixelSize={6} />
         </Canvas>
       </View>
       {showGauge && (
