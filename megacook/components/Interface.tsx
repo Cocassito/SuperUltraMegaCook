@@ -29,7 +29,7 @@ export default function ThreeDemo() {
   const [selectedAutre, setSelectedAutre] = useState<AutreType | null>(null);
   const [assetsLoaded, setAssetsLoaded] = useState(false);
   const [modelUris, setModelUris] = useState<Record<string, string>>({});
-  const assietteModel = require("../../assets/models/assiette.glb");
+  const assietteModel = require("../assets/models/assiette.glb");
   const [showGauge, setShowGauge] = useState(false);
   const [randomAliments, setRandomAliments] = useState<Array<[string, any]>>(
     []
