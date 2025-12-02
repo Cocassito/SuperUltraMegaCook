@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 interface NavigationButtonsProps {
   prevView: () => void;
   nextView: () => void;
 }
+
 
 export const NavigationButtons = ({ prevView, nextView }: NavigationButtonsProps) => {
   return (

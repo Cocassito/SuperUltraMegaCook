@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useState } from "react";
 import { ChefType } from "@/data/chefsData";
 import { AutreType } from "@/data/autresData";
@@ -9,6 +9,8 @@ import PlateScene from "./PlateScene";
 import { useDataLoading } from "@/hooks/useDataLoading";
 import Floor from "./Floor";
 import { OrbitControls } from "@react-three/drei";
+import { NavigationButtons } from "./ui/button/NavigationButtons";
+import CameraControls from "./CameraControls";
 
 export default function Scene() {
   const [selectedModel, setSelectedModel] = useState<ModelType | null>(null);
@@ -16,42 +18,35 @@ export default function Scene() {
   const [selectedAutre, setSelectedAutre] = useState<AutreType | null>(null);
   [];
   const { assetsLoaded, modelUris } = useDataLoading();
+  
+  const [currentView, setCurrentView] = useState(0);
+  
+  const nextView = () => {
+    setCurrentView((prev) => (prev + 1) % 3);
+  };
+  
+  const prevView = () => {
+    setCurrentView((prev) => (prev - 1 + 3) % 3);
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.canvasWrapper}>
         <Canvas
           style={styles.canvas}
-          camera={{
-            position: [1, 10, 15],
-            fov: 55,
-            near: 0.1,
-            far: 500,
-          }}
         >
-          <OrbitControls />
+
+          {/* <OrbitControls /> */}
           <Floor />
-          {modelUris.assiette && (
-            <PlateScene
-              alimentSrc={
-                selectedModel && modelUris[selectedModel]
-                  ? modelUris[selectedModel]
-                  : ""
-              }
-              baseSrc={
-                selectedBase && modelUris[selectedBase]
-                  ? modelUris[selectedBase]
-                  : null
-              }
-              autreSrc={
-                selectedAutre && modelUris[selectedAutre]
-                  ? modelUris[selectedAutre]
-                  : null
-              }
-              assietteModel={modelUris.assiette}
-            />
-          )}
+          <PlateScene assietteModel={modelUris.assiette} />
+
+          <CameraControls view={currentView} />
         </Canvas>
+        <NavigationButtons
+          prevView={prevView}
+          nextView={nextView}
+        />
+
       </View>
     </View>
   );
