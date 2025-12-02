@@ -14,9 +14,9 @@ import { AutreModal } from "./modals/AutreModal";
 import { ChefModal } from "./modals/ChefModal";
 import ResultPage from "../pages/ResultPage";
 import PlateScene from "./PlateScene";
-import { SceneLights } from "./ui/sceneLights/SceneLights";
-import { NavigationButtons } from "./ui/buttons/NavigationButtons";
-import { LoadingScreen } from "./ui/loadingScreen/LoadingScreen";
+import { SceneLights } from "./sceneLights/SceneLights";
+import { NavigationButtons } from "./ui/button/NavigationButtons";
+import { LoadingScreen } from "./loadingScreen/LoadingScreen";
 import { useDataLoading } from "../hooks/useDataLoading";
 import { useGaugeAverage, useResultAverages } from "../hooks/useAverages";
 
@@ -34,7 +34,9 @@ export default function ThreeDemo() {
   const [selectedModel, setSelectedModel] = useState<ModelType | null>(null);
   const [selectedBase, setSelectedBase] = useState<BaseType | null>(null);
   const [selectedAutre, setSelectedAutre] = useState<AutreType | null>(null);
-  const [randomAliments, setRandomAliments] = useState<Array<[string, any]>>([]);
+  const [randomAliments, setRandomAliments] = useState<Array<[string, any]>>(
+    []
+  );
   const [randomBases, setRandomBases] = useState<Array<[string, any]>>([]);
   const [randomAutres, setRandomAutres] = useState<Array<[string, any]>>([]);
   const [showChefModal, setShowChefModal] = useState(false);
@@ -58,7 +60,11 @@ export default function ThreeDemo() {
   } = useCameraControls(assetsLoaded);
 
   // Calcul des moyennes
-  const gaugeAverage = useGaugeAverage(selectedModel, selectedBase, selectedAutre);
+  const gaugeAverage = useGaugeAverage(
+    selectedModel,
+    selectedBase,
+    selectedAutre
+  );
   const resultAverages = useResultAverages(selectedChefs);
 
   // Affichage pendant le chargement
@@ -101,9 +107,21 @@ export default function ThreeDemo() {
           <SceneLights />
           {modelUris.assiette && (
             <PlateScene
-              alimentSrc={selectedModel && modelUris[selectedModel] ? modelUris[selectedModel] : ""}
-              baseSrc={selectedBase && modelUris[selectedBase] ? modelUris[selectedBase] : null}
-              autreSrc={selectedAutre && modelUris[selectedAutre] ? modelUris[selectedAutre] : null}
+              alimentSrc={
+                selectedModel && modelUris[selectedModel]
+                  ? modelUris[selectedModel]
+                  : ""
+              }
+              baseSrc={
+                selectedBase && modelUris[selectedBase]
+                  ? modelUris[selectedBase]
+                  : null
+              }
+              autreSrc={
+                selectedAutre && modelUris[selectedAutre]
+                  ? modelUris[selectedAutre]
+                  : null
+              }
               assietteModel={modelUris.assiette}
             />
           )}
