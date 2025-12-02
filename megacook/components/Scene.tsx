@@ -17,7 +17,6 @@ export default function Scene() {
 
   // Référence au cube pour la caméra
   const cubeRef = useRef<Mesh>(null!);
-  
   const [currentView, setCurrentView] = useState(0);
   
   const nextView = () => {
@@ -34,24 +33,16 @@ export default function Scene() {
         <Canvas
           style={styles.canvas}
         >
-
           <Floor />
-          
           <PlateScene assietteModel={modelUris.assiette} />
-
           <CameraControls cubeRef={cubeRef}/>
-
           {currentView === 0 && <FrontView cubeRef={cubeRef} />}
           {currentView === 1 && <RightView cubeRef={cubeRef} />}
           {currentView === 2 && <LeftView cubeRef={cubeRef} />}
-
-          <OrbitControls />
+          {/* <OrbitControls /> */}
         </Canvas>
 
-        <NavigationButtons
-          prevView={prevView}
-          nextView={nextView}
-        />
+        <NavigationButtons prevView={prevView} nextView={nextView} />
 
       </View>
     </View>
