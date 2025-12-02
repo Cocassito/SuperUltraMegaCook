@@ -1,4 +1,3 @@
-// Interface.tsx
 import { Canvas } from "./lib/fiber";
 import { useCameraControls } from "../controls/CameraControls";
 import { useState, useEffect } from "react";
@@ -20,11 +19,11 @@ import { LoadingScreen } from "./loadingScreen/LoadingScreen";
 import { useDataLoading } from "../hooks/useDataLoading";
 import { useGaugeAverage, useResultAverages } from "../hooks/useAverages";
 
-// Fonction utilitaire pour obtenir des éléments aléatoires
-const getRandomItems = <T,>(items: T[], count: number = 3): T[] => {
-  const copie = [...items];
-  return copie.sort(() => Math.random() - 0.5).slice(0, count);
-};
+// // Fonction utilitaire pour obtenir des éléments aléatoires
+// const getRandomItems = <T,>(items: T[], count: number = 3): T[] => {
+//   const copie = [...items];
+//   return copie.sort(() => Math.random() - 0.5).slice(0, count);
+// };
 
 export default function ThreeDemo() {
   // États
@@ -48,18 +47,9 @@ export default function ThreeDemo() {
   const { assetsLoaded, modelUris } = useDataLoading();
 
   // Contrôles de la caméra
-  const {
-    controlsRef,
-    meshFitCamera1,
-    meshFitCamera2,
-    meshFitCamera3,
-    meshFitCamera4,
-    meshFitCamera5,
-    nextView,
-    prevView,
-  } = useCameraControls(assetsLoaded);
+  const { nextView, prevView } = useCameraControls(assetsLoaded);
 
-  // Calcul des moyennes
+  // // Calcul des moyennes
   const gaugeAverage = useGaugeAverage(
     selectedModel,
     selectedBase,

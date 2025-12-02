@@ -1,12 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function Menu() {
   const router = useRouter();
 
   const handleStart = () => {
-    router.push('/interface');
+    router.push("/App");
   };
 
   return (
@@ -22,22 +22,22 @@ export default function Menu() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFF2DD',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFF2DD",
   },
   title: {
     fontSize: 40,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 40,
   },
   button: {
-    backgroundColor: '#C8A2DA',
-    color: '#55256D',
+    backgroundColor: "#C8A2DA",
+    color: "#55256D",
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 8,
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

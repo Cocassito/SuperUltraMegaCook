@@ -10,12 +10,23 @@ interface PlateSceneProps {
   assietteModel: string;
 }
 
-function Model({ src, scale = [1, 1, 1] }: { src: string; scale?: [number, number, number] }) {
+function Model({
+  src,
+  scale = [1, 1, 1],
+}: {
+  src: string;
+  scale?: [number, number, number];
+}) {
   const gltf = useLoader(GLTFLoader, src);
   return <primitive object={gltf.scene.clone()} scale={scale} />;
 }
 
-export default function PlateScene({ alimentSrc, baseSrc, autreSrc, assietteModel }: PlateSceneProps) {
+export default function PlateScene({
+  alimentSrc,
+  baseSrc,
+  autreSrc,
+  assietteModel,
+}: PlateSceneProps) {
   const plateRef = useRef<Group>(null);
 
   useFrame(() => {
@@ -25,7 +36,7 @@ export default function PlateScene({ alimentSrc, baseSrc, autreSrc, assietteMode
 
   return (
     <Suspense fallback={null}>
-      <group ref={plateRef}>
+      <group ref={plateRef} position={[0, 2, 0]}>
         {/* Autre (au-dessus de tout) */}
         {autreSrc && (
           <group position={[0, 1, 0]}>
@@ -44,10 +55,10 @@ export default function PlateScene({ alimentSrc, baseSrc, autreSrc, assietteMode
             <Model src={alimentSrc} scale={[0.5, 0.5, 0.5]} />
           </group>
         )}
-      </group>
-      {/* Assiette fixe en bas */}
-      <group position={[0, -2, 0]}>
-        <Model src={assietteModel} />
+        {/* Assiette fixe en bas */}
+        <group position={[0, -2, 0]}>
+          <Model src={assietteModel} />
+        </group>
       </group>
     </Suspense>
   );
