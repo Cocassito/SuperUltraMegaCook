@@ -11,6 +11,7 @@ import { Mesh } from "three";
 import { FrontView } from "./view/FrontView";
 import { RightView } from "./view/RightView";
 import { LeftView } from "./view/LeftView";
+import PixelatedPass from "./PixelComposer";
 
 export default function Scene() {
   const { assetsLoaded, modelUris } = useDataLoading();
@@ -40,9 +41,11 @@ export default function Scene() {
           {currentView === 1 && <RightView cubeRef={cubeRef} />}
           {currentView === 2 && <LeftView cubeRef={cubeRef} />}
           {/* <OrbitControls /> */}
+          <PixelatedPass pixelSize={3} />
         </Canvas>
 
         <NavigationButtons prevView={prevView} nextView={nextView} />
+
 
       </View>
     </View>

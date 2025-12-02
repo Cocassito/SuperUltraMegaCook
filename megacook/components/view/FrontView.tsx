@@ -5,7 +5,7 @@ export const FrontView = ({ cubeRef }: { cubeRef: React.RefObject<Mesh> }) => {
     <group>
       <mesh ref={cubeRef} position={[0, 0, 0]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color="yellow" />
+        <meshBasicMaterial color="yellow" visible={false} />
       </mesh>
     </group>
   );
