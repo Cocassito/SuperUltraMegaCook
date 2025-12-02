@@ -2,9 +2,6 @@ import { useFrame, useLoader } from "./lib/fiber";
 import { useRef, Suspense } from "react";
 import { Group } from "three";
 import { GLTFLoader } from "three-stdlib";
-import { FrontView } from "./view/FrontView";
-import { LeftView } from "./view/LeftView";
-import { RightView } from "./view/RightView";
 
 interface PlateSceneProps {
   assietteModel: string;
@@ -29,10 +26,6 @@ export default function PlateScene({
   return (
     <Suspense fallback={null}>
       <group ref={plateRef} position={[0, 2, 0]}>
-
-        <FrontView />
-        <LeftView />
-        <RightView />
 
         {/* Assiette fixe en bas */}
         <group position={[0, -2, 0]}>
