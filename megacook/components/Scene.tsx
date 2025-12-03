@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { Canvas } from "@react-three/fiber";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import PlateScene from "./PlateScene";
 import { useDataLoading } from "@/hooks/useDataLoading";
 import Floor from "./Floor";
@@ -8,25 +8,22 @@ import { OrbitControls } from "@react-three/drei";
 import { NavigationButtons } from "./ui/button/NavigationButtons";
 import CameraControls from "./CameraControls";
 import { Mesh } from "three";
-import { FrontView } from "./view/FrontView";
-import { RightView } from "./view/RightView";
-import { LeftView } from "./view/LeftView";
+import { FrontView } from "./view/frontview/FrontView";
+import { RightView } from "./view/rightview/RightView";
+import { LeftView } from "./view/leftview/LeftView";
+import { BottomView } from "./view/frontview/BottomView";
+import { BottomRightView } from "./view/rightview/BottomRightView";
+import { BottomLeftView } from "./view/leftview/BottomLeftView";
+import { BackView } from "./view/backview/BackView";
 import PixelatedPass from "./PixelComposer";
+import { useViewNavigation } from "@/hooks/useViewNavigation";
 
 export default function Scene() {
   const { assetsLoaded, modelUris } = useDataLoading();
+  const navigation = useViewNavigation();
 
   // Référence au cube pour la caméra
   const cubeRef = useRef<Mesh>(null!);
-  const [currentView, setCurrentView] = useState(0);
-  
-  const nextView = () => {
-    setCurrentView((prev) => (prev + 1) % 3);
-  };
-  
-  const prevView = () => {
-    setCurrentView((prev) => (prev - 1 + 3) % 3);
-  };
 
   return (
     <View style={styles.container}>
@@ -36,16 +33,20 @@ export default function Scene() {
         >
           <Floor />
           <PlateScene assietteModel={modelUris.assiette} />
-          <CameraControls cubeRef={cubeRef}/>
-          {currentView === 0 && <FrontView cubeRef={cubeRef} />}
-          {currentView === 1 && <RightView cubeRef={cubeRef} />}
-          {currentView === 2 && <LeftView cubeRef={cubeRef} />}
+          <CameraControls cubeRef={cubeRef} currentView={navigation.currentView} />
+
+          {navigation.currentView === 0 && <FrontView cubeRef={cubeRef} />}
+          {navigation.currentView === 1 && <RightView cubeRef={cubeRef} />}
+          {navigation.currentView === 2 && <LeftView cubeRef={cubeRef} />}
+          {navigation.currentView === 3 && <BottomView cubeRef={cubeRef} />}
+          {navigation.currentView === 4 && <BottomRightView cubeRef={cubeRef} />}
+          {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
+          {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
           {/* <OrbitControls /> */}
-          <PixelatedPass pixelSize={3} />
+          {/* <PixelatedPass pixelSize={3} /> */}
         </Canvas>
 
-        <NavigationButtons prevView={prevView} nextView={nextView} />
-
+        <NavigationButtons {...navigation} />
 
       </View>
     </View>
