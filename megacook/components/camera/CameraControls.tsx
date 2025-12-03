@@ -5,10 +5,18 @@ import { Mesh, Vector3, MathUtils } from 'three';
 type CameraControlsProps = {
   cubeRef: React.RefObject<Mesh>;
   currentView?: number;
+  cameraRef?: React.MutableRefObject<any>;
 };
 
-export default function CameraControls({ cubeRef, currentView }: CameraControlsProps) {
+export default function CameraControls({ cubeRef, currentView, cameraRef }: CameraControlsProps) {
   const { camera } = useThree();
+  
+  // Expose la caméra pour la synchronisation
+  useEffect(() => {
+    if (cameraRef) {
+      cameraRef.current = camera;
+    }
+  }, [camera, cameraRef]);
   const smoothFactor = 0.02;
   const targetPosition = useRef<Vector3>(new Vector3());
   const isBottomView = currentView === 3 || currentView === 4 || currentView === 5;

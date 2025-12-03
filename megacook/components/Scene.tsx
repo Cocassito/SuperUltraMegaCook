@@ -6,7 +6,7 @@ import { useDataLoading } from "@/hooks/useDataLoading";
 import Floor from "./Floor";
 import { OrbitControls } from "@react-three/drei";
 import { NavigationButtons } from "./ui/button/NavigationButtons";
-import CameraControls from "./CameraControls";
+import CameraControls from "./camera/CameraControls";
 import { Mesh } from "three";
 import { FrontView } from "./view/frontview/FrontView";
 import { RightView } from "./view/rightview/RightView";
@@ -17,6 +17,8 @@ import { BottomLeftView } from "./view/leftview/BottomLeftView";
 import { BackView } from "./view/backview/BackView";
 import PixelatedPass from "./postProd/PixelComposer";
 import { useViewNavigation } from "@/hooks/useViewNavigation";
+import { SyncedCamera } from "./camera/SyncedCamera";
+import Screen from "./screen/Screen";
 
 export default function Scene() {
   const { assetsLoaded, modelUris } = useDataLoading();
@@ -24,6 +26,7 @@ export default function Scene() {
 
   // Référence au cube pour la caméra
   const cubeRef = useRef<Mesh>(null!);
+  const cameraRef = useRef<any>(null);
 
   return (
     <View style={styles.container}>
@@ -34,6 +37,7 @@ export default function Scene() {
           <CameraControls
             cubeRef={cubeRef}
             currentView={navigation.currentView}
+            cameraRef={cameraRef}
           />
 
           {navigation.currentView === 0 && <FrontView cubeRef={cubeRef} />}
@@ -46,7 +50,14 @@ export default function Scene() {
           {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
           {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
           {/* <OrbitControls /> */}
-          <PixelatedPass pixelSize={3} />
+          <PixelatedPass pixelSize={8} />
+
+        </Canvas>
+
+        {/* Canvas sans le post Processing */}
+        <Canvas style={styles.canvasOverlay}>
+          <SyncedCamera cameraRef={cameraRef} />
+          <Screen />
         </Canvas>
 
         <NavigationButtons {...navigation} />
@@ -65,5 +76,13 @@ const styles = StyleSheet.create({
   },
   canvas: {
     flex: 1,
+  },
+  canvasOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: 'none', 
   },
 });
