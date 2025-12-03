@@ -15,7 +15,7 @@ import { BottomView } from "./view/frontview/BottomView";
 import { BottomRightView } from "./view/rightview/BottomRightView";
 import { BottomLeftView } from "./view/leftview/BottomLeftView";
 import { BackView } from "./view/backview/BackView";
-import PixelatedPass from "./PixelComposer";
+import PixelatedPass from "./postProd/PixelComposer";
 import { useViewNavigation } from "@/hooks/useViewNavigation";
 
 export default function Scene() {
@@ -28,26 +28,28 @@ export default function Scene() {
   return (
     <View style={styles.container}>
       <View style={styles.canvasWrapper}>
-        <Canvas
-          style={styles.canvas}
-        >
+        <Canvas style={styles.canvas}>
           <Floor />
           <PlateScene assietteModel={modelUris.assiette} />
-          <CameraControls cubeRef={cubeRef} currentView={navigation.currentView} />
+          <CameraControls
+            cubeRef={cubeRef}
+            currentView={navigation.currentView}
+          />
 
           {navigation.currentView === 0 && <FrontView cubeRef={cubeRef} />}
           {navigation.currentView === 1 && <RightView cubeRef={cubeRef} />}
           {navigation.currentView === 2 && <LeftView cubeRef={cubeRef} />}
           {navigation.currentView === 3 && <BottomView cubeRef={cubeRef} />}
-          {navigation.currentView === 4 && <BottomRightView cubeRef={cubeRef} />}
+          {navigation.currentView === 4 && (
+            <BottomRightView cubeRef={cubeRef} />
+          )}
           {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
           {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
           {/* <OrbitControls /> */}
-          {/* <PixelatedPass pixelSize={3} /> */}
+          <PixelatedPass pixelSize={3} />
         </Canvas>
 
         <NavigationButtons {...navigation} />
-
       </View>
     </View>
   );
