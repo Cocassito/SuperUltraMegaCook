@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import { Image } from "expo-image";
 
 export default function Menu() {
   const router = useRouter();
@@ -11,7 +12,10 @@ export default function Menu() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Megacook</Text>
+      <Image
+        source={require("../assets/images/logo/Logo_MC_Complet.webp")}
+        style={styles.logo}
+      />
       <TouchableOpacity style={styles.button} onPress={handleStart}>
         <Text>Commencer</Text>
       </TouchableOpacity>
@@ -21,10 +25,18 @@ export default function Menu() {
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF2DD",
+    gap: 24,
+  },
+  logo: {
+    width: "50%",
+    height: "50%",
+    resizeMode: "contain",
   },
   title: {
     fontSize: 40,
