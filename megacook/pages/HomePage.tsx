@@ -16,7 +16,7 @@ export default function HomePage() {
           source={require("../assets/images/logo/Logo_MC_Complet.webp")}
           style={styles.logo}
           contentFit="contain"
-        />{" "}
+        />
         <PixelButton label="Commencer" onPress={handleStart} />
       </View>
     </>

@@ -1,6 +1,6 @@
-'use dom';
+"use dom";
 
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, useWindowDimensions } from "react-native";
 import { Canvas } from "@react-three/fiber";
 import { useRef } from "react";
 import PlateScene from "./PlateScene";
@@ -23,6 +23,7 @@ import { SyncedCamera } from "./camera/SyncedCamera";
 import Screen from "./screen/Screen";
 
 export default function Scene() {
+  const window = useWindowDimensions();
   const { assetsLoaded, modelUris } = useDataLoading();
   const navigation = useViewNavigation();
 
@@ -31,7 +32,9 @@ export default function Scene() {
   const cameraRef = useRef<any>(null);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { width: window.width, height: window.height }]}
+    >
       <View style={styles.canvasWrapper}>
         <Canvas style={styles.canvas}>
           <Floor />
@@ -53,7 +56,6 @@ export default function Scene() {
           {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
           {/* <OrbitControls /> */}
           <PixelatedPass pixelSize={8} />
-
         </Canvas>
 
         {/* Canvas sans le post Processing */}
@@ -80,11 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   canvasOverlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    pointerEvents: 'none', 
+    pointerEvents: "none",
   },
 });
