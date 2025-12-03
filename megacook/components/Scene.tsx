@@ -1,3 +1,5 @@
+'use dom';
+
 import { View, StyleSheet } from "react-native";
 import { Canvas } from "@react-three/fiber";
 import { useRef } from "react";
