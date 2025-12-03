@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { Pressable, Text, View, StyleSheet, Animated } from "react-native";
 
-export default function PixelButton({ label = "Play", onPress }) {
+type PixelButtonProps = {
+  label?: string;
+  onPress?: () => void;
+};
+
+export default function PixelButton({
+  label = "Play",
+  onPress,
+}: PixelButtonProps) {
   const scale = new Animated.Value(1);
 
   const pressIn = () => {
