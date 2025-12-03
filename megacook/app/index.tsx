@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Image } from "expo-image";
+import PixelButton from "@/components/ui/button/PixelButton";
 
 export default function Menu() {
   const router = useRouter();
@@ -16,10 +17,8 @@ export default function Menu() {
         source={require("../assets/images/logo/Logo_MC_Complet.webp")}
         style={styles.logo}
         contentFit="contain"
-      />
-      <TouchableOpacity style={styles.button} onPress={handleStart}>
-        <Text>Commencer</Text>
-      </TouchableOpacity>
+      />{" "}
+      <PixelButton label="Commencer" onPress={handleStart} />
     </View>
   );
 }
@@ -37,19 +36,5 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 200,
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: "bold",
-    marginBottom: 40,
-  },
-  button: {
-    backgroundColor: "#C8A2DA",
-    color: "#55256D",
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 8,
-    fontSize: 20,
-    textAlign: "center",
   },
 });
