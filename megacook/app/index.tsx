@@ -15,6 +15,7 @@ export default function Menu() {
       <Image
         source={require("../assets/images/logo/Logo_MC_Complet.webp")}
         style={styles.logo}
+        contentFit="contain"
       />
       <TouchableOpacity style={styles.button} onPress={handleStart}>
         <Text>Commencer</Text>
@@ -31,12 +32,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF2DD",
-    gap: 24,
+    gap: 4,
   },
   logo: {
-    width: "50%",
-    height: "50%",
-    resizeMode: "contain",
+    width: 200,
+    height: 200,
   },
   title: {
     fontSize: 40,
