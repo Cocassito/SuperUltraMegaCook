@@ -18,6 +18,7 @@ export default function HomePage() {
           contentFit="contain"
         />
         <PixelButton
+          onPress={handleStart}
           title="START"
           colorPrimary="#C8A2DA"
           colorSecondary="#773B94"
