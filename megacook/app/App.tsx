@@ -1,6 +1,6 @@
 import Scene from "@/components/Scene";
 import React from "react";
 
-export default function TonneauScreen() {
+export default function App() {
   return <Scene />;
 }
