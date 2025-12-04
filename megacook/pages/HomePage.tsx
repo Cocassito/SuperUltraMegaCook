@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { Image } from "expo-image";
-import PixelButton from "@/components/ui/button/PixelButton";
 import { useRouter } from "expo-router";
+import PixelButton from "@/components/ui/button/PixelButton";
 
 export default function HomePage() {
   const router = useRouter();
@@ -17,7 +17,13 @@ export default function HomePage() {
           style={styles.logo}
           contentFit="contain"
         />
-        <PixelButton label="Commencer" onPress={handleStart} />
+        <PixelButton
+          title="START"
+          colorPrimary="#C8A2DA"
+          colorSecondary="#773B94"
+          colorBorder="#55256D"
+          colorInnerShadow="#E9DAF0"
+        />
       </View>
     </>
   );

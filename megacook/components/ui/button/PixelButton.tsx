@@ -1,68 +1,399 @@
-import React, { useState } from "react";
-import { Pressable, Text, View, StyleSheet, Animated } from "react-native";
+import React from "react";
+import {
+  Pressable,
+  Text,
+  StyleSheet,
+  View,
+  GestureResponderEvent,
+} from "react-native";
 
-type PixelButtonProps = {
-  label?: string;
-  onPress?: () => void;
-};
+interface ButtonPixelProps {
+  title: string;
+  colorPrimary: string;
+  colorSecondary: string;
+  colorBorder: string;
+  colorInnerShadow: string;
+  onPress?: (event: GestureResponderEvent) => void;
+}
 
 export default function PixelButton({
-  label = "Play",
+  title,
+  colorPrimary,
+  colorSecondary,
+  colorBorder,
+  colorInnerShadow,
   onPress,
-}: PixelButtonProps) {
-  const scale = new Animated.Value(1);
-
-  const pressIn = () => {
-    Animated.spring(scale, {
-      toValue: 0.92,
-      useNativeDriver: true,
-      speed: 20,
-    }).start();
-  };
-
-  const pressOut = () => {
-    Animated.spring(scale, {
-      toValue: 1,
-      useNativeDriver: true,
-      speed: 20,
-    }).start(() => onPress && onPress());
-  };
+}: ButtonPixelProps) {
+  const [size, setSize] = React.useState({ width: 0, height: 0 });
 
   return (
-    <Animated.View style={{ transform: [{ scale }] }}>
-      {/* Ombre pixelisée */}
-      <View style={styles.shadowLayer}>
-        {/* Bloc principal */}
-        <Pressable onPressIn={pressIn} onPressOut={pressOut}>
-          <View style={styles.button}>
-            <Text style={styles.text}>{label}</Text>
+    <>
+      <View
+        style={styles.wrapper}
+        onLayout={(e) => setSize(e.nativeEvent.layout)}
+      >
+        <View
+          style={[
+            styles.container2,
+            {
+              width: size.width,
+              height: size.height,
+              backgroundColor: colorSecondary,
+            },
+          ]}
+        />
+        <View style={[styles.dot2Left, { backgroundColor: colorSecondary }]} />
+        <View style={[styles.dot2Left2, { backgroundColor: colorSecondary }]} />
+
+        <View style={[styles.dot2Left3, { backgroundColor: colorSecondary }]} />
+        <View style={[styles.dot2Left4, { backgroundColor: colorBorder }]} />
+
+        <View style={[styles.left2Black, { backgroundColor: colorBorder }]} />
+        <View style={[styles.left2Black2, { backgroundColor: colorBorder }]} />
+        <View style={[styles.left2Black3, { backgroundColor: colorBorder }]} />
+
+        <View style={[styles.bottomBlack, { backgroundColor: colorBorder }]} />
+
+        <Pressable
+          onPress={onPress}
+          style={({ pressed }) => [styles.container, pressed && styles.active]}
+        >
+          {/* LEFT JPP PTN DE BUTTON */}
+          <View style={[styles.topBlack, { backgroundColor: colorBorder }]} />
+          <View
+            style={[styles.leftBlack2, { backgroundColor: colorInnerShadow }]}
+          />
+          <View
+            style={[styles.leftBlack3, { backgroundColor: colorInnerShadow }]}
+          />
+          <View
+            style={[styles.leftBlack4, { backgroundColor: colorSecondary }]}
+          />
+          <View
+            style={[styles.leftBlack5, { backgroundColor: colorSecondary }]}
+          />
+
+          <View style={[styles.dotLeft, { backgroundColor: colorBorder }]} />
+          <View style={[styles.dotLeft2, { backgroundColor: colorBorder }]} />
+          <View style={[styles.dotLeft3, { backgroundColor: colorBorder }]} />
+
+          <View style={[styles.leftBlack, { backgroundColor: colorPrimary }]} />
+
+          <View style={[styles.leftBlack6, { backgroundColor: colorBorder }]} />
+          <View
+            style={[styles.leftBlack7, { backgroundColor: colorPrimary }]}
+          />
+
+          {/* RIGHT JPP PTN DE BUTTON */}
+
+          <View style={[styles.leftSide, styles.rightSideMirror]}>
+            <View style={[styles.topBlack, { backgroundColor: colorBorder }]} />
+            <View
+              style={[styles.leftBlack2, { backgroundColor: colorInnerShadow }]}
+            />
+            <View
+              style={[styles.leftBlack3, { backgroundColor: colorInnerShadow }]}
+            />
+            <View
+              style={[styles.leftBlack4, { backgroundColor: colorSecondary }]}
+            />
+            <View
+              style={[styles.leftBlack5, { backgroundColor: colorSecondary }]}
+            />
+            <View style={[styles.dotLeft, { backgroundColor: colorBorder }]} />
+            <View style={[styles.dotLeft2, { backgroundColor: colorBorder }]} />
+            <View style={[styles.dotLeft3, { backgroundColor: colorBorder }]} />
+            <View
+              style={[styles.leftBlack, { backgroundColor: colorPrimary }]}
+            />
+            <View
+              style={[styles.leftBlack6, { backgroundColor: colorBorder }]}
+            />
+            <View
+              style={[styles.leftBlack7, { backgroundColor: colorPrimary }]}
+            />
+          </View>
+
+          <View style={[styles.button, { backgroundColor: colorPrimary }]}>
+            <View
+              style={[
+                styles.innerHighlight,
+                { backgroundColor: colorInnerShadow },
+              ]}
+            />
+            <View
+              style={[styles.innerShadow, { backgroundColor: colorSecondary }]}
+            />
+            <Text style={styles.text}>{title}</Text>
           </View>
         </Pressable>
+
+        <View style={[styles.leftSide, styles.rightSideMirror]}>
+          <View
+            style={[styles.dot2Left, { backgroundColor: colorSecondary }]}
+          />
+          <View
+            style={[styles.dot2Left2, { backgroundColor: colorSecondary }]}
+          />
+          <View
+            style={[styles.dot2Left3, { backgroundColor: colorSecondary }]}
+          />
+          <View style={[styles.dot2Left4, { backgroundColor: colorBorder }]} />
+
+          <View style={[styles.left2Black, { backgroundColor: colorBorder }]} />
+          <View
+            style={[styles.left2Black2, { backgroundColor: colorBorder }]}
+          />
+          <View
+            style={[styles.left2Black3, { backgroundColor: colorBorder }]}
+          />
+        </View>
       </View>
-    </Animated.View>
+    </>
   );
 }
 
+const PIXEL = 6;
+
 const styles = StyleSheet.create({
-  shadowLayer: {
-    backgroundColor: "#4B2474", // ombre sombre comme l'image
-    padding: 6, // épaisseur pixel
+  wrapper: {
+    position: "relative",
+    alignSelf: "center",
+    marginTop: 12,
+  },
+
+  container: {
+    position: "relative",
+    zIndex: 2, // devant
+  },
+
+  container2: {
+    position: "absolute",
+    top: PIXEL,
+    left: 0,
+    zIndex: 1, // derrière
+  },
+
+  leftSide: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
+
+  rightSideMirror: {
+    left: "auto",
+    right: 0,
+    transform: [{ scaleX: -1 }],
+  },
+
+  active: {
+    transform: [{ translateY: PIXEL }],
+  },
+
+  topBlack: {
+    position: "absolute",
+    top: -PIXEL,
+    left: 0,
+    right: 0,
+    height: PIXEL,
+  },
+
+  //////////////////
+  //LEFT
+  leftBlack2: {
+    position: "absolute",
+    top: PIXEL,
+    left: -PIXEL,
+    right: 0,
+    height: PIXEL,
+    width: PIXEL,
+  },
+  leftBlack3: {
+    position: "absolute",
+    top: PIXEL * 2,
+    left: -PIXEL * 2,
+    right: 0,
+    height: PIXEL,
+    width: PIXEL,
+  },
+
+  leftBlack4: {
+    position: "absolute",
+    top: PIXEL * 7,
+    left: -PIXEL,
+    right: 0,
+    height: PIXEL,
+    width: PIXEL,
+  },
+  leftBlack5: {
+    position: "absolute",
+    top: PIXEL * 6,
+    left: -PIXEL * 2,
+    right: 0,
+    height: PIXEL,
+    width: PIXEL,
+  },
+
+  leftBlack: {
+    position: "absolute",
+    top: PIXEL * 2,
+    bottom: 0,
+    left: -PIXEL,
+    width: PIXEL,
+    height: PIXEL * 5,
+  },
+
+  leftBlack6: {
+    position: "absolute",
+    top: PIXEL * 2,
+    bottom: 0,
+    left: -PIXEL * 3,
+    width: PIXEL,
+    height: PIXEL * 5,
+  },
+
+  leftBlack7: {
+    position: "absolute",
+    top: PIXEL * 3,
+    bottom: 0,
+    left: -PIXEL * 2,
+    width: PIXEL * 2,
+    height: PIXEL * 3,
+  },
+
+  dotLeft: {
+    position: "absolute",
+    top: PIXEL,
+    bottom: 0,
+    left: -PIXEL * 3,
+    width: PIXEL * 2,
+    height: PIXEL,
+  },
+
+  dotLeft2: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: -PIXEL * 2,
+    width: PIXEL * 2,
+    height: PIXEL,
+  },
+  dotLeft3: {
+    position: "absolute",
+    top: -PIXEL,
+    bottom: 0,
+    left: -PIXEL,
+    width: PIXEL,
+    height: PIXEL,
+  },
+
+  dotLeft4: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: -PIXEL * 2,
+    width: PIXEL * 2,
+    height: PIXEL,
+  },
+  //////////////////////////SUITE LEFT MAIS CONTAINER 2///////////////////////////////
+
+  dot2Left: {
+    position: "absolute",
+    top: PIXEL * 7,
+    bottom: 0,
+    left: -PIXEL * 2,
+    width: PIXEL,
+    height: PIXEL * 2,
+  },
+
+  dot2Left2: {
+    position: "absolute",
+    top: PIXEL * 7,
+    bottom: 0,
+    left: -PIXEL,
+    width: PIXEL,
+    height: PIXEL * 3,
+  },
+
+  dot2Left3: {
+    position: "absolute",
+    top: PIXEL * 8,
+    bottom: 0,
+    left: -PIXEL * 2,
+    width: PIXEL,
+    height: PIXEL,
+  },
+
+  dot2Left4: {
+    position: "absolute",
+    top: PIXEL * 9.8,
+    bottom: 0,
+    left: -PIXEL,
+    width: PIXEL,
+    height: PIXEL,
+  },
+
+  left2Black: {
+    position: "absolute",
+    top: PIXEL * 7,
+    bottom: 0,
+    left: -PIXEL * 3,
+    width: PIXEL,
+    height: PIXEL * 2,
+  },
+
+  left2Black3: {
+    position: "absolute",
+    top: PIXEL * 8,
+    bottom: 0,
+    left: -PIXEL * 2,
+    width: PIXEL,
+    height: PIXEL,
+  },
+  left2Black2: {
+    position: "absolute",
+    top: PIXEL * 9,
+    bottom: 0,
+    left: -PIXEL * 2,
+    width: PIXEL * 2,
+    height: PIXEL,
+  },
+
+  /////////////////////////////
+
+  bottomBlack: {
+    position: "absolute",
+    bottom: -PIXEL * 2,
+    left: 0,
+    right: 0,
+    height: PIXEL,
   },
 
   button: {
-    backgroundColor: "#C8A2DA", // violet clair intérieur
-    paddingVertical: 8,
-    paddingHorizontal: 24,
+    paddingVertical: 17,
+    paddingHorizontal: 16,
+    position: "relative",
+  },
+  button2: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+  },
 
-    /* Pixel borders fidèles */
-    borderTopWidth: 6,
-    borderLeftWidth: 6,
-    borderRightWidth: 6,
-    borderBottomWidth: 6,
-    borderColor: "#7C3FA6", // même pourtour que l'image
+  innerHighlight: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: PIXEL,
+  },
 
-    /* Pas de coins arrondis = pixel art */
-    borderRadius: 0,
+  innerShadow: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: PIXEL,
   },
 
   text: {
@@ -71,5 +402,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "pixelgridtrial-linedownboldm",
     textAlign: "center",
+    textTransform: "uppercase",
   },
 });
