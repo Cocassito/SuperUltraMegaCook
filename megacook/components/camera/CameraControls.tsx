@@ -17,7 +17,7 @@ export default function CameraControls({ cubeRef, currentView, cameraRef }: Came
       cameraRef.current = camera;
     }
   }, [camera, cameraRef]);
-  const smoothFactor = 0.02;
+  const smoothFactor = 0.08;
   const targetPosition = useRef<Vector3>(new Vector3());
   const isBottomView = currentView === 3 || currentView === 4 || currentView === 5;
 

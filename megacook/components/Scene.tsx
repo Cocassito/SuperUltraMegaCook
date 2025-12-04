@@ -2,7 +2,8 @@
 
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 import { Canvas } from "@react-three/fiber";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { BaseType } from "@/data/basesData";
 import PlateScene from "./PlateScene";
 import { useDataLoading } from "@/hooks/useDataLoading";
 import Floor from "./Floor";
@@ -30,6 +31,8 @@ export default function Scene() {
   // Référence au cube pour la caméra
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
+  
+  const [selectedBase, setSelectedBase] = useState<BaseType | null>(null);
 
   return (
     <View
@@ -38,7 +41,10 @@ export default function Scene() {
       <View style={styles.canvasWrapper}>
         <Canvas style={styles.canvas}>
           <Floor />
-          <PlateScene assietteModel={modelUris.assiette} />
+          <PlateScene 
+            assietteModel={modelUris.assiette} 
+            onBaseClick={(baseType) => setSelectedBase(baseType)}
+          />
           <CameraControls
             cubeRef={cubeRef}
             currentView={navigation.currentView}
@@ -61,7 +67,7 @@ export default function Scene() {
         {/* Canvas sans le post Processing */}
         <Canvas style={styles.canvasOverlay}>
           <SyncedCamera cameraRef={cameraRef} />
-          <Screen />
+          <Screen selectedBase={selectedBase} />
         </Canvas>
 
         <NavigationButtons {...navigation} />

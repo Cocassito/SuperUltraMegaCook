@@ -2,9 +2,12 @@ import { useFrame, useLoader } from "./lib/fiber";
 import { useRef, Suspense } from "react";
 import { Group } from "three";
 import { GLTFLoader } from "three-stdlib";
+import { Base } from "./view/rightview/Base";
+import { BaseType } from "@/data/basesData";
 
 interface PlateSceneProps {
   assietteModel: string;
+  onBaseClick: (baseType: BaseType) => void;
 }
 
 function Model({
@@ -20,12 +23,15 @@ function Model({
 
 export default function PlateScene({
   assietteModel,
+  onBaseClick,
 }: PlateSceneProps) {
   const plateRef = useRef<Group>(null);
 
   return (
     <Suspense fallback={null}>
       <group ref={plateRef} position={[0, 2, 0]}>
+
+        <Base onBaseClick={onBaseClick} />
 
         {/* Assiette fixe en bas */}
         <group position={[0, -2, 0]}>
