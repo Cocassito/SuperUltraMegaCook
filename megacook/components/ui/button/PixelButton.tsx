@@ -37,7 +37,7 @@ export default function PixelButton({
             styles.container2,
             {
               width: size.width,
-              height: size.height,
+              height: size.height + 1,
               backgroundColor: colorSecondary,
             },
           ]}
@@ -363,15 +363,16 @@ const styles = StyleSheet.create({
 
   bottomBlack: {
     position: "absolute",
-    bottom: -PIXEL * 2,
+    bottom: -PIXEL * 2.2,
     left: 0,
     right: 0,
     height: PIXEL,
+    zIndex: 1,
   },
 
   button: {
-    paddingVertical: 17,
-    paddingHorizontal: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
     position: "relative",
   },
   button2: {
@@ -390,18 +391,17 @@ const styles = StyleSheet.create({
 
   innerShadow: {
     position: "absolute",
-    bottom: 0,
+    bottom: -2,
     left: 0,
     right: 0,
     height: PIXEL,
   },
 
   text: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#5A2B87",
     fontWeight: "bold",
     fontFamily: "pixelgridtrial-linedownboldm",
     textAlign: "center",
-    textTransform: "uppercase",
   },
 });
