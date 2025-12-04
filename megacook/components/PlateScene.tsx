@@ -34,7 +34,7 @@ export default function PlateScene({
         <Base onBaseClick={onBaseClick} />
 
         {/* Assiette fixe en bas */}
-        <group position={[0, -2, 0]}>
+        <group position={[0, -1, 0]}>
           <Model src={assietteModel} />
         </group>
       </group>

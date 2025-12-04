@@ -13,50 +13,53 @@ function Model({ src, scale = 1 }: { src: string; scale?: number }) {
 }
 
 export const Base = ({ onBaseClick }: BaseProps) => {
-  const [pailleScale, setPailleScale] = useState(1);
-  const [pistoletScale, setPistoletScale] = useState(1);
-  const [monkeyScale, setMonkeyScale] = useState(1);
+  const [broccoliScale, setBroccoliScale] = useState(1);
+  const [pommeScale, setPommeScale] = useState(1);
+  const [pimentScale, setPimentScale] = useState(1);
 
   return (
     <Suspense fallback={null}>
+      <ambientLight intensity={3}/>
+
       <group>
-        {/* Paille */}
+        {/* Broccoli */}
         <group
           position={[10, 0, 8]}
-          scale={pailleScale}
+          scale={broccoliScale}
           onPointerDown={() => {
-            setPailleScale(0.8);
-            onBaseClick('paille');
+            setBroccoliScale(0.8);
+            onBaseClick('broccoli');
           }}
-          onPointerUp={() => setPailleScale(1)}
+          onPointerUp={() => setBroccoliScale(1)}
         >
-          <Model src={basesData.paille.model} scale={1} />
+          <Model src={basesData.broccoli.model} scale={1} />
         </group>
 
-        {/* Pistolet */}
+        {/* Pomme */}
         <group
           position={[10, 0, 10]}
-          scale={pistoletScale}
+          scale={pommeScale}
           onPointerDown={() => {
-            setPistoletScale(0.8);
-            onBaseClick('pistolet');
+            setPommeScale(0.8);
+            onBaseClick('pomme');
           }}
-          onPointerUp={() => setPistoletScale(1)}
+          onPointerUp={() => setPommeScale(1)}
         >
-          <Model src={basesData.pistolet.model} scale={1} />
+          <Model src={basesData.pomme.model} scale={1} />
         </group>
 
-        {/* Monkey */}
+        {/* Piment */}
         <group
           position={[10, 0, 12]}
-          scale={monkeyScale}
+          scale={pimentScale}
+          rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
-            setMonkeyScale(0.8);
-            onBaseClick('monkey');
+            setPimentScale(0.8);
+            onBaseClick('piment');
           }}
-          onPointerUp={() => setMonkeyScale(1)}
+          onPointerUp={() => setPimentScale(1)}
         >
-          <Model src={basesData.monkey.model} scale={1} />
+          <Model src={basesData.piment.model} scale={1} />
         </group>
       </group>
     </Suspense>

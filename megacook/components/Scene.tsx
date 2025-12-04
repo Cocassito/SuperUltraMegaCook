@@ -31,7 +31,7 @@ export default function Scene() {
   // Référence au cube pour la caméra
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
-  
+
   const [selectedBase, setSelectedBase] = useState<BaseType | null>(null);
 
   return (
@@ -60,8 +60,8 @@ export default function Scene() {
           )}
           {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
           {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
-          {/* <OrbitControls /> */}
-          <PixelatedPass pixelSize={8} />
+          <OrbitControls />
+          <PixelatedPass pixelSize={2} />
         </Canvas>
 
         {/* Canvas sans le post Processing */}
