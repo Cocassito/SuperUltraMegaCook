@@ -21,7 +21,7 @@ import { BackView } from "./view/backview/BackView";
 import PixelatedPass from "./postProd/PixelComposer";
 import { useViewNavigation } from "@/hooks/useViewNavigation";
 import { SyncedCamera } from "./camera/SyncedCamera";
-import Screen from "./screen/Screen";
+import Screen from "./view/rightview/Screen";
 
 export default function Scene() {
   const window = useWindowDimensions();
@@ -41,8 +41,8 @@ export default function Scene() {
       <View style={styles.canvasWrapper}>
         <Canvas style={styles.canvas}>
           <Floor />
-          <PlateScene 
-            assietteModel={modelUris.assiette} 
+          <PlateScene
+            assietteModel={modelUris.assiette}
             onBaseClick={(baseType) => setSelectedBase(baseType)}
           />
           <CameraControls
