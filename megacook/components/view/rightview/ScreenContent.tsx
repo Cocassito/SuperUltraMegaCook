@@ -1,20 +1,21 @@
-import { Image } from 'expo-image';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { View, Text } from 'react-native';
-import { useState } from 'react';
-import { Button } from 'react-native';
-import { Checkbox } from 'expo-checkbox';
+import { Image } from "expo-image";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
+import { useState } from "react";
+import { Checkbox } from "expo-checkbox";
 
-import basesData, { BaseType } from '@/data/basesData';
-import GaugeSummary from '../ui/GaugeSummary';
-
+import basesData, { BaseType } from "@/data/basesData";
+import GaugeSummary from "@/components/ui/GaugeSummary";
 
 type DOMComponentProps = {
   selectedBase: BaseType | null;
   onValidate?: () => void;
 };
 
-export default function DOMComponent({ selectedBase, onValidate }: DOMComponentProps) {
+export default function ScreenContent({
+  selectedBase,
+  onValidate,
+}: DOMComponentProps) {
   const [isCuire, setIsCuire] = useState(false);
   if (!selectedBase) {
     return (
@@ -43,8 +44,13 @@ export default function DOMComponent({ selectedBase, onValidate }: DOMComponentP
             style={styles.image}
           />
           <View style={styles.checkboxContainer}>
-            <Checkbox style={styles.checkbox} color={isCuire ? '#55256D' : undefined} value={isCuire} onValueChange={setIsCuire} />
-            <Text style={{marginLeft: 8}}>Cuire</Text>
+            <Checkbox
+              style={styles.checkbox}
+              color={isCuire ? "#55256D" : undefined}
+              value={isCuire}
+              onValueChange={setIsCuire}
+            />
+            <Text style={{ marginLeft: 8 }}>Cuire</Text>
           </View>
           <TouchableOpacity onPress={onValidate}>
             <Text>Valider</Text>
@@ -55,57 +61,55 @@ export default function DOMComponent({ selectedBase, onValidate }: DOMComponentP
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    flexDirection: 'column',
+    width: "100%",
+    height: "100%",
+    flexDirection: "column",
     flex: 1,
     paddingVertical: 20,
     paddingHorizontal: 40,
-    backgroundColor: '#FFF2DD',
-    color: '#000000',
+    backgroundColor: "#FFF2DD",
+    color: "#000000",
   },
   content: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
     gap: 20,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   description: {
     fontSize: 12,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   gauges: {
-    flexDirection: 'column',
+    flexDirection: "column",
     gap: 8,
   },
   rightSection: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   image: {
     width: 130,
     height: 130,
   },
   checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 12,
   },
   checkbox: {
     marginVertical: 8,
   },
 });
-
