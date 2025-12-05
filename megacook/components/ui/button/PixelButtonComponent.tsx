@@ -8,12 +8,18 @@ import {
 } from "react-native";
 
 interface ButtonPixelProps {
-  title: string;
+  title?: string;
   colorPrimary: string;
   colorSecondary: string;
   colorBorder: string;
   colorInnerShadow: string;
+  colorIcon?: string;
+  icon?: React.ReactElement;
   onPress?: (event: GestureResponderEvent) => void;
+  useMarginLeft?: boolean;
+  useMarginTop?: boolean;
+  marginLeft?: number;
+  marginTop?: number;
 }
 
 export default function PixelButton({
@@ -22,14 +28,25 @@ export default function PixelButton({
   colorSecondary,
   colorBorder,
   colorInnerShadow,
+  colorIcon,
+  icon,
+  useMarginLeft = false,
+  useMarginTop = false,
+  marginLeft = PIXEL * 3,
+  marginTop = PIXEL,
   onPress,
 }: ButtonPixelProps) {
   const [size, setSize] = React.useState({ width: 0, height: 0 });
-
   return (
     <>
       <View
-        style={styles.wrapper}
+        style={[
+          styles.wrapper,
+          {
+            marginLeft: useMarginLeft ? marginLeft : 0,
+            marginTop: useMarginTop ? marginTop : 0,
+          },
+        ]}
         onLayout={(e) => setSize(e.nativeEvent.layout)}
       >
         <View
@@ -114,7 +131,16 @@ export default function PixelButton({
             />
           </View>
 
-          <View style={[styles.button, { backgroundColor: colorPrimary }]}>
+          <View
+            style={[
+              styles.button,
+              {
+                backgroundColor: colorPrimary,
+                paddingVertical: icon ? 8 : 4,
+                paddingHorizontal: icon ? 4 : 22,
+              },
+            ]}
+          >
             <View
               style={[
                 styles.innerHighlight,
@@ -124,7 +150,11 @@ export default function PixelButton({
             <View
               style={[styles.innerShadow, { backgroundColor: colorSecondary }]}
             />
-            <Text style={styles.text}>{title}</Text>
+            {icon ? (
+              React.cloneElement(icon, { fill: colorIcon } as any)
+            ) : (
+              <Text style={styles.text}>{title}</Text>
+            )}
           </View>
         </Pressable>
 
@@ -153,13 +183,13 @@ export default function PixelButton({
   );
 }
 
-const PIXEL = 6;
+const PIXEL = 4;
 
 const styles = StyleSheet.create({
   wrapper: {
     position: "relative",
     alignSelf: "center",
-    marginTop: 12,
+    boxSizing: "border-box",
   },
 
   container: {
@@ -187,7 +217,7 @@ const styles = StyleSheet.create({
   },
 
   active: {
-    transform: [{ translateY: PIXEL }],
+    transform: [{ translateY: PIXEL * 0.85 }],
   },
 
   topBlack: {
@@ -363,16 +393,14 @@ const styles = StyleSheet.create({
 
   bottomBlack: {
     position: "absolute",
-    bottom: -PIXEL * 2.2,
+    bottom: -PIXEL * 2.1,
     left: 0,
     right: 0,
     height: PIXEL,
-    zIndex: 1,
+    zIndex: 10,
   },
 
   button: {
-    paddingVertical: 14,
-    paddingHorizontal: 12,
     position: "relative",
   },
   button2: {

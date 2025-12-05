@@ -21,7 +21,7 @@ import { BackView } from "./view/backview/BackView";
 import PixelatedPass from "./postProd/PixelComposer";
 import { useViewNavigation } from "@/hooks/useViewNavigation";
 import { SyncedCamera } from "./camera/SyncedCamera";
-import Screen from "./screen/Screen";
+import Screen from "./view/rightview/Screen";
 
 export default function Scene() {
   const window = useWindowDimensions();
