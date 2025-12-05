@@ -6,7 +6,6 @@ export interface BaseData {
   name: string;
   model: any;
   image: ImageSourcePropType;
-  description: string;
   price: number;
   nutritional: {
     sweet: number;
@@ -28,7 +27,6 @@ const basesData: Record<BaseType, BaseData> = {
     name: 'Broccoli',
     model: broccoliModel,
     image: require('../assets/images/broccoli.webp'),
-    description: "Ceci est un broccoli comestible",
     price: 2,
     nutritional: { sweet: 1, salty: 2, fat: 1, bitter: 3, acidity: 0, spicy: 3, protein: 1 },
 },
@@ -36,7 +34,6 @@ pomme: {
     name: 'Pomme',
     model: pommeModel,
     image: require('../assets/images/pomme.png'),
-    description: "Pomme farceur, touche surprenante",
     price: 3,
     nutritional: { sweet: 4, salty: 2, fat: 3, bitter: 2, acidity: 4, spicy: 3, protein: 1 },
 },
@@ -44,7 +41,6 @@ piment: {
     name: 'Piment',
     model: pimentModel,
     image: require('../assets/images/piment.png'),
-    description: "Piment espiègle pour une touche ludique",
     price: 5,
     nutritional: { sweet: 2, salty: 1, fat: 5, bitter: 1, acidity: 2, spicy: 3, protein: 4 },
   },

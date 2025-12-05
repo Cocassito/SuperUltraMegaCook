@@ -33,6 +33,10 @@ export default function Scene() {
   const cameraRef = useRef<any>(null);
 
   const [selectedBase, setSelectedBase] = useState<BaseType | null>(null);
+  const [cubeVisible, setCubeVisible] = useState(false);
+  const [cubeColor, setCubeColor] = useState('#ff0000');
+
+  console.log('Chemin du modèle assiette :', modelUris.assiette);
 
   return (
     <View
@@ -41,10 +45,14 @@ export default function Scene() {
       <View style={styles.canvasWrapper}>
         <Canvas style={styles.canvas}>
           <Floor />
+
           <PlateScene 
-            assietteModel={modelUris.assiette} 
+            assietteModel={modelUris.assiette}      
+            cubeVisible={cubeVisible}
+            cubeColor={cubeColor}
             onBaseClick={(baseType) => setSelectedBase(baseType)}
           />
+
           <CameraControls
             cubeRef={cubeRef}
             currentView={navigation.currentView}
@@ -61,13 +69,19 @@ export default function Scene() {
           {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
           {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
           <OrbitControls />
-          <PixelatedPass pixelSize={2} />
+          <PixelatedPass pixelSize={4} />
         </Canvas>
 
         {/* Canvas sans le post Processing */}
         <Canvas style={styles.canvasOverlay}>
           <SyncedCamera cameraRef={cameraRef} />
-          <Screen selectedBase={selectedBase} />
+          <Screen selectedBase={selectedBase} onValidate={() => {
+            if (selectedBase === 'broccoli') setCubeColor('#00ff00');
+            else if (selectedBase === 'pomme') setCubeColor('#ff0000');
+            else if (selectedBase === 'piment') setCubeColor('#ff69b4');
+            setCubeVisible(true);
+            navigation.setCurrentView(0);
+          }} />
         </Canvas>
 
         <NavigationButtons {...navigation} />

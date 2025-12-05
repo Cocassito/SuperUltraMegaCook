@@ -51,6 +51,7 @@ export const useViewNavigation = () => {
 
   return {
     currentView,
+    setCurrentView,
     nextView,
     prevView,
     bottomView,

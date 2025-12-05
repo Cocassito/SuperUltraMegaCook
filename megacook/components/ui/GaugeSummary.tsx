@@ -6,27 +6,29 @@ export type Nutritional = {
   sweet: number;
   salty: number;
   acidity: number;
+  bitter: number;
+  spicy: number;
   protein: number;
   fat: number;
 };
 
 interface GaugeSummaryProps {
-  title?: string;
   nutritional: Nutritional;
 }
 
-export default function GaugeSummary({ title = 'Récapitulatif', nutritional }: GaugeSummaryProps) {
+export default function GaugeSummary({ nutritional }: GaugeSummaryProps) {
   const data = [
     { label: 'Sucré', value: nutritional.sweet },
     { label: 'Salé', value: nutritional.salty },
-    { label: 'Acidité', value: nutritional.acidity },
+    { label: 'Acide', value: nutritional.acidity },
+    { label: 'Épicé', value: nutritional.spicy },
     { label: 'Protéines', value: nutritional.protein },
+    { label: 'Amer', value: nutritional.bitter },
     { label: 'Gras', value: nutritional.fat },
   ];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
       <RadarChart
         data={data}
         maxValue={5}
@@ -34,10 +36,11 @@ export default function GaugeSummary({ title = 'Récapitulatif', nutritional }: 
         fillOpacity={0.35}
         labelColor="#333"
         labelSize={11}
+        labelDistance={1.2}
+        labelFontFamily=''
         dataFillColor="#FFF2DD"
         dataFillOpacity={0.6}
-        dataStrokeWidth={2}
-        size={220}
+        size={180}
       />
     </View>
   );
@@ -45,22 +48,6 @@ export default function GaugeSummary({ title = 'Récapitulatif', nutritional }: 
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFF2DD',
-    borderRadius: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
-    shadowRadius: 6,
-    alignItems: 'center',
   },
-  title: {
-    textTransform: 'uppercase',
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
-    textAlign: 'center',
-  },  
 });
