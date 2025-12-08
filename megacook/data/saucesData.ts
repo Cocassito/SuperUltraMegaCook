@@ -1,8 +1,8 @@
 import { ImageSourcePropType } from "react-native";
 
-export type BaseType = 'broccoli' | 'pomme' | 'piment';
+export type SauceType = 'broccoli' | 'monkey' | 'piment';
 
-export interface BaseData {
+export interface SauceData {
   name: string;
   model: any;
   image: ImageSourcePropType;
@@ -19,31 +19,31 @@ export interface BaseData {
 }
 
 const broccoliModel = require("../assets/models/broccoli.glb");
-const pommeModel = require("../assets/models/pomme.glb");
+const monkeyModel = require("../assets/models/monkey.glb");
 const pimentModel = require("../assets/models/piment.glb");
 
-const basesData: Record<BaseType, BaseData> = {
+const saucesData: Record<SauceType, SauceData> = {
   broccoli: {
     name: 'Broccoli',
     model: broccoliModel,
     image: require('../assets/images/broccoli.webp'),
     price: 2,
-    nutritional: { sweet: 1, salty: 2, fat: 1, bitter: 3, acidity: 0, spicy: 3, protein: 1 },
+    nutritional: { sweet: 1, salty: 4, fat: 1, bitter: 3, acidity: 0, spicy: 1, protein: 4 },
   },
-  pomme: {
-      name: 'Pomme',
-      model: pommeModel,
-      image: require('../assets/images/pomme.png'),
+  monkey: {
+      name: 'Monkey',
+      model: monkeyModel,
+      image: require('../assets/images/singe.png'),
       price: 3,
-      nutritional: { sweet: 4, salty: 2, fat: 3, bitter: 2, acidity: 4, spicy: 3, protein: 1 },
+      nutritional: { sweet: 1, salty: 2, fat: 4, bitter: 2, acidity: 1, spicy: 3, protein: 1 },
   },
   piment: {
     name: 'Piment',
     model: pimentModel,
     image: require('../assets/images/piment.png'),
     price: 5,
-    nutritional: { sweet: 2, salty: 1, fat: 5, bitter: 1, acidity: 2, spicy: 3, protein: 4 },
+    nutritional: { sweet: 4, salty: 1, fat: 1, bitter: 5, acidity: 2, spicy: 3, protein: 4 },
   },
 };
 
-export default basesData;
+export default saucesData;

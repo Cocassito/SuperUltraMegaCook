@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
     height: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 30,
+    zIndex: 9999,
+    elevation: 10,
   },
   arrowRight: {
     position: 'absolute',
@@ -90,7 +91,8 @@ const styles = StyleSheet.create({
     height: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 30,
+    zIndex: 9999,
+    elevation: 10,
   },
   arrowTop: {
     position: 'absolute',
@@ -103,7 +105,8 @@ const styles = StyleSheet.create({
     height: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 30,
+    zIndex: 9999,
+    elevation: 10,
   },
   arrowBottom: {
     position: 'absolute',
@@ -116,6 +119,7 @@ const styles = StyleSheet.create({
     height: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 30,
+    zIndex: 9999,
+    elevation: 10,
   },
 });

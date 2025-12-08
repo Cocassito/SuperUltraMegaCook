@@ -1,20 +1,14 @@
 import { useState, Suspense } from 'react';
-import { useLoader } from '../../lib/fiber';
-import { GLTFLoader } from 'three-stdlib';
-import basesData, { BaseType } from '@/data/basesData';
+import saucesData, { SauceType } from '@/data/saucesData';
+import Model from '@/components/Model';
 
-type BaseProps = {
-  onBaseClick: (baseType: BaseType) => void;
+type SauceProps = {
+  onSauceClick: (sauceType: SauceType) => void;
 };
 
-function Model({ src, scale = 1 }: { src: string; scale?: number }) {
-  const gltf = useLoader(GLTFLoader, src);
-  return <primitive object={gltf.scene.clone()} scale={scale} />;
-}
-
-export const Base = ({ onBaseClick }: BaseProps) => {
+export const Sauce = ({ onSauceClick }: SauceProps) => {
   const [broccoliScale, setBroccoliScale] = useState(1);
-  const [pommeScale, setPommeScale] = useState(1);
+  const [monkeyScale, setMonkeyScale] = useState(1);
   const [pimentScale, setPimentScale] = useState(1);
 
   return (
@@ -28,24 +22,24 @@ export const Base = ({ onBaseClick }: BaseProps) => {
           scale={broccoliScale}
           onPointerDown={() => {
             setBroccoliScale(0.8);
-            onBaseClick('broccoli');
+            onSauceClick('broccoli');
           }}
           onPointerUp={() => setBroccoliScale(1)}
         >
-          <Model src={basesData.broccoli.model} scale={1} />
+          <Model src={saucesData.broccoli.model} scale={1} />
         </group>
 
-        {/* Pomme */}
+        {/* Monkey */}
         <group
           position={[10, 0, 10]}
-          scale={pommeScale}
+          scale={monkeyScale}
           onPointerDown={() => {
-            setPommeScale(0.8);
-            onBaseClick('pomme');
+            setMonkeyScale(0.8);
+            onSauceClick('monkey');
           }}
-          onPointerUp={() => setPommeScale(1)}
+          onPointerUp={() => setMonkeyScale(1)}
         >
-          <Model src={basesData.pomme.model} scale={1} />
+          <Model src={saucesData.monkey.model} scale={1} />
         </group>
 
         {/* Piment */}
@@ -55,11 +49,11 @@ export const Base = ({ onBaseClick }: BaseProps) => {
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
             setPimentScale(0.8);
-            onBaseClick('piment');
+            onSauceClick('piment');
           }}
           onPointerUp={() => setPimentScale(1)}
         >
-          <Model src={basesData.piment.model} scale={1} />
+          <Model src={saucesData.piment.model} scale={1} />
         </group>
       </group>
     </Suspense>

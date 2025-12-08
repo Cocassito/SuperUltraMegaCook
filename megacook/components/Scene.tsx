@@ -4,13 +4,11 @@ import { View, StyleSheet, useWindowDimensions } from "react-native";
 import { Canvas } from "@react-three/fiber";
 import { useRef, useState } from "react";
 import { BaseType } from "@/data/basesData";
-import PlateScene from "./PlateScene";
-import { useDataLoading } from "@/hooks/useDataLoading";
 import Floor from "./Floor";
-import { OrbitControls } from "@react-three/drei";
 import { NavigationButtons } from "./ui/button/NavigationButtons";
 import CameraControls from "./camera/CameraControls";
 import { Mesh } from "three";
+
 import { FrontView } from "./view/frontview/FrontView";
 import { RightView } from "./view/rightview/RightView";
 import { LeftView } from "./view/leftview/LeftView";
@@ -18,74 +16,131 @@ import { BottomView } from "./view/frontview/BottomView";
 import { BottomRightView } from "./view/rightview/BottomRightView";
 import { BottomLeftView } from "./view/leftview/BottomLeftView";
 import { BackView } from "./view/backview/BackView";
+import ScreenAverage from "./view/backview/ScreenAverage";
+
 import PixelatedPass from "./postProd/PixelComposer";
 import { useViewNavigation } from "@/hooks/useViewNavigation";
 import { SyncedCamera } from "./camera/SyncedCamera";
 import Screen from "./view/rightview/Screen";
 
+import basesData from "@/data/basesData";
+import fruitsData from "@/data/fruitsData";
+import saucesData from "@/data/saucesData";
+import autresData from "@/data/autresData";
+import { OrbitControls } from "@react-three/drei";
+import { FruitType } from "@/data/fruitsData";
+import { SauceType } from "@/data/saucesData";
+import { AutreType } from "@/data/autresData";
+
+import { SceneLights } from "./sceneLights/SceneLights";
+
 export default function Scene() {
   const window = useWindowDimensions();
-  const { assetsLoaded, modelUris } = useDataLoading();
   const navigation = useViewNavigation();
-
   // Référence au cube pour la caméra
+
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
 
   const [selectedBase, setSelectedBase] = useState<BaseType | null>(null);
-  const [cubeVisible, setCubeVisible] = useState(false);
-  const [cubeColor, setCubeColor] = useState("#ff0000");
+  const [selectedFruit, setSelectedFruit] = useState<FruitType | null>(null);
+  const [selectedSauce, setSelectedSauce] = useState<SauceType | null>(null);
+  const [selectedAutre, setSelectedAutre] = useState<AutreType | null>(null);
+  const [hasValidatedBase, setHasValidatedBase] = useState(false);
+  const [hasValidatedFruit, setHasValidatedFruit] = useState(false);
+  const [hasValidatedSauce, setHasValidatedSauce] = useState(false);
 
-  console.log("Chemin du modèle assiette :", modelUris.assiette);
-
+  const [validatedModel, setValidatedModel] = useState<string | null>(null);
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
+  
   return (
     <View
       style={[styles.container, { width: window.width, height: window.height }]}
     >
       <View style={styles.canvasWrapper}>
+        {/* Canvas principal avec le post-processing */}
         <Canvas style={styles.canvas}>
           <Floor />
-
-          <PlateScene
-            assietteModel={modelUris.assiette}
-            cubeVisible={cubeVisible}
-            cubeColor={cubeColor}
-            onBaseClick={(baseType) => setSelectedBase(baseType)}
-          />
-
+ 
           <CameraControls
             cubeRef={cubeRef}
             currentView={navigation.currentView}
             cameraRef={cameraRef}
           />
 
-          {navigation.currentView === 0 && <FrontView cubeRef={cubeRef} />}
-          {navigation.currentView === 1 && <RightView cubeRef={cubeRef} />}
+          {navigation.currentView === 0 && 
+            <FrontView 
+              cubeRef={cubeRef} 
+              validatedModel={validatedModel}
+              validatedFruitModel={validatedFruitModel}
+              validatedSauceModel={validatedSauceModel}
+              validatedAutreModel={validatedAutreModel}
+              onValidate={() => {
+                navigation.setCurrentView(0);
+              }}
+          />  }
+          
+          {navigation.currentView === 1 && <RightView cubeRef={cubeRef} hasValidatedBase={hasValidatedBase} hasValidatedFruit={hasValidatedFruit} hasValidatedSauce={hasValidatedSauce} onBaseClick={setSelectedBase} onFruitClick={setSelectedFruit} onSauceClick={setSelectedSauce} onAutreClick={setSelectedAutre} />}
           {navigation.currentView === 2 && <LeftView cubeRef={cubeRef} />}
           {navigation.currentView === 3 && <BottomView cubeRef={cubeRef} />}
-          {navigation.currentView === 4 && (
-            <BottomRightView cubeRef={cubeRef} />
-          )}
+          {navigation.currentView === 4 && <BottomRightView cubeRef={cubeRef} /> }
           {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
           {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
-          {/* <OrbitControls /> */}
-          <PixelatedPass pixelSize={4} />
-        </Canvas>
 
-        {/* Canvas sans le post Processing */}
+
+          <PixelatedPass pixelSize={4} />
+          <SceneLights />
+
+          {/* <OrbitControls /> */}
+        </Canvas>
+        
+        {/* Canvas sans le post Processing dans la Right View*/}
         <Canvas style={styles.canvasOverlay}>
+
           <SyncedCamera cameraRef={cameraRef} />
+
           <Screen
             selectedBase={selectedBase}
+            selectedFruit={selectedFruit}
+            selectedSauce={selectedSauce}
+            selectedAutre={selectedAutre}
+            hasValidatedBase={hasValidatedBase}
+            hasValidatedFruit={hasValidatedFruit}
+            hasValidatedSauce={hasValidatedSauce}
             onValidate={() => {
-              if (selectedBase === "broccoli") setCubeColor("#00ff00");
-              else if (selectedBase === "pomme") setCubeColor("#ff0000");
-              else if (selectedBase === "piment") setCubeColor("#ff69b4");
-              setCubeVisible(true);
-              navigation.setCurrentView(0);
+              if (!hasValidatedBase && selectedBase) {
+                setValidatedModel(basesData[selectedBase].model);
+                setHasValidatedBase(true);
+                navigation.setCurrentView(0);
+              } else if (hasValidatedBase && !hasValidatedFruit && selectedFruit) {
+                setValidatedFruitModel(fruitsData[selectedFruit].model);
+                setHasValidatedFruit(true);
+                navigation.setCurrentView(0);
+              } else if (hasValidatedBase && hasValidatedFruit && !hasValidatedSauce && selectedSauce) {
+                setValidatedSauceModel(saucesData[selectedSauce].model);
+                setHasValidatedSauce(true);
+                navigation.setCurrentView(0);
+              } else if (hasValidatedBase && hasValidatedFruit && hasValidatedSauce && selectedAutre) {
+                setValidatedAutreModel(autresData[selectedAutre].model);
+                navigation.setCurrentView(0);
+              }
             }}
           />
+
+          <ScreenAverage 
+            validatedBase={selectedBase}
+            validatedFruit={selectedFruit}
+            validatedSauce={selectedSauce}
+            validatedAutre={selectedAutre}
+            hasValidatedBase={hasValidatedBase}
+            hasValidatedFruit={hasValidatedFruit}
+            hasValidatedSauce={hasValidatedSauce}
+          />
+
         </Canvas>
+
 
         <NavigationButtons {...navigation} />
       </View>
@@ -111,5 +166,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     pointerEvents: "none",
+    zIndex: 1,
   },
 });
