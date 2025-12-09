@@ -10,10 +10,10 @@ export const CloseButton = ({ onClose }: CloseButtonProps) => {
     <PixelButton
       onPress={onClose}
       icon={<SettingsIcon />}
-      colorPrimary="#C8A2DA"
-      colorSecondary="#773B94"
-      colorBorder="#55256D"
-      colorInnerShadow="#E9DAF0"
+      colorPrimary="#E23A3A"
+      colorSecondary="#B72A2A"
+      colorBorder="#9C1111"
+      colorInnerShadow="#F45C5C"
     />
   );
 };
