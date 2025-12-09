@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from "react-native";
 
-export type AutreType = 'pistolet' | 'cuberose' | 'cone';
+export type AutreType = "pistolet" | "cuberose" | "cone";
 
 export interface AutreData {
   name: string;
@@ -24,25 +24,49 @@ const coneModel = require("../assets/models/cone.glb");
 
 const autresData: Record<AutreType, AutreData> = {
   pistolet: {
-    name: 'Pistolet',
+    name: "Pistolet",
     model: pistoletModel,
-    image: require('../assets/images/pistolet.webp'),
+    image: require("../assets/images/test/pistolet.webp"),
     price: 3,
-    nutritional: { sweet: 2, salty: 1, acidity: 0, protein: 2, fat: 1, bitter: 0, spicy: 1 },
+    nutritional: {
+      sweet: 2,
+      salty: 1,
+      acidity: 0,
+      protein: 2,
+      fat: 1,
+      bitter: 0,
+      spicy: 1,
+    },
   },
   cuberose: {
-    name: 'Cube Rose',
+    name: "Cube Rose",
     model: cuberoseModel,
-    image: require('../assets/images/cuberose.png'),
+    image: require("../assets/images/test/cuberose.png"),
     price: 4,
-    nutritional: { sweet: 4, salty: 0, acidity: 1, protein: 1, fat: 2, bitter: 1, spicy: 0 },
+    nutritional: {
+      sweet: 4,
+      salty: 0,
+      acidity: 1,
+      protein: 1,
+      fat: 2,
+      bitter: 1,
+      spicy: 0,
+    },
   },
   cone: {
-    name: 'Cône',
+    name: "Cône",
     model: coneModel,
-    image: require('../assets/images/cone.png'),
+    image: require("../assets/images/test/cone.png"),
     price: 2,
-    nutritional: { sweet: 3, salty: 1, acidity: 0, protein: 1, fat: 1, bitter: 0, spicy: 0 },
+    nutritional: {
+      sweet: 3,
+      salty: 1,
+      acidity: 0,
+      protein: 1,
+      fat: 1,
+      bitter: 0,
+      spicy: 0,
+    },
   },
 };
 

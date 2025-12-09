@@ -7,14 +7,8 @@ type OrderProps = {
 
 export const Order = ({ onClose }: OrderProps) => {
   return (
-    <Pressable
-      style={styles.orderOverlay}
-      onPress={onClose}
-    >
-      <Pressable
-        style={styles.orderCard}
-        onPress={(e) => e.stopPropagation()}
-      >
+    <Pressable style={styles.orderOverlay} onPress={onClose}>
+      <Pressable style={styles.orderCard} onPress={(e) => e.stopPropagation()}>
         <View style={styles.closeButtonWrapper}>
           <CloseButton onClose={onClose} />
         </View>
@@ -25,7 +19,7 @@ export const Order = ({ onClose }: OrderProps) => {
             <Text>"Je voudrais un plat qui me court après la nuit."</Text>
           </View>
           <Image
-            source={require("../../../assets/images/codebarre.png")}
+            source={require("../../../assets/images/autres/codebarre.png")}
             style={{ width: 100, height: 20 }}
           />
         </View>
@@ -66,6 +60,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 8,
     right: 8,
-    backgroundColor: '#ff00ff',
+    backgroundColor: "#ff00ff",
   },
 });

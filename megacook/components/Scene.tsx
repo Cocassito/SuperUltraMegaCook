@@ -54,11 +54,17 @@ export default function Scene() {
   const [hasValidatedSauce, setHasValidatedSauce] = useState(false);
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
+    null
+  );
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
+    null
+  );
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
+    null
+  );
   const [showOrder, setShowOrder] = useState(false);
-  
+
   return (
     <View
       style={[styles.container, { width: window.width, height: window.height }]}
@@ -67,16 +73,16 @@ export default function Scene() {
         {/* Canvas principal avec le post-processing */}
         <Canvas style={styles.canvas}>
           {/* <Floor /> */}
- 
+
           <CameraControls
             cubeRef={cubeRef}
             currentView={navigation.currentView}
             cameraRef={cameraRef}
           />
 
-          {navigation.currentView === 0 && 
-            <FrontView 
-              cubeRef={cubeRef} 
+          {navigation.currentView === 0 && (
+            <FrontView
+              cubeRef={cubeRef}
               validatedModel={validatedModel}
               validatedFruitModel={validatedFruitModel}
               validatedSauceModel={validatedSauceModel}
@@ -84,21 +90,42 @@ export default function Scene() {
               onValidate={() => {
                 navigation.setCurrentView(0);
               }}
-          />  }
-          
-          {navigation.currentView === 1 && <RightView cubeRef={cubeRef} hasValidatedBase={hasValidatedBase} hasValidatedFruit={hasValidatedFruit} hasValidatedSauce={hasValidatedSauce} onBaseClick={setSelectedBase} onFruitClick={setSelectedFruit} onSauceClick={setSelectedSauce} onAutreClick={setSelectedAutre} />}
-          {navigation.currentView === 2 && <LeftView cubeRef={cubeRef} onOpenOrder={() => setShowOrder(true)} />}
+            />
+          )}
+
+          {navigation.currentView === 1 && (
+            <RightView
+              cubeRef={cubeRef}
+              hasValidatedBase={hasValidatedBase}
+              hasValidatedFruit={hasValidatedFruit}
+              hasValidatedSauce={hasValidatedSauce}
+              onBaseClick={setSelectedBase}
+              onFruitClick={setSelectedFruit}
+              onSauceClick={setSelectedSauce}
+              onAutreClick={setSelectedAutre}
+            />
+          )}
+          {navigation.currentView === 2 && (
+            <LeftView
+              cubeRef={cubeRef}
+              onOpenOrder={() => setShowOrder(true)}
+            />
+          )}
           {navigation.currentView === 3 && <BottomView cubeRef={cubeRef} />}
-          {navigation.currentView === 4 && <BottomRightView cubeRef={cubeRef} /> }
+          {navigation.currentView === 4 && (
+            <BottomRightView cubeRef={cubeRef} />
+          )}
           {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
           {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
 
-
           <PixelatedPass pixelSize={4} />
           <SceneLights />
-          
+
           <group position={[-28, -11.6, -18]} rotation={[0, -Math.PI / 2, 0]}>
-            <Model src={require('../assets/models/megacook.glb')} scale={8} />
+            <Model
+              src={require("../assets/models/environment/scene.glb")}
+              scale={8}
+            />
           </group>
 
           <OrbitControls />
@@ -106,7 +133,6 @@ export default function Scene() {
 
         {/* Canvas sans le post Processing dans la Right View*/}
         <Canvas style={styles.canvasOverlay}>
-
           <SyncedCamera cameraRef={cameraRef} />
 
           <Screen
@@ -122,22 +148,36 @@ export default function Scene() {
                 setValidatedModel(basesData[selectedBase].model);
                 setHasValidatedBase(true);
                 navigation.setCurrentView(0);
-              } else if (hasValidatedBase && !hasValidatedFruit && selectedFruit) {
+              } else if (
+                hasValidatedBase &&
+                !hasValidatedFruit &&
+                selectedFruit
+              ) {
                 setValidatedFruitModel(fruitsData[selectedFruit].model);
                 setHasValidatedFruit(true);
                 navigation.setCurrentView(0);
-              } else if (hasValidatedBase && hasValidatedFruit && !hasValidatedSauce && selectedSauce) {
+              } else if (
+                hasValidatedBase &&
+                hasValidatedFruit &&
+                !hasValidatedSauce &&
+                selectedSauce
+              ) {
                 setValidatedSauceModel(saucesData[selectedSauce].model);
                 setHasValidatedSauce(true);
                 navigation.setCurrentView(0);
-              } else if (hasValidatedBase && hasValidatedFruit && hasValidatedSauce && selectedAutre) {
+              } else if (
+                hasValidatedBase &&
+                hasValidatedFruit &&
+                hasValidatedSauce &&
+                selectedAutre
+              ) {
                 setValidatedAutreModel(autresData[selectedAutre].model);
                 navigation.setCurrentView(0);
               }
             }}
           />
 
-          <ScreenAverage 
+          <ScreenAverage
             validatedBase={selectedBase}
             validatedFruit={selectedFruit}
             validatedSauce={selectedSauce}
@@ -146,17 +186,12 @@ export default function Scene() {
             hasValidatedFruit={hasValidatedFruit}
             hasValidatedSauce={hasValidatedSauce}
           />
-
         </Canvas>
-
 
         <NavigationButtons {...navigation} />
 
         {/* Order Component Left View */}
-        {showOrder && (
-          <Order onClose={() => setShowOrder(false)} />
-        )}
-        
+        {showOrder && <Order onClose={() => setShowOrder(false)} />}
       </View>
     </View>
   );

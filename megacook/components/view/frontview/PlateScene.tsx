@@ -7,11 +7,15 @@ type PlateSceneProps = {
   validatedFruitModel?: string | null;
   validatedSauceModel?: string | null;
   validatedAutreModel?: string | null;
-}
+};
 
-export default function PlateScene({ validatedModel, validatedFruitModel, validatedSauceModel, validatedAutreModel }: PlateSceneProps) {
-  
-  const assiette = require("../../../assets/models/assiette.glb");
+export default function PlateScene({
+  validatedModel,
+  validatedFruitModel,
+  validatedSauceModel,
+  validatedAutreModel,
+}: PlateSceneProps) {
+  const assiette = require("../../../assets/models/objets/assiette.glb");
   const plateRef = useRef<Group>(null);
 
   return (
@@ -19,12 +23,9 @@ export default function PlateScene({ validatedModel, validatedFruitModel, valida
       <group ref={plateRef} position={[0, 2, 0]}>
         {/* Assiette fixe en bas */}
         <group position={[0, -1, 0]}>
-
           {/* Base */}
           <group position={[1.5, 0.5, 0]}>
-            {validatedModel && (
-              <Model src={validatedModel} scale={1} />
-            )}
+            {validatedModel && <Model src={validatedModel} scale={1} />}
           </group>
 
           {/* Fruits & Légumes */}
@@ -50,10 +51,8 @@ export default function PlateScene({ validatedModel, validatedFruitModel, valida
 
           {/* Assiette */}
           {/* <Model src={assiette} scale={1}/> */}
-          
         </group>
       </group>
-    
     </Suspense>
   );
 }
