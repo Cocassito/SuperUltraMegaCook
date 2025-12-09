@@ -1,7 +1,7 @@
 import React from "react";
 import Svg, { Path, SvgProps } from "react-native-svg";
 
-export default function CloseIcone(props: SvgProps) {
+export default function CloseIcon(props: SvgProps) {
   return (
     <Svg width={20} height={20} viewBox="0 0 20 20" fill="none" {...props}>
       <Path

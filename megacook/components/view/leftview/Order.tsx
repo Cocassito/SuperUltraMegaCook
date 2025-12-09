@@ -1,5 +1,5 @@
+import { CloseButton } from "@/components/ui/button/CloseButton";
 import { Text, View, Image, StyleSheet, Pressable } from "react-native";
-import CloseButton from "@/components/ui/button/CloseButton";
 
 type OrderProps = {
   onClose: () => void;
@@ -16,7 +16,7 @@ export const Order = ({ onClose }: OrderProps) => {
         onPress={(e) => e.stopPropagation()}
       >
         <View style={styles.closeButtonWrapper}>
-          <Text onPress={onClose}>X</Text>
+          <CloseButton onClose={onClose} />
         </View>
         <View style={styles.container}>
           <Text>Order Component</Text>
