@@ -18,7 +18,7 @@ export const Fruit = ({ onFruitClick }: FruitProps) => {
       <group>
         {/* Poulet */}
         <group
-          position={[10, 0, 8]}
+          position={[18, 1, 13]}
           scale={pouletScale}
           onPointerDown={() => {
             setPouletScale(0.8);
@@ -31,7 +31,7 @@ export const Fruit = ({ onFruitClick }: FruitProps) => {
 
         {/* Champignon */}
         <group
-          position={[10, 0, 10]}
+          position={[18, 1, 18]}
           scale={champignonScale}
           onPointerDown={() => {
             setChampignonScale(0.8);
@@ -44,7 +44,7 @@ export const Fruit = ({ onFruitClick }: FruitProps) => {
 
         {/* Dinosaure */}
         <group
-          position={[10, 0, 12]}
+          position={[18, 1, 23]}
           scale={dinosaureScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {

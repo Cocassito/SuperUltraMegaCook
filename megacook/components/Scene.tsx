@@ -34,6 +34,9 @@ import { AutreType } from "@/data/autresData";
 
 import { SceneLights } from "./sceneLights/SceneLights";
 
+import Model from "./Model";
+import { Order } from "./view/leftview/Order";
+
 export default function Scene() {
   const window = useWindowDimensions();
   const navigation = useViewNavigation();
@@ -54,6 +57,7 @@ export default function Scene() {
   const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
   const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
   const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
+  const [showOrder, setShowOrder] = useState(false);
   
   return (
     <View
@@ -62,7 +66,7 @@ export default function Scene() {
       <View style={styles.canvasWrapper}>
         {/* Canvas principal avec le post-processing */}
         <Canvas style={styles.canvas}>
-          <Floor />
+          {/* <Floor /> */}
  
           <CameraControls
             cubeRef={cubeRef}
@@ -83,7 +87,7 @@ export default function Scene() {
           />  }
           
           {navigation.currentView === 1 && <RightView cubeRef={cubeRef} hasValidatedBase={hasValidatedBase} hasValidatedFruit={hasValidatedFruit} hasValidatedSauce={hasValidatedSauce} onBaseClick={setSelectedBase} onFruitClick={setSelectedFruit} onSauceClick={setSelectedSauce} onAutreClick={setSelectedAutre} />}
-          {navigation.currentView === 2 && <LeftView cubeRef={cubeRef} />}
+          {navigation.currentView === 2 && <LeftView cubeRef={cubeRef} onOpenOrder={() => setShowOrder(true)} />}
           {navigation.currentView === 3 && <BottomView cubeRef={cubeRef} />}
           {navigation.currentView === 4 && <BottomRightView cubeRef={cubeRef} /> }
           {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
@@ -92,10 +96,14 @@ export default function Scene() {
 
           <PixelatedPass pixelSize={4} />
           <SceneLights />
+          
+          <group position={[-28, -11.6, -18]} rotation={[0, -Math.PI / 2, 0]}>
+            <Model src={require('../assets/models/megacook.glb')} scale={8} />
+          </group>
 
-          {/* <OrbitControls /> */}
+          <OrbitControls />
         </Canvas>
-        
+
         {/* Canvas sans le post Processing dans la Right View*/}
         <Canvas style={styles.canvasOverlay}>
 
@@ -143,6 +151,12 @@ export default function Scene() {
 
 
         <NavigationButtons {...navigation} />
+
+        {/* Order Component Left View */}
+        {showOrder && (
+          <Order onClose={() => setShowOrder(false)} />
+        )}
+        
       </View>
     </View>
   );

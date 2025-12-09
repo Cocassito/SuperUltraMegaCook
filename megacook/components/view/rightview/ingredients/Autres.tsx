@@ -13,12 +13,11 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
 
   return (
     <Suspense fallback={null}>
-      <ambientLight intensity={3}/>
 
       <group>
         {/* Pistolet */}
         <group
-          position={[10, 0, 8]}
+          position={[18, 1, 13]}
           scale={pistoletScale}
           onPointerDown={() => {
             setPistoletScale(0.8);
@@ -31,7 +30,7 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
 
         {/* Cube Rose */}
         <group
-          position={[10, 0, 10]}
+          position={[18, 1, 18]}
           scale={cuberoseScale}
           onPointerDown={() => {
             setCuberoseScale(0.8);
@@ -44,7 +43,7 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
 
         {/* Cône */}
         <group
-          position={[10, 0, 12]}
+          position={[18, 1, 23]}
           scale={coneScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {

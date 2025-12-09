@@ -46,7 +46,7 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
   
   return (
     <>
-      <group position={[10, 3, 0]} rotation={[0, -Math.PI / 4, 0]}>
+      <group position={[18, 3, 2]} rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}>
         <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
           
           {!selectedItem ? (

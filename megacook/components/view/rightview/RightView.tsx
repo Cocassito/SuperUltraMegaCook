@@ -24,7 +24,7 @@ export const RightView = ({ cubeRef, hasValidatedBase, hasValidatedFruit, hasVal
   return (
     <>
       {/* Cube invisible pour la caméra */}
-      <mesh ref={cubeRef} position={[10, 4, 10]}>
+      <mesh ref={cubeRef} position={[10, 8, 18]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshBasicMaterial color="yellow" visible={true} />
       </mesh>

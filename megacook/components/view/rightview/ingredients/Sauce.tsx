@@ -13,12 +13,11 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
 
   return (
     <Suspense fallback={null}>
-      <ambientLight intensity={3}/>
 
       <group>
         {/* Broccoli */}
         <group
-          position={[10, 0, 8]}
+          position={[18, 1, 13]}
           scale={broccoliScale}
           onPointerDown={() => {
             setBroccoliScale(0.8);
@@ -26,12 +25,12 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
           }}
           onPointerUp={() => setBroccoliScale(1)}
         >
-          <Model src={saucesData.broccoli.model} scale={1} />
+          <Model src={saucesData.broccoli.model} scale={1.5} />
         </group>
 
         {/* Monkey */}
         <group
-          position={[10, 0, 10]}
+          position={[18, 1, 18]}
           scale={monkeyScale}
           onPointerDown={() => {
             setMonkeyScale(0.8);
@@ -39,12 +38,12 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
           }}
           onPointerUp={() => setMonkeyScale(1)}
         >
-          <Model src={saucesData.monkey.model} scale={1} />
+          <Model src={saucesData.monkey.model} scale={1.5} />
         </group>
 
         {/* Piment */}
         <group
-          position={[10, 0, 12]}
+          position={[18, 0.65, 23]}
           scale={pimentScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
@@ -53,7 +52,7 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
           }}
           onPointerUp={() => setPimentScale(1)}
         >
-          <Model src={saucesData.piment.model} scale={1} />
+          <Model src={saucesData.piment.model} scale={1.5} />
         </group>
       </group>
     </Suspense>

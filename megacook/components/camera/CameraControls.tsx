@@ -23,7 +23,7 @@ export default function CameraControls({ cubeRef, currentView, cameraRef }: Came
 
   // Position initiale de la caméra
   useEffect(() => {
-    camera.position.set(0, 5, 12);
+    camera.position.set(0, 8, 18);
     // Initialise la cible au premier cube
     if (cubeRef.current) {
       targetPosition.current.copy(cubeRef.current.position);
@@ -34,12 +34,9 @@ export default function CameraControls({ cubeRef, currentView, cameraRef }: Came
     if (cubeRef.current) {
       targetPosition.current.lerp(cubeRef.current.position, smoothFactor);
       
-      // Réduire le FOV pour le bottom view
-      if ('fov' in camera) {
-        const targetFov = isBottomView ? 30 : 70; // 30 = zoomé, 70 = normal
-        camera.fov = MathUtils.lerp(camera.fov, targetFov, 0.05);
-        camera.updateProjectionMatrix();
-      }
+      // Déplacer la caméra sur l'axe Z pour zoomer au lieu de changer le FOV
+      const targetZ = isBottomView ? 5 : 18;
+      camera.position.z = MathUtils.lerp(camera.position.z, targetZ, 0.05);
       
       camera.lookAt(targetPosition.current);
     }

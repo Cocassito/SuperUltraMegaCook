@@ -49,7 +49,7 @@ export default function PlateScene({ validatedModel, validatedFruitModel, valida
           </group>
 
           {/* Assiette */}
-          <Model src={assiette} scale={1}/>
+          {/* <Model src={assiette} scale={1}/> */}
           
         </group>
       </group>

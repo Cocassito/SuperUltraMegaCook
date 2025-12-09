@@ -74,7 +74,7 @@ export default function ScreenAverage({
 
   if (!average) {
     return (
-      <group position={[0, 5, 24]} rotation={[0, Math.PI, 0]}>
+      <group position={[0, 5, 38]} rotation={[0, Math.PI, 0]}>
         <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
           <View style={styles.container}>
             <Text style={styles.title}>Résumé du Plat</Text>
@@ -86,7 +86,7 @@ export default function ScreenAverage({
   }
 
   return (
-    <group position={[0, 5, 24]} rotation={[0, Math.PI, 0]}>
+    <group position={[0, 5, 38]} rotation={[0, Math.PI, 0]}>
       <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
         <View style={styles.container}>
           <Text style={styles.title}>Moyenne de vos ingrédients</Text>

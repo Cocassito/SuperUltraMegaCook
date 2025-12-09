@@ -17,7 +17,7 @@ export const Base = ({ onBaseClick }: BaseProps) => {
       <group>
         {/* Broccoli */}
         <group
-          position={[10, 0, 8]}
+          position={[18, 1, 13]}
           scale={broccoliScale}
           onPointerDown={() => {
             setBroccoliScale(0.8);
@@ -30,7 +30,7 @@ export const Base = ({ onBaseClick }: BaseProps) => {
 
         {/* Pomme */}
         <group
-          position={[10, 0, 10]}
+          position={[18, 1, 18]}
           scale={pommeScale}
           onPointerDown={() => {
             setPommeScale(0.8);
@@ -43,7 +43,7 @@ export const Base = ({ onBaseClick }: BaseProps) => {
 
         {/* Piment */}
         <group
-          position={[10, 0, 12]}
+          position={[18, 1, 23]}
           scale={pimentScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
