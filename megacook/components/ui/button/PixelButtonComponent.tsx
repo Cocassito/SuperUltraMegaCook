@@ -136,8 +136,8 @@ export default function PixelButton({
               styles.button,
               {
                 backgroundColor: colorPrimary,
-                paddingVertical: icon ? 8 : 4,
-                paddingHorizontal: icon ? 4 : 22,
+                paddingVertical: icon ? 8 : 2,
+                paddingHorizontal: icon ? 4 : 20,
               },
             ]}
           >
@@ -428,7 +428,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: "#5A2B87",
-    fontWeight: "bold",
     fontFamily: "pixelgridtrial-linedownboldm",
     textAlign: "center",
   },
