@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   GestureResponderEvent,
+  Platform,
 } from "react-native";
 
 interface ButtonPixelProps {
@@ -136,8 +137,11 @@ export default function PixelButton({
               styles.button,
               {
                 backgroundColor: colorPrimary,
-                paddingVertical: icon ? 8 : 2,
+                paddingVertical: icon ? 8 : 6,
                 paddingHorizontal: icon ? 4 : 20,
+                ...(Platform.OS === "android" && {
+                  paddingVertical: icon ? 8 : 2,
+                }),
               },
             ]}
           >
