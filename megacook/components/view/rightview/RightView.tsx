@@ -7,6 +7,7 @@ import { Autres } from './ingredients/Autres';
 import { FruitType } from '@/data/fruitsData';
 import { SauceType } from '@/data/saucesData';
 import { AutreType } from '@/data/autresData';
+import PlateScene from '../frontview/PlateScene';
 
 type RightViewProps = {
   cubeRef: React.RefObject<Mesh>;
@@ -17,9 +18,26 @@ type RightViewProps = {
   onFruitClick: (fruitType: FruitType) => void;
   onSauceClick: (sauceType: SauceType) => void;
   onAutreClick: (autreType: AutreType) => void;
+  validatedModel?: string | null;
+  validatedFruitModel?: string | null;
+  validatedSauceModel?: string | null;
+  validatedAutreModel?: string | null;
 };
 
-export const RightView = ({ cubeRef, hasValidatedBase, hasValidatedFruit, hasValidatedSauce, onBaseClick, onFruitClick, onSauceClick, onAutreClick }: RightViewProps) => {
+export const RightView = ({ 
+  cubeRef, 
+  hasValidatedBase, 
+  hasValidatedFruit, 
+  hasValidatedSauce, 
+  onBaseClick, 
+  onFruitClick, 
+  onSauceClick, 
+  onAutreClick,
+  validatedModel,
+  validatedFruitModel,
+  validatedSauceModel,
+  validatedAutreModel,
+}: RightViewProps) => {
 
   return (
     <>
@@ -28,6 +46,14 @@ export const RightView = ({ cubeRef, hasValidatedBase, hasValidatedFruit, hasVal
         <boxGeometry args={[1, 1, 1]} />
         <meshBasicMaterial color="yellow" visible={true} />
       </mesh>
+
+      {/* PlateScene avec les modèles validés */}
+      <PlateScene
+        validatedModel={validatedModel}
+        validatedFruitModel={validatedFruitModel}
+        validatedSauceModel={validatedSauceModel}
+        validatedAutreModel={validatedAutreModel}
+      />
 
       {/* Base */}
       {!hasValidatedBase && (

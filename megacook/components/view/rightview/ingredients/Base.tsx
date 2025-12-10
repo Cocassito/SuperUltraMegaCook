@@ -7,52 +7,53 @@ type BaseProps = {
 };
 
 export const Base = ({ onBaseClick }: BaseProps) => {
-  const [broccoliScale, setBroccoliScale] = useState(1);
-  const [pommeScale, setPommeScale] = useState(1);
-  const [pimentScale, setPimentScale] = useState(1);
+  const [fritesScale, setFritesScale] = useState(1);
+  const [rizScale, setRizScale] = useState(1);
+  const [pâtesScale, setPâtesScale] = useState(1);
 
   return (
     <Suspense fallback={null}>
 
       <group>
-        {/* Broccoli */}
+        {/* Frites */}
         <group
-          position={[18, 1, 13]}
-          scale={broccoliScale}
+          position={[18, 0, 13]}
+          rotation={[0, -Math.PI / 2, 0]}
+          scale={fritesScale}
           onPointerDown={() => {
-            setBroccoliScale(0.8);
-            onBaseClick('broccoli');
+            setFritesScale(0.8);
+            onBaseClick('frites');
           }}
-          onPointerUp={() => setBroccoliScale(1)}
+          onPointerUp={() => setFritesScale(1)}
         >
-          <Model src={basesData.broccoli.model} scale={1} />
+          <Model src={basesData.frites.model} scale={1} />
         </group>
 
-        {/* Pomme */}
+        {/* Riz */}
         <group
-          position={[18, 1, 18]}
-          scale={pommeScale}
+          position={[18, 0, 18]}
+          scale={rizScale}
           onPointerDown={() => {
-            setPommeScale(0.8);
-            onBaseClick('pomme');
+            setRizScale(0.8);
+            onBaseClick('riz');
           }}
-          onPointerUp={() => setPommeScale(1)}
+          onPointerUp={() => setRizScale(1)}
         >
-          <Model src={basesData.pomme.model} scale={1} />
+          <Model src={basesData.riz.model} scale={1} />
         </group>
 
-        {/* Piment */}
+        {/* Pâtes*/}
         <group
-          position={[18, 1, 23]}
-          scale={pimentScale}
+          position={[18, 0, 23]}
+          scale={pâtesScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
-            setPimentScale(0.8);
-            onBaseClick('piment');
+            setPâtesScale(0.8);
+            onBaseClick('pâtes');
           }}
-          onPointerUp={() => setPimentScale(1)}
+          onPointerUp={() => setPâtesScale(1)}
         >
-          <Model src={basesData.piment.model} scale={1} />
+          <Model src={basesData.pâtes.model} scale={1} />
         </group>
       </group>
     </Suspense>

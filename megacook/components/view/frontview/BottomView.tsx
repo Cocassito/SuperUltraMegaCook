@@ -1,6 +1,10 @@
 import { Mesh } from 'three';
 
-export const BottomView = ({ cubeRef }: { cubeRef: React.RefObject<Mesh> }) => {
+type BottomViewProps = {
+  cubeRef: React.RefObject<Mesh>;
+};
+
+export const BottomView = ({ cubeRef }: BottomViewProps) => {
   return (
     <group>
       <mesh ref={cubeRef} position={[0, 2, 0]}>

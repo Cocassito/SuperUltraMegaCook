@@ -7,52 +7,53 @@ type AutresProps = {
 };
 
 export const Autres = ({ onAutreClick }: AutresProps) => {
-  const [pistoletScale, setPistoletScale] = useState(1);
-  const [cuberoseScale, setCuberoseScale] = useState(1);
-  const [coneScale, setConeScale] = useState(1);
+  const [chocolatScale, setChocolatScale] = useState(1);
+  const [pouletScale, setPouletScale] = useState(1);
+  const [saumonScale, setSaumonScale] = useState(1);
 
   return (
     <Suspense fallback={null}>
 
       <group>
-        {/* Pistolet */}
+        {/* Chocolat */}
         <group
-          position={[18, 1, 13]}
-          scale={pistoletScale}
+          position={[18, 0, 13]}
+          rotation={[0, Math.PI / 4, 0]}
+          scale={chocolatScale}
           onPointerDown={() => {
-            setPistoletScale(0.8);
-            onAutreClick('pistolet');
+            setChocolatScale(0.8);
+            onAutreClick('chocolat');
           }}
-          onPointerUp={() => setPistoletScale(1)}
+          onPointerUp={() => setChocolatScale(1)}
         >
-          <Model src={autresData.pistolet.model} scale={1} />
+          <Model src={autresData.chocolat.model} scale={1} />
         </group>
 
-        {/* Cube Rose */}
+        {/* Poulet */}
         <group
-          position={[18, 1, 18]}
-          scale={cuberoseScale}
+          position={[18, 0, 18]}
+          scale={pouletScale}
           onPointerDown={() => {
-            setCuberoseScale(0.8);
-            onAutreClick('cuberose');
+            setPouletScale(0.8);
+            onAutreClick('poulet');
           }}
-          onPointerUp={() => setCuberoseScale(1)}
+          onPointerUp={() => setPouletScale(1)}
         >
-          <Model src={autresData.cuberose.model} scale={1} />
+          <Model src={autresData.poulet.model} scale={1.3} />
         </group>
 
-        {/* Cône */}
+        {/* Saumon */}
         <group
-          position={[18, 1, 23]}
-          scale={coneScale}
+          position={[18, 0.3, 23]}
+          scale={saumonScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
-            setConeScale(0.8);
-            onAutreClick('cone');
+            setSaumonScale(0.8);
+            onAutreClick('saumon');
           }}
-          onPointerUp={() => setConeScale(1)}
+          onPointerUp={() => setSaumonScale(1)}
         >
-          <Model src={autresData.cone.model} scale={1} />
+          <Model src={autresData.saumon.model} scale={1} />
         </group>
       </group>
     </Suspense>

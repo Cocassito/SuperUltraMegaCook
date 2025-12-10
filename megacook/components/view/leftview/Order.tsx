@@ -1,6 +1,7 @@
 import { CloseButton } from "@/components/ui/button/CloseButton";
 import { Text, View, Image, StyleSheet, Pressable } from "react-native";
-
+import DashLine from "@/components/svg/DashLine";
+ 
 type OrderProps = {
   onClose: () => void;
 };
@@ -8,22 +9,29 @@ type OrderProps = {
 export const Order = ({ onClose }: OrderProps) => {
   return (
     <Pressable style={styles.orderOverlay} onPress={onClose}>
-      <Pressable style={styles.orderCard} onPress={(e) => e.stopPropagation()}>
+      <View style={styles.orderCard}>
         <View style={styles.closeButtonWrapper}>
           <CloseButton onClose={onClose} />
         </View>
         <View style={styles.container}>
-          <Text>Order Component</Text>
-          <View>
-            <Text>Demande Client</Text>
-            <Text>"Je voudrais un plat qui me court après la nuit."</Text>
+          <View style={styles.titleSection}>
+            <DashLine />
+            <Text style={styles.title}>Commande</Text>
+            <DashLine />
           </View>
-          <Image
-            source={require("../../../assets/images/autres/codebarre.png")}
-            style={{ width: 100, height: 20 }}
-          />
+          <View style={styles.contentSection}>
+            <Text style={styles.sectionLabel}>Demande Client</Text>
+            <Text style={styles.clientRequest}>"Je voudrais un plat qui me court après la nuit."</Text>
+          </View>
+          <DashLine />
+          <View style={styles.barcodeSection}>
+            <Image
+              source={require("../../../assets/images/autres/codebarre.png")}
+              style={styles.barcode}
+            />
+          </View>
         </View>
-      </Pressable>
+      </View>
     </Pressable>
   );
 };
@@ -41,10 +49,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   orderCard: {
-    width: 420,
-    height: 420,
+    width: 320,
+    height: 350,
     backgroundColor: "#fff",
-    borderRadius: 16,
+    borderColor: "#000",
+    borderWidth: 2,
     overflow: "hidden",
     elevation: 12,
   },
@@ -52,14 +61,45 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#ffffffff",
-    padding: 20,
+    padding: 30,
+  },
+  titleSection: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#000",
+    textAlign: "center",
+    marginVertical: 8,
+  },
+  sectionLabel: {
+    fontSize: 24,
+    fontWeight: "600",
+    marginBottom: 8,
+  },
+  contentSection: {
+    marginBottom: 16,
+  },
+  clientRequest: {
+    fontSize: 24,
+    fontStyle: "italic",
+  },
+  barcodeSection: {
+    alignItems: "center",
+    marginTop: 16,
+  },
+  barcode: {
+    width: 250,
+    height: 40,
+    resizeMode: "contain",
   },
   closeButtonWrapper: {
     position: "absolute",
     top: 8,
     right: 8,
-    backgroundColor: "#ff00ff",
   },
 });

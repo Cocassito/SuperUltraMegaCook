@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from "react-native";
 
-export type BaseType = "broccoli" | "pomme" | "piment";
+export type BaseType = "frites" | "riz" | "pâtes";
 
 export interface BaseData {
   name: string;
@@ -18,14 +18,14 @@ export interface BaseData {
   };
 }
 
-const broccoliModel = require("../assets/models/ingredients/broccoli.glb");
-const pommeModel = require("../assets/models/ingredients/pomme.glb");
-const pimentModel = require("../assets/models/ingredients/piment.glb");
+const fritesModel = require("../assets/models/ingredients/frites.glb");
+const rizModel = require("../assets/models/ingredients/riz.glb");
+const pâtesModel = require("../assets/models/ingredients/pâtes.glb");
 
 const basesData: Record<BaseType, BaseData> = {
-  broccoli: {
-    name: "Broccoli",
-    model: broccoliModel,
+  frites: {
+    name: "Frites",
+    model: fritesModel,
     image: require("../assets/images/test/broccoli.webp"),
     price: 2,
     nutritional: {
@@ -38,9 +38,9 @@ const basesData: Record<BaseType, BaseData> = {
       protein: 1,
     },
   },
-  pomme: {
-    name: "Pomme",
-    model: pommeModel,
+  riz: {
+    name: "Riz",
+    model: rizModel,
     image: require("../assets/images/test/pomme.png"),
     price: 3,
     nutritional: {
@@ -53,9 +53,9 @@ const basesData: Record<BaseType, BaseData> = {
       protein: 1,
     },
   },
-  piment: {
-    name: "Piment",
-    model: pimentModel,
+  pâtes: {
+    name: "Pâtes",
+    model: pâtesModel,
     image: require("../assets/images/test/piment.png"),
     price: 5,
     nutritional: {

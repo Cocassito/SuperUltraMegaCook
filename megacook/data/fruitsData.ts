@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from "react-native";
 
-export type FruitType = "poulet" | "champignon" | "dinosaure";
+export type FruitType = "broccoli" | "pomme" | "tomate";
 
 export interface FruitData {
   name: string;
@@ -18,15 +18,15 @@ export interface FruitData {
   };
 }
 
-const pouletModel = require("../assets/models/ingredients/poulet.glb");
-const champignonModel = require("../assets/models/ingredients/champignon.glb");
-const dinosaureModel = require("../assets/models/dinosaure.glb");
+const broccoliModel = require("../assets/models/ingredients/broccoli.glb");
+const pommeModel = require("../assets/models/ingredients/pomme.glb");
+const tomateModel = require("../assets/models/ingredients/tomate.glb");
 
 const fruitsData: Record<FruitType, FruitData> = {
-  poulet: {
-    name: "Poulet",
-    model: pouletModel,
-    image: require("../assets/images/test/poulet.png"),
+  broccoli: {
+    name: "Broccoli",
+    model: broccoliModel,
+    image: require("../assets/images/test/broccoli.webp"),
     price: 4,
     nutritional: {
       sweet: 3,
@@ -38,10 +38,10 @@ const fruitsData: Record<FruitType, FruitData> = {
       protein: 3,
     },
   },
-  champignon: {
-    name: "Champignon",
-    model: champignonModel,
-    image: require("../assets/images/test/champignon.png"),
+  pomme: {
+    name: "Pomme",
+    model: pommeModel,
+    image: require("../assets/images/test/pomme.png"),
     price: 1,
     nutritional: {
       sweet: 2,
@@ -53,9 +53,9 @@ const fruitsData: Record<FruitType, FruitData> = {
       protein: 3,
     },
   },
-  dinosaure: {
-    name: "Dinosaure",
-    model: dinosaureModel,
+  tomate: {
+    name: "Tomate",
+    model: tomateModel,
     image: require("../assets/images/test/dinosaure.png"),
     price: 5,
     nutritional: {

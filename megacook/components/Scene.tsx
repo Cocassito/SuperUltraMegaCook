@@ -36,12 +36,12 @@ import { SceneLights } from "./sceneLights/SceneLights";
 
 import Model from "./Model";
 import { Order } from "./view/leftview/Order";
+import PlateScene from "./view/frontview/PlateScene";
 
 export default function Scene() {
   const window = useWindowDimensions();
   const navigation = useViewNavigation();
   // Référence au cube pour la caméra
-
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
 
@@ -54,15 +54,9 @@ export default function Scene() {
   const [hasValidatedSauce, setHasValidatedSauce] = useState(false);
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
-    null
-  );
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
-    null
-  );
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
-    null
-  );
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
   const [showOrder, setShowOrder] = useState(false);
 
   return (
@@ -80,13 +74,17 @@ export default function Scene() {
             cameraRef={cameraRef}
           />
 
+          {/* PlateScene global - rendu une seule fois */}
+          <PlateScene
+            validatedModel={validatedModel}
+            validatedFruitModel={validatedFruitModel}
+            validatedSauceModel={validatedSauceModel}
+            validatedAutreModel={validatedAutreModel}
+          />
+
           {navigation.currentView === 0 && (
             <FrontView
               cubeRef={cubeRef}
-              validatedModel={validatedModel}
-              validatedFruitModel={validatedFruitModel}
-              validatedSauceModel={validatedSauceModel}
-              validatedAutreModel={validatedAutreModel}
               onValidate={() => {
                 navigation.setCurrentView(0);
               }}
@@ -186,12 +184,15 @@ export default function Scene() {
             hasValidatedFruit={hasValidatedFruit}
             hasValidatedSauce={hasValidatedSauce}
           />
+
         </Canvas>
 
         <NavigationButtons {...navigation} />
 
-        {/* Order Component Left View */}
-        {showOrder && <Order onClose={() => setShowOrder(false)} />}
+        {/* Order Left View */}
+        {showOrder && 
+          <Order onClose={() => setShowOrder(false)} />
+        }
       </View>
     </View>
   );

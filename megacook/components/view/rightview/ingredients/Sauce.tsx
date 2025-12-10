@@ -7,52 +7,52 @@ type SauceProps = {
 };
 
 export const Sauce = ({ onSauceClick }: SauceProps) => {
-  const [broccoliScale, setBroccoliScale] = useState(1);
-  const [monkeyScale, setMonkeyScale] = useState(1);
-  const [pimentScale, setPimentScale] = useState(1);
+  const [citronScale, setCitronScale] = useState(1);
+  const [confitureScale, setConfitureScale] = useState(1);
+  const [sauceScale, setSauceScale] = useState(1);
 
   return (
     <Suspense fallback={null}>
 
       <group>
-        {/* Broccoli */}
+        {/* Citron */}
         <group
           position={[18, 1, 13]}
-          scale={broccoliScale}
+          scale={citronScale}
           onPointerDown={() => {
-            setBroccoliScale(0.8);
-            onSauceClick('broccoli');
+            setCitronScale(0.8);
+            onSauceClick('citron');
           }}
-          onPointerUp={() => setBroccoliScale(1)}
+          onPointerUp={() => setCitronScale(1)}
         >
-          <Model src={saucesData.broccoli.model} scale={1.5} />
+          <Model src={saucesData.citron.model} scale={1.5} />
         </group>
 
-        {/* Monkey */}
+        {/* Confiture */}
         <group
           position={[18, 1, 18]}
-          scale={monkeyScale}
+          scale={confitureScale}
           onPointerDown={() => {
-            setMonkeyScale(0.8);
-            onSauceClick('monkey');
+            setConfitureScale(0.8);
+            onSauceClick('confiture');
           }}
-          onPointerUp={() => setMonkeyScale(1)}
+          onPointerUp={() => setConfitureScale(1)}
         >
-          <Model src={saucesData.monkey.model} scale={1.5} />
+          <Model src={saucesData.confiture.model} scale={1.5} />
         </group>
 
-        {/* Piment */}
+        {/* Sauce */}
         <group
-          position={[18, 0.65, 23]}
-          scale={pimentScale}
+          position={[18, 1.3, 23]}
+          scale={sauceScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
-            setPimentScale(0.8);
-            onSauceClick('piment');
+            setSauceScale(0.8);
+            onSauceClick('sauce');
           }}
-          onPointerUp={() => setPimentScale(1)}
+          onPointerUp={() => setSauceScale(1)}
         >
-          <Model src={saucesData.piment.model} scale={1.5} />
+          <Model src={saucesData.sauce.model} scale={1.5} />
         </group>
       </group>
     </Suspense>

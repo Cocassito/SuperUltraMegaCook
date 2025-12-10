@@ -8,52 +8,52 @@ type FruitProps = {
 };
 
 export const Fruit = ({ onFruitClick }: FruitProps) => {
-  const [pouletScale, setPouletScale] = useState(1);
-  const [champignonScale, setChampignonScale] = useState(1);
-  const [dinosaureScale, setDinosaureScale] = useState(1);
+  const [broccoliScale, setBroccoliScale] = useState(1);
+  const [pommeScale, setPommeScale] = useState(1);
+  const [tomateScale, setTomateScale] = useState(1);
 
   return (
     <Suspense fallback={null}>
 
       <group>
-        {/* Poulet */}
+        {/* Broccoli */}
         <group
           position={[18, 1, 13]}
-          scale={pouletScale}
+          scale={broccoliScale}
           onPointerDown={() => {
-            setPouletScale(0.8);
-            onFruitClick('poulet');
+            setBroccoliScale(0.8);
+            onFruitClick('broccoli');
           }}
-          onPointerUp={() => setPouletScale(1)}
+          onPointerUp={() => setBroccoliScale(1)}
         >
-          <Model src={fruitsData.poulet.model} scale={1} />
+          <Model src={fruitsData.broccoli.model} scale={1.5} />
         </group>
 
-        {/* Champignon */}
+        {/* Pomme */}
         <group
           position={[18, 1, 18]}
-          scale={champignonScale}
+          scale={pommeScale}
           onPointerDown={() => {
-            setChampignonScale(0.8);
-            onFruitClick('champignon');
+            setPommeScale(0.8);
+            onFruitClick('pomme');
           }}
-          onPointerUp={() => setChampignonScale(1)}
+          onPointerUp={() => setPommeScale(1)}
         >
-          <Model src={fruitsData.champignon.model} scale={1} />
+          <Model src={fruitsData.pomme.model} scale={1.5} />
         </group>
 
-        {/* Dinosaure */}
+        {/* Tomate */}
         <group
           position={[18, 1, 23]}
-          scale={dinosaureScale}
+          scale={tomateScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
-            setDinosaureScale(0.8);
-            onFruitClick('dinosaure');
+            setTomateScale(0.8);
+            onFruitClick('tomate');
           }}
-          onPointerUp={() => setDinosaureScale(1)}
+          onPointerUp={() => setTomateScale(1)}
         >
-          <Model src={fruitsData.dinosaure.model} scale={1} />
+          <Model src={fruitsData.tomate.model} scale={1.5} />
         </group>
       </group>
     </Suspense>

@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from "react-native";
 
-export type SauceType = "broccoli" | "monkey" | "piment";
+export type SauceType = "citron" | "confiture" | "sauce";
 
 export interface SauceData {
   name: string;
@@ -18,14 +18,14 @@ export interface SauceData {
   };
 }
 
-const broccoliModel = require("../assets/models/ingredients/broccoli.glb");
-const monkeyModel = require("../assets/models/monkey.glb");
-const pimentModel = require("../assets/models/ingredients/piment.glb");
+const citronModel = require("../assets/models/ingredients/citron.glb");
+const confitureModel = require("../assets/models/ingredients/confiture.glb");
+const sauceModel = require("../assets/models/ingredients/sauce.glb");
 
 const saucesData: Record<SauceType, SauceData> = {
-  broccoli: {
-    name: "Broccoli",
-    model: broccoliModel,
+  citron: {
+    name: "Citron",
+    model: citronModel,
     image: require("../assets/images/test/broccoli.webp"),
     price: 2,
     nutritional: {
@@ -38,9 +38,9 @@ const saucesData: Record<SauceType, SauceData> = {
       protein: 4,
     },
   },
-  monkey: {
-    name: "Monkey",
-    model: monkeyModel,
+  confiture: {
+    name: "Confiture",
+    model: confitureModel,
     image: require("../assets/images/test/singe.png"),
     price: 3,
     nutritional: {
@@ -53,9 +53,9 @@ const saucesData: Record<SauceType, SauceData> = {
       protein: 1,
     },
   },
-  piment: {
-    name: "Piment",
-    model: pimentModel,
+  sauce: {
+    name: "Sauce",
+    model: sauceModel,
     image: require("../assets/images/test/piment.png"),
     price: 5,
     nutritional: {

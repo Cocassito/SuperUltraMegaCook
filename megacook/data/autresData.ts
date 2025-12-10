@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from "react-native";
 
-export type AutreType = "pistolet" | "cuberose" | "cone";
+export type AutreType = "chocolat" | "poulet" | "saumon";
 
 export interface AutreData {
   name: string;
@@ -18,14 +18,14 @@ export interface AutreData {
   };
 }
 
-const pistoletModel = require("../assets/models/pistolet.glb");
-const cuberoseModel = require("../assets/models/cuberose.glb");
-const coneModel = require("../assets/models/cone.glb");
+const chocolatModel = require("../assets/models/ingredients/chocolat.glb");
+const pouletModel = require("../assets/models/ingredients/poulet.glb");
+const saumonModel = require("../assets/models/ingredients/saumon.glb");
 
 const autresData: Record<AutreType, AutreData> = {
-  pistolet: {
-    name: "Pistolet",
-    model: pistoletModel,
+  chocolat: {
+    name: "Chocolat",
+    model: chocolatModel,
     image: require("../assets/images/test/pistolet.webp"),
     price: 3,
     nutritional: {
@@ -38,10 +38,10 @@ const autresData: Record<AutreType, AutreData> = {
       spicy: 1,
     },
   },
-  cuberose: {
-    name: "Cube Rose",
-    model: cuberoseModel,
-    image: require("../assets/images/test/cuberose.png"),
+  poulet: {
+    name: "Poulet",
+    model: pouletModel,
+    image: require("../assets/images/test/poulet.png"),
     price: 4,
     nutritional: {
       sweet: 4,
@@ -53,9 +53,9 @@ const autresData: Record<AutreType, AutreData> = {
       spicy: 0,
     },
   },
-  cone: {
-    name: "Cône",
-    model: coneModel,
+  saumon: {
+    name: "Saumon",
+    model: saumonModel,
     image: require("../assets/images/test/cone.png"),
     price: 2,
     nutritional: {
