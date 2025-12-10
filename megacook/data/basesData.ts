@@ -26,7 +26,7 @@ const basesData: Record<BaseType, BaseData> = {
   frites: {
     name: "Frites",
     model: fritesModel,
-    image: require("../assets/images/test/broccoli.webp"),
+    image: require("../assets/images/ingredients/frites.png"),
     price: 2,
     nutritional: {
       sweet: 1,
@@ -41,7 +41,7 @@ const basesData: Record<BaseType, BaseData> = {
   riz: {
     name: "Riz",
     model: rizModel,
-    image: require("../assets/images/test/pomme.png"),
+    image: require("../assets/images/ingredients/pomme.png"),
     price: 3,
     nutritional: {
       sweet: 4,
@@ -56,7 +56,7 @@ const basesData: Record<BaseType, BaseData> = {
   pâtes: {
     name: "Pâtes",
     model: pâtesModel,
-    image: require("../assets/images/test/piment.png"),
+    image: require("../assets/images/ingredients/pates.png"),
     price: 5,
     nutritional: {
       sweet: 2,

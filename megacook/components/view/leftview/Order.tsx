@@ -10,9 +10,6 @@ export const Order = ({ onClose }: OrderProps) => {
   return (
     <Pressable style={styles.orderOverlay} onPress={onClose}>
       <View style={styles.orderCard}>
-        <View style={styles.closeButtonWrapper}>
-          <CloseButton onClose={onClose} />
-        </View>
         <View style={styles.container}>
           <View style={styles.titleSection}>
             <DashLine />
@@ -24,7 +21,7 @@ export const Order = ({ onClose }: OrderProps) => {
             <Text style={styles.clientRequest}>"Je voudrais un plat qui me court après la nuit."</Text>
           </View>
           <DashLine />
-          <View style={styles.barcodeSection}>
+          <View style={{ marginTop: 16 }}>
             <Image
               source={require("../../../assets/images/autres/codebarre.png")}
               style={styles.barcode}
@@ -44,13 +41,13 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 2,
-    backgroundColor: "rgba(0,0,0,0.45)",
+    backgroundColor: "rgba(0,0,0,0.60)",
     alignItems: "center",
     justifyContent: "center",
   },
   orderCard: {
-    width: 320,
-    height: 350,
+    width: 220,
+    height: 240,
     backgroundColor: "#fff",
     borderColor: "#000",
     borderWidth: 2,
@@ -62,44 +59,34 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "#ffffffff",
-    padding: 30,
+    padding: 15,
   },
   titleSection: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 16,
   },
   title: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#000",
     textAlign: "center",
-    marginVertical: 8,
+    marginVertical: 10,
   },
   sectionLabel: {
-    fontSize: 24,
+    fontSize: 14,
     fontWeight: "600",
     marginBottom: 8,
   },
   contentSection: {
-    marginBottom: 16,
+    marginVertical: 16,
   },
   clientRequest: {
-    fontSize: 24,
+    fontSize: 14,
     fontStyle: "italic",
   },
-  barcodeSection: {
-    alignItems: "center",
-    marginTop: 16,
-  },
   barcode: {
-    width: 250,
-    height: 40,
+    width: 160,
+    height: 25,
     resizeMode: "contain",
-  },
-  closeButtonWrapper: {
-    position: "absolute",
-    top: 8,
-    right: 8,
   },
 });

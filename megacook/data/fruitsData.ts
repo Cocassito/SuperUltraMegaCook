@@ -26,7 +26,7 @@ const fruitsData: Record<FruitType, FruitData> = {
   broccoli: {
     name: "Broccoli",
     model: broccoliModel,
-    image: require("../assets/images/test/broccoli.webp"),
+    image: require("../assets/images/ingredients/broccoli.png"),
     price: 4,
     nutritional: {
       sweet: 3,
@@ -41,7 +41,7 @@ const fruitsData: Record<FruitType, FruitData> = {
   pomme: {
     name: "Pomme",
     model: pommeModel,
-    image: require("../assets/images/test/pomme.png"),
+    image: require("../assets/images/ingredients/pomme.png"),
     price: 1,
     nutritional: {
       sweet: 2,
@@ -56,7 +56,7 @@ const fruitsData: Record<FruitType, FruitData> = {
   tomate: {
     name: "Tomate",
     model: tomateModel,
-    image: require("../assets/images/test/dinosaure.png"),
+    image: require("../assets/images/ingredients/pomme.png"),
     price: 5,
     nutritional: {
       sweet: 1,

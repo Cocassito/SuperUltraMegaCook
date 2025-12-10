@@ -19,7 +19,8 @@ export default function CameraControls({ cubeRef, currentView, cameraRef }: Came
   }, [camera, cameraRef]);
   const smoothFactor = 0.08;
   const targetPosition = useRef<Vector3>(new Vector3());
-  const isBottomView = currentView === 3 || currentView === 4 || currentView === 5;
+  const isBottomView = currentView === 3 || currentView === 5;
+  const isBottomRightView = currentView === 4;
 
   // Position initiale de la caméra
   useEffect(() => {
@@ -33,10 +34,15 @@ export default function CameraControls({ cubeRef, currentView, cameraRef }: Came
   useFrame(() => {
     if (cubeRef.current) {
       targetPosition.current.lerp(cubeRef.current.position, smoothFactor);
-      
-      // Déplacer la caméra sur l'axe Z pour zoomer au lieu de changer le FOV
-      const targetZ = isBottomView ? 5 : 18;
-      camera.position.z = MathUtils.lerp(camera.position.z, targetZ, 0.05);
+       
+        // Déplacer la caméra : en BottomRightView on bouge sur X, sinon on zoome sur Z
+        const targetZ = isBottomRightView ? 8.9 : isBottomView ? 5 : 18;
+        const targetX = isBottomRightView ? 15.3 : 0;
+        const targetY = isBottomRightView ? 5.7 : 8;
+
+        camera.position.z = MathUtils.lerp(camera.position.z, targetZ, 0.05);
+        camera.position.x = MathUtils.lerp(camera.position.x, targetX, 0.05);
+        camera.position.y = MathUtils.lerp(camera.position.y, targetY, 0.05);
       
       camera.lookAt(targetPosition.current);
     }

@@ -26,7 +26,7 @@ const saucesData: Record<SauceType, SauceData> = {
   citron: {
     name: "Citron",
     model: citronModel,
-    image: require("../assets/images/test/broccoli.webp"),
+    image: require("../assets/images/ingredients/citron.png"),
     price: 2,
     nutritional: {
       sweet: 1,
@@ -41,7 +41,7 @@ const saucesData: Record<SauceType, SauceData> = {
   confiture: {
     name: "Confiture",
     model: confitureModel,
-    image: require("../assets/images/test/singe.png"),
+    image: require("../assets/images/ingredients/confiture.png"),
     price: 3,
     nutritional: {
       sweet: 1,
@@ -56,7 +56,7 @@ const saucesData: Record<SauceType, SauceData> = {
   sauce: {
     name: "Sauce",
     model: sauceModel,
-    image: require("../assets/images/test/piment.png"),
+    image: require("../assets/images/ingredients/sauce.png"),
     price: 5,
     nutritional: {
       sweet: 4,

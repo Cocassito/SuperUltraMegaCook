@@ -26,23 +26,13 @@ export const LeftView = ({ cubeRef, onOpenOrder }: LeftViewProps) => {
         <boxGeometry args={[1, 1, 1]} />
         <meshBasicMaterial color="red" visible={true} />
       </mesh>
-
-      {/* Ticket de caisse */}
-
-        <mesh
-          position={[-16.5, 0.7, 8]}
+  
+        <mesh 
+          position={[-18.4, 0.48, 17.4]}
           rotation={[Math.PI / 2, 0, Math.PI / 6]}
           onClick={onOpenOrder}
         >
-          <planeGeometry args={[3, 2]}/>
-          <meshBasicMaterial color="white" side={THREE.DoubleSide} />
-        </mesh>
-      
-        <mesh 
-          position={[-16.5, 0.65, 8]}
-          rotation={[Math.PI / 2, 0, Math.PI / 6]}
-        >
-          <planeGeometry args={[3.7, 2.7]}/>
+          <planeGeometry args={[3.7, 2.9]}/>
           <shaderMaterial
             vertexShader={vertexShader}
             fragmentShader={fragmentShader}

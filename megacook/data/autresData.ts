@@ -26,7 +26,7 @@ const autresData: Record<AutreType, AutreData> = {
   chocolat: {
     name: "Chocolat",
     model: chocolatModel,
-    image: require("../assets/images/test/pistolet.webp"),
+    image: require("../assets/images/ingredients/chocolat.png"),
     price: 3,
     nutritional: {
       sweet: 2,
@@ -41,7 +41,7 @@ const autresData: Record<AutreType, AutreData> = {
   poulet: {
     name: "Poulet",
     model: pouletModel,
-    image: require("../assets/images/test/poulet.png"),
+    image: require("../assets/images/ingredients/poulet.png"),
     price: 4,
     nutritional: {
       sweet: 4,
@@ -56,7 +56,7 @@ const autresData: Record<AutreType, AutreData> = {
   saumon: {
     name: "Saumon",
     model: saumonModel,
-    image: require("../assets/images/test/cone.png"),
+    image: require("../assets/images/ingredients/confiture.png"),
     price: 2,
     nutritional: {
       sweet: 3,

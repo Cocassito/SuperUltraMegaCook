@@ -4,10 +4,14 @@ import { View, StyleSheet, useWindowDimensions } from "react-native";
 import { Canvas } from "@react-three/fiber";
 import { useRef, useState } from "react";
 import { BaseType } from "@/data/basesData";
-import Floor from "./Floor";
 import { NavigationButtons } from "./ui/button/NavigationButtons";
 import CameraControls from "./camera/CameraControls";
 import { Mesh } from "three";
+import {
+  GestureHandlerRootView,
+  GestureDetector,
+  Gesture,
+} from "react-native-gesture-handler";
 
 import { FrontView } from "./view/frontview/FrontView";
 import { RightView } from "./view/rightview/RightView";
@@ -54,136 +58,161 @@ export default function Scene() {
   const [hasValidatedSauce, setHasValidatedSauce] = useState(false);
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
+    null
+  );
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
+    null
+  );
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
+    null
+  );
   const [showOrder, setShowOrder] = useState(false);
+
+  // Gestion des swipes
+  const swipeGesture = Gesture.Pan().onEnd((event) => {
+    const { translationX } = event;
+    const threshold = 50;
+
+    if (Math.abs(translationX) > threshold) {
+      if (translationX > 0) {
+        // Swipe vers la droite - vue précédente
+        navigation.prevView();
+      } else {
+        // Swipe vers la gauche - vue suivante
+        navigation.nextView();
+      }
+    }
+  });
 
   return (
     <View
       style={[styles.container, { width: window.width, height: window.height }]}
     >
-      <View style={styles.canvasWrapper}>
-        <Canvas style={styles.canvas}>
-          <Environment />
-          <CameraControls
-            cubeRef={cubeRef}
-            currentView={navigation.currentView}
-            cameraRef={cameraRef}
-          />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureDetector gesture={swipeGesture}>
+          <View style={styles.canvasWrapper}>
+            <Canvas style={styles.canvas}>
+              <Environment />
+              <CameraControls
+                cubeRef={cubeRef}
+                currentView={navigation.currentView}
+                cameraRef={cameraRef}
+              />
 
-          {/* PlateScene global - rendu une seule fois */}
-          <PlateScene
-            validatedModel={validatedModel}
-            validatedFruitModel={validatedFruitModel}
-            validatedSauceModel={validatedSauceModel}
-            validatedAutreModel={validatedAutreModel}
-          />
+              {/* PlateScene global - rendu une seule fois */}
+              <PlateScene
+                validatedModel={validatedModel}
+                validatedFruitModel={validatedFruitModel}
+                validatedSauceModel={validatedSauceModel}
+                validatedAutreModel={validatedAutreModel}
+              />
 
-          {navigation.currentView === 0 && (
-            <FrontView
-              cubeRef={cubeRef}
-              onValidate={() => {
-                navigation.setCurrentView(0);
-              }}
-            />
-          )}
+              {navigation.currentView === 0 && (
+                <FrontView
+                  cubeRef={cubeRef}
+                  onValidate={() => {
+                    navigation.setCurrentView(0);
+                  }}
+                />
+              )}
 
-          {navigation.currentView === 1 && (
-            <RightView
-              cubeRef={cubeRef}
-              hasValidatedBase={hasValidatedBase}
-              hasValidatedFruit={hasValidatedFruit}
-              hasValidatedSauce={hasValidatedSauce}
-              onBaseClick={setSelectedBase}
-              onFruitClick={setSelectedFruit}
-              onSauceClick={setSelectedSauce}
-              onAutreClick={setSelectedAutre}
-            />
-          )}
-          {navigation.currentView === 2 && (
-            <LeftView
-              cubeRef={cubeRef}
-              onOpenOrder={() => setShowOrder(true)}
-            />
-          )}
-          {navigation.currentView === 3 && <BottomView cubeRef={cubeRef} />}
-          {navigation.currentView === 4 && (
-            <BottomRightView cubeRef={cubeRef} />
-          )}
-          {navigation.currentView === 5 && <BottomLeftView cubeRef={cubeRef} />}
-          {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
+              {navigation.currentView === 1 && (
+                <RightView
+                  cubeRef={cubeRef}
+                  hasValidatedBase={hasValidatedBase}
+                  hasValidatedFruit={hasValidatedFruit}
+                  hasValidatedSauce={hasValidatedSauce}
+                  onBaseClick={setSelectedBase}
+                  onFruitClick={setSelectedFruit}
+                  onSauceClick={setSelectedSauce}
+                  onAutreClick={setSelectedAutre}
+                />
+              )}
+              {navigation.currentView === 2 && (
+                <LeftView
+                  cubeRef={cubeRef}
+                  onOpenOrder={() => setShowOrder(true)}
+                />
+              )}
+              {navigation.currentView === 3 && <BottomView cubeRef={cubeRef} />}
+              {navigation.currentView === 4 && (
+                <BottomRightView cubeRef={cubeRef} />
+              )}
+              {navigation.currentView === 5 && (
+                <BottomLeftView cubeRef={cubeRef} />
+              )}
+              {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
 
-          <PixelatedPass pixelSize={4} />
-          <SceneLights />
-          {/* <OrbitControls /> */}
-        </Canvas>
+              <PixelatedPass pixelSize={4} />
+              <SceneLights />
+              {/* <OrbitControls /> */}
+            </Canvas>
 
-        {/* Canvas sans le post Processing dans la Right View*/}
-        <Canvas style={styles.canvasOverlay}>
-          <SyncedCamera cameraRef={cameraRef} />
+            {/* Canvas sans le post Processing dans la Right View*/}
+            <Canvas style={styles.canvasOverlay}>
+              <SyncedCamera cameraRef={cameraRef} />
 
-          <Screen
-            selectedBase={selectedBase}
-            selectedFruit={selectedFruit}
-            selectedSauce={selectedSauce}
-            selectedAutre={selectedAutre}
-            hasValidatedBase={hasValidatedBase}
-            hasValidatedFruit={hasValidatedFruit}
-            hasValidatedSauce={hasValidatedSauce}
-            onValidate={() => {
-              if (!hasValidatedBase && selectedBase) {
-                setValidatedModel(basesData[selectedBase].model);
-                setHasValidatedBase(true);
-                navigation.setCurrentView(0);
-              } else if (
-                hasValidatedBase &&
-                !hasValidatedFruit &&
-                selectedFruit
-              ) {
-                setValidatedFruitModel(fruitsData[selectedFruit].model);
-                setHasValidatedFruit(true);
-                navigation.setCurrentView(0);
-              } else if (
-                hasValidatedBase &&
-                hasValidatedFruit &&
-                !hasValidatedSauce &&
-                selectedSauce
-              ) {
-                setValidatedSauceModel(saucesData[selectedSauce].model);
-                setHasValidatedSauce(true);
-                navigation.setCurrentView(0);
-              } else if (
-                hasValidatedBase &&
-                hasValidatedFruit &&
-                hasValidatedSauce &&
-                selectedAutre
-              ) {
-                setValidatedAutreModel(autresData[selectedAutre].model);
-                navigation.setCurrentView(0);
-              }
-            }}
-          />
+              <Screen
+                selectedBase={selectedBase}
+                selectedFruit={selectedFruit}
+                selectedSauce={selectedSauce}
+                selectedAutre={selectedAutre}
+                hasValidatedBase={hasValidatedBase}
+                hasValidatedFruit={hasValidatedFruit}
+                hasValidatedSauce={hasValidatedSauce}
+                onValidate={() => {
+                  if (!hasValidatedBase && selectedBase) {
+                    setValidatedModel(basesData[selectedBase].model);
+                    setHasValidatedBase(true);
+                    navigation.setCurrentView(0);
+                  } else if (
+                    hasValidatedBase &&
+                    !hasValidatedFruit &&
+                    selectedFruit
+                  ) {
+                    setValidatedFruitModel(fruitsData[selectedFruit].model);
+                    setHasValidatedFruit(true);
+                    navigation.setCurrentView(0);
+                  } else if (
+                    hasValidatedBase &&
+                    hasValidatedFruit &&
+                    !hasValidatedSauce &&
+                    selectedSauce
+                  ) {
+                    setValidatedSauceModel(saucesData[selectedSauce].model);
+                    setHasValidatedSauce(true);
+                    navigation.setCurrentView(0);
+                  } else if (
+                    hasValidatedBase &&
+                    hasValidatedFruit &&
+                    hasValidatedSauce &&
+                    selectedAutre
+                  ) {
+                    setValidatedAutreModel(autresData[selectedAutre].model);
+                    navigation.setCurrentView(0);
+                  }
+                }}
+              />
 
-          <ScreenAverage
-            validatedBase={selectedBase}
-            validatedFruit={selectedFruit}
-            validatedSauce={selectedSauce}
-            validatedAutre={selectedAutre}
-            hasValidatedBase={hasValidatedBase}
-            hasValidatedFruit={hasValidatedFruit}
-            hasValidatedSauce={hasValidatedSauce}
-          />
+              <ScreenAverage
+                validatedBase={selectedBase}
+                validatedFruit={selectedFruit}
+                validatedSauce={selectedSauce}
+                validatedAutre={selectedAutre}
+                hasValidatedBase={hasValidatedBase}
+                hasValidatedFruit={hasValidatedFruit}
+                hasValidatedSauce={hasValidatedSauce}
+              />
+            </Canvas>
 
-        </Canvas>
+            {!showOrder && <NavigationButtons {...navigation} />}
 
-        <NavigationButtons {...navigation} />
-
-        {/* Order Left View */}
-        {showOrder && 
-          <Order onClose={() => setShowOrder(false)} />
-        }
-      </View>
+            {/* Order Left View */}
+            {showOrder && <Order onClose={() => setShowOrder(false)} />}
+          </View>
+        </GestureDetector>
+      </GestureHandlerRootView>
     </View>
   );
 }
