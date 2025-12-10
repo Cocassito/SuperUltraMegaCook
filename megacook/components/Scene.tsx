@@ -34,8 +34,8 @@ import { AutreType } from "@/data/autresData";
 
 import { SceneLights } from "./sceneLights/SceneLights";
 
-import Model from "./Model";
 import { Order } from "./view/leftview/Order";
+import { Environment } from "./Environment";
 import PlateScene from "./view/frontview/PlateScene";
 
 export default function Scene() {
@@ -64,10 +64,8 @@ export default function Scene() {
       style={[styles.container, { width: window.width, height: window.height }]}
     >
       <View style={styles.canvasWrapper}>
-        {/* Canvas principal avec le post-processing */}
         <Canvas style={styles.canvas}>
-          {/* <Floor /> */}
-
+          <Environment />
           <CameraControls
             cubeRef={cubeRef}
             currentView={navigation.currentView}
@@ -118,15 +116,7 @@ export default function Scene() {
 
           <PixelatedPass pixelSize={4} />
           <SceneLights />
-
-          <group position={[-28, -11.6, -18]} rotation={[0, -Math.PI / 2, 0]}>
-            <Model
-              src={require("../assets/models/environment/scene.glb")}
-              scale={8}
-            />
-          </group>
-
-          <OrbitControls />
+          {/* <OrbitControls /> */}
         </Canvas>
 
         {/* Canvas sans le post Processing dans la Right View*/}
