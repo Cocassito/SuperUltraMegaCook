@@ -1,8 +1,7 @@
 import { Mesh } from 'three';
 import * as THREE from 'three';
-import { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { vertexShader, fragmentShader } from '../../shaders';
+import ShaderEffect from '@/components/ShaderEffect';
+
 
 type LeftViewProps = {
   cubeRef: React.RefObject<Mesh>;
@@ -11,38 +10,34 @@ type LeftViewProps = {
 
 export const LeftView = ({ cubeRef, onOpenOrder }: LeftViewProps) => {
 
-  const planeRef = useRef<Mesh>(null);
-  const shaderMaterialRef = useRef<THREE.ShaderMaterial>(null);
-
-  useFrame(({ clock }) => {
-    if (shaderMaterialRef.current) {
-      shaderMaterialRef.current.uniforms.time.value = clock.elapsedTime;
-    }
-  });
+  // const planeRef = useRef<Mesh>(null);
 
   return (
     <>
       <mesh ref={cubeRef} position={[-10, 8, 18]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color="red" visible={true} />
+        <meshBasicMaterial color="red" visible={false} />
       </mesh>
   
-        <mesh 
-          position={[-18.4, 0.48, 17.4]}
-          rotation={[Math.PI / 2, 0, Math.PI / 6]}
-          onClick={onOpenOrder}
-        >
-          <planeGeometry args={[3.7, 2.9]}/>
-          <shaderMaterial
-            vertexShader={vertexShader}
-            fragmentShader={fragmentShader}
-            side={THREE.DoubleSide}
-            transparent={true}
-            uniforms={{
-              time: { value: 0 }
-            }}
-          />
-        </mesh>
+      <ShaderEffect 
+        position={[-18.4, 0.49, 17.4]} 
+        rotation={[Math.PI / 2, 0, Math.PI / 6]} 
+        planeSize={[3.4, 3.1]}
+      />
+
+      <mesh
+        position={[-18.4, 0.58, 17.4]}
+        rotation={[Math.PI / 2, 0, Math.PI / 6]}
+        onClick={onOpenOrder}
+      >
+        <planeGeometry args={[7, 7]} />
+        <meshBasicMaterial 
+          color="blue" 
+          side={THREE.DoubleSide} 
+          transparent={true} 
+          opacity={0.0001} 
+        />
+      </mesh>
     </>
   );
-};
+}; 

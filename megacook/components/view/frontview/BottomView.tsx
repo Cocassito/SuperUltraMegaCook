@@ -9,7 +9,7 @@ export const BottomView = ({ cubeRef }: BottomViewProps) => {
     <group>
       <mesh ref={cubeRef} position={[0, 2, 0]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color="green" visible={true} />
+        <meshBasicMaterial color="green" visible={false} />
       </mesh>
     </group>
   );

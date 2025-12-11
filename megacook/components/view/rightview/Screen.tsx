@@ -43,9 +43,11 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
     : isSaucePhase
     ? (selectedSauce ? saucesData[selectedSauce] : null)
     : (selectedAutre ? autresData[selectedAutre] : null);
+
   
   return (
     <>
+
       <group position={[18, 3, 2]} rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}>
         <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
           

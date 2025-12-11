@@ -146,7 +146,7 @@ export default function Scene() {
 
               <PixelatedPass pixelSize={4} />
               <SceneLights />
-              {/* <OrbitControls /> */}
+              <OrbitControls />
             </Canvas>
 
             {/* Canvas sans le post Processing dans la Right View*/}

@@ -8,6 +8,7 @@ import { FruitType } from '@/data/fruitsData';
 import { SauceType } from '@/data/saucesData';
 import { AutreType } from '@/data/autresData';
 import PlateScene from '../frontview/PlateScene';
+import ShaderEffect from '@/components/ShaderEffect';
 
 type RightViewProps = {
   cubeRef: React.RefObject<Mesh>;
@@ -41,10 +42,17 @@ export const RightView = ({
 
   return (
     <>
+
+      <ShaderEffect 
+        position={[17, 1, 2]}
+        rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}
+        planeSize={[15, 11]}
+      />
+
       {/* Cube invisible pour la caméra */}
       <mesh ref={cubeRef} position={[10, 8, 18]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color="yellow" visible={true} />
+        <meshBasicMaterial color="yellow" visible={false} />
       </mesh>
 
       {/* PlateScene avec les modèles validés */}

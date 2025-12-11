@@ -5,7 +5,7 @@ export const BottomLeftView = ({ cubeRef }: { cubeRef: React.RefObject<Mesh> }) 
     <group>
       <mesh ref={cubeRef} position={[-10, 0, 10]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color="red" visible={true} />
+        <meshBasicMaterial color="red" visible={false} />
       </mesh>
     </group>
   );

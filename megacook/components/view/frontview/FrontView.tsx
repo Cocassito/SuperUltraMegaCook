@@ -11,7 +11,7 @@ export const FrontView = ({ cubeRef }: FrontViewProps) => {
       {/* Cube invisible pour la caméra */}
       <mesh ref={cubeRef} position={[0, 7, 0]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color="yellow" visible={true} />
+        <meshBasicMaterial color="yellow" visible={false} />
       </mesh>
     </group>
   );
