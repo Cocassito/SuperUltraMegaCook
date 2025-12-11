@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CloseButton } from "../button/CloseButton";
 import { SaveButton } from "../button/SaveButton";
 import { ResetButton } from "../button/ResetButton";
+import { PixelSlider } from "../button/PixelSlider";
 
 interface SettingsPopupProps {
   visible?: boolean;
@@ -46,6 +47,10 @@ export const SettingsPopup = ({
     }
   }, [visible]);
 
+  const [dialogue, setDialogue] = useState(25);
+  const [effets, setEffets] = useState(25);
+  const [musique, setMusique] = useState(25);
+
   return (
     <View style={styles.overlay} pointerEvents={visible ? "auto" : "none"}>
       <SafeAreaView style={styles.safeArea}>
@@ -61,10 +66,24 @@ export const SettingsPopup = ({
         >
           <View style={styles.content}>
             <Text style={styles.title}>Paramètres</Text>
-            <Text style={styles.text}>Dialogues</Text>
-            <Text style={styles.text}>Effets sonores</Text>
-            <Text style={styles.text}>Musique</Text>
+
+            <PixelSlider
+              label="Dialogue"
+              value={dialogue}
+              onChange={setDialogue}
+            />
+            <PixelSlider
+              label="Effets sonores"
+              value={effets}
+              onChange={setEffets}
+            />
+            <PixelSlider
+              label="Musique"
+              value={musique}
+              onChange={setMusique}
+            />
           </View>
+
           <View
             style={{
               display: "flex",
