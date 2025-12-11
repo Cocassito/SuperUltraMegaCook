@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
+import PixelButton from "./PixelButtonComponent";
+import ArrowLeft from "@/components/svg/ArrowLeft";
+import ArrowRight from "@/components/svg/ArrowRight";
 
 interface NavigationButtonsProps {
   prevView: () => void;
@@ -12,16 +14,24 @@ interface NavigationButtonsProps {
   currentView?: number;
 }
 
-export const NavigationButtons = ({ prevView, nextView, bottomView, bottomRightView, bottomLeftView, topView, currentView }: NavigationButtonsProps) => {
+export const NavigationButtons = ({
+  prevView,
+  nextView,
+  bottomView,
+  bottomRightView,
+  bottomLeftView,
+  topView,
+  currentView,
+}: NavigationButtonsProps) => {
   return (
     <>
       {currentView === 3 || currentView === 4 || currentView === 5 ? (
-        // Si on est en bottom view, afficher seulement ↑
-        <TouchableOpacity style={styles.arrowTop} onPress={topView}>
-          <Text style={styles.arrowText}>↑</Text>
-        </TouchableOpacity>
-      ) : currentView === 6 ? (
-        // Si on est en back view, afficher seulement ← →
+        //   // Si on est en bottom view, afficher seulement ↑
+        //   // <TouchableOpacity style={styles.arrowTop} onPress={topView}>
+        //   //   <Text style={styles.arrowText}>↑</Text>
+        //   // </TouchableOpacity>
+        // ) : currentView === 6 ? (
+        //   // Si on est en back view, afficher seulement ← →
         <>
           <TouchableOpacity style={styles.arrowLeft} onPress={prevView}>
             <Text style={styles.arrowText}>←</Text>
@@ -33,13 +43,27 @@ export const NavigationButtons = ({ prevView, nextView, bottomView, bottomRightV
       ) : (
         // Vues normales : ← → et ↓ selon la vue
         <>
-          <TouchableOpacity style={styles.arrowLeft} onPress={prevView}>
-            <Text style={styles.arrowText}>←</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.arrowRight} onPress={nextView}>
-            <Text style={styles.arrowText}>→</Text>
-          </TouchableOpacity>
-          {currentView === 0 && (
+          <View style={styles.arrowLeft}>
+            <PixelButton
+              icon={<ArrowLeft />}
+              colorPrimary="#C8A2DA"
+              colorSecondary="#773B94"
+              colorBorder="#55256D"
+              colorInnerShadow="#E9DAF0"
+              onPress={prevView}
+            />
+          </View>
+          <View style={styles.arrowRight}>
+            <PixelButton
+              icon={<ArrowRight />}
+              colorPrimary="#C8A2DA"
+              colorSecondary="#773B94"
+              colorBorder="#55256D"
+              colorInnerShadow="#E9DAF0"
+              onPress={nextView}
+            />
+          </View>
+          {/* {currentView === 0 && (
             <TouchableOpacity style={styles.arrowBottom} onPress={bottomView}>
               <Text style={styles.arrowText}>↓</Text>
             </TouchableOpacity>
@@ -52,8 +76,7 @@ export const NavigationButtons = ({ prevView, nextView, bottomView, bottomRightV
           {currentView === 2 && (
             <TouchableOpacity style={styles.arrowBottom} onPress={bottomLeftView}>
               <Text style={styles.arrowText}>↓</Text>
-            </TouchableOpacity>
-          )}
+            </TouchableOpacity> */}
         </>
       )}
     </>
@@ -62,64 +85,56 @@ export const NavigationButtons = ({ prevView, nextView, bottomView, bottomRightV
 
 const styles = StyleSheet.create({
   arrowText: {
-    color: '#55256D',
+    color: "#55256D",
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   arrowLeft: {
-    position: 'absolute',
-    left: 12,
-    top: '50%',
-    marginTop: -24,
-    backgroundColor: '#FFF2DD',
-    borderRadius: 24,
-    width: 48,
-    height: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    left: 46,
+    bottom: 40,
+    alignItems: "center",
+    justifyContent: "center",
     zIndex: 9999,
     elevation: 10,
   },
   arrowRight: {
-    position: 'absolute',
-    right: 12,
-    top: '50%',
-    marginTop: -24,
-    backgroundColor: '#FFF2DD',
+    position: "absolute",
+    right: 46,
+    bottom: 40,
+    backgroundColor: "#FFF2DD",
     borderRadius: 24,
-    width: 48,
-    height: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     zIndex: 9999,
     elevation: 10,
   },
-  arrowTop: {
-    position: 'absolute',
-    right: '50%',
-    top: 12,
-    marginRight: -24,
-    backgroundColor: '#FFF2DD',
-    borderRadius: 24,
-    width: 48,
-    height: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 9999,
-    elevation: 10,
-  },
-  arrowBottom: {
-    position: 'absolute',
-    right: '50%', 
-    bottom: 12,
-    marginRight: -24,
-    backgroundColor: '#FFF2DD',
-    borderRadius: 24,
-    width: 48,
-    height: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 9999,
-    elevation: 10,
-  },
+  // arrowTop: {
+  //   position: "absolute",
+  //   right: "50%",
+  //   top: 12,
+  //   marginRight: -24,
+  //   backgroundColor: "#FFF2DD",
+  //   borderRadius: 24,
+  //   width: 48,
+  //   height: 48,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   zIndex: 9999,
+  //   elevation: 10,
+  // },
+  // arrowBottom: {
+  //   position: "absolute",
+  //   right: "50%",
+  //   bottom: 12,
+  //   marginRight: -24,
+  //   backgroundColor: "#FFF2DD",
+  //   borderRadius: 24,
+  //   width: 48,
+  //   height: 48,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   zIndex: 9999,
+  //   elevation: 10,
+  // },
 });
