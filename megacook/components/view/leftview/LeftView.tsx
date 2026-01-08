@@ -1,6 +1,7 @@
 import { Mesh } from 'three';
 import * as THREE from 'three';
 import ShaderEffect from '@/components/ShaderEffect';
+import { usePaperSound } from '@/hooks/useButtonSound';
 
 
 type LeftViewProps = {
@@ -9,6 +10,12 @@ type LeftViewProps = {
 };
 
 export const LeftView = ({ cubeRef, onOpenOrder }: LeftViewProps) => {
+  const playPaperSound = usePaperSound();
+
+  const handleOrderClick = async () => {
+    await playPaperSound();
+    onOpenOrder();
+  };
 
   // const planeRef = useRef<Mesh>(null);
 
@@ -28,7 +35,7 @@ export const LeftView = ({ cubeRef, onOpenOrder }: LeftViewProps) => {
       <mesh
         position={[-18.4, 0.58, 17.4]}
         rotation={[Math.PI / 2, 0, Math.PI / 6]}
-        onClick={onOpenOrder}
+        onClick={handleOrderClick}
       >
         <planeGeometry args={[7, 7]} />
         <meshBasicMaterial 

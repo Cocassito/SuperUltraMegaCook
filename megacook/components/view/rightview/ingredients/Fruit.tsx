@@ -2,6 +2,7 @@ import { useState, Suspense } from 'react';
 import basesData, { BaseType } from '@/data/basesData';
 import fruitsData, { FruitType } from '@/data/fruitsData';
 import Model from '@/components/Model';
+import { useSelectedFoodSound } from '@/hooks/useButtonSound';
 
 type FruitProps = {
   onFruitClick: (fruitType: FruitType) => void;
@@ -11,6 +12,12 @@ export const Fruit = ({ onFruitClick }: FruitProps) => {
   const [broccoliScale, setBroccoliScale] = useState(1);
   const [pommeScale, setPommeScale] = useState(1);
   const [tomateScale, setTomateScale] = useState(1);
+  const playSelectedFoodSound = useSelectedFoodSound();
+
+  const handleFruitClick = async (fruitType: FruitType) => {
+    await playSelectedFoodSound();
+    onFruitClick(fruitType);
+  };
 
   return (
     <Suspense fallback={null}>
@@ -22,7 +29,7 @@ export const Fruit = ({ onFruitClick }: FruitProps) => {
           scale={broccoliScale}
           onPointerDown={() => {
             setBroccoliScale(0.8);
-            onFruitClick('broccoli');
+            handleFruitClick('broccoli');
           }}
           onPointerUp={() => setBroccoliScale(1)}
         >
@@ -35,7 +42,7 @@ export const Fruit = ({ onFruitClick }: FruitProps) => {
           scale={pommeScale}
           onPointerDown={() => {
             setPommeScale(0.8);
-            onFruitClick('pomme');
+            handleFruitClick('pomme');
           }}
           onPointerUp={() => setPommeScale(1)}
         >
@@ -49,7 +56,7 @@ export const Fruit = ({ onFruitClick }: FruitProps) => {
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
             setTomateScale(0.8);
-            onFruitClick('tomate');
+            handleFruitClick('tomate');
           }}
           onPointerUp={() => setTomateScale(1)}
         >

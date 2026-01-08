@@ -5,7 +5,9 @@ export const useViewNavigation = () => {
   
   const nextView = () => {
     setCurrentView((prev) => {
-      if (prev >= 3 && prev <= 5) return 0; // Si bottom view, retour à Front
+      if (prev === 3) return 0; // BottomView -> Front
+      if (prev === 4) return 1; // BottomRightView -> Right
+      if (prev === 5) return 2; // BottomLeftView -> Left
       if (prev === 0) return 1; // Front -> Right
       if (prev === 1) return 6; // Right -> Back
       if (prev === 6) return 2; // Back -> Left
@@ -16,7 +18,9 @@ export const useViewNavigation = () => {
   
   const prevView = () => {
     setCurrentView((prev) => {
-      if (prev >= 3 && prev <= 5) return 0; // Si bottom view, retour à Front
+      if (prev === 3) return 0; // BottomView -> Front
+      if (prev === 4) return 0; // BottomRightView -> Front
+      if (prev === 5) return 2; // BottomLeftView -> Left
       if (prev === 0) return 2; // Front -> Left
       if (prev === 2) return 6; // Left -> Back
       if (prev === 6) return 1; // Back -> Right

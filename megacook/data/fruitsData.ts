@@ -56,7 +56,7 @@ const fruitsData: Record<FruitType, FruitData> = {
   tomate: {
     name: "Tomate",
     model: tomateModel,
-    image: require("../assets/images/ingredients/pomme.png"),
+    image: require("../assets/images/ingredients/tomate.png"),
     price: 5,
     nutritional: {
       sweet: 1,

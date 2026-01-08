@@ -1,6 +1,7 @@
 import { useState, Suspense } from 'react';
 import saucesData, { SauceType } from '@/data/saucesData';
 import Model from '@/components/Model';
+import { useSelectedFoodSound } from '@/hooks/useButtonSound';
 
 type SauceProps = {
   onSauceClick: (sauceType: SauceType) => void;
@@ -10,6 +11,12 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
   const [citronScale, setCitronScale] = useState(1);
   const [confitureScale, setConfitureScale] = useState(1);
   const [sauceScale, setSauceScale] = useState(1);
+  const playSelectedFoodSound = useSelectedFoodSound();
+
+  const handleSauceClick = async (sauceType: SauceType) => {
+    await playSelectedFoodSound();
+    onSauceClick(sauceType);
+  };
 
   return (
     <Suspense fallback={null}>
@@ -21,7 +28,7 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
           scale={citronScale}
           onPointerDown={() => {
             setCitronScale(0.8);
-            onSauceClick('citron');
+            handleSauceClick('citron');
           }}
           onPointerUp={() => setCitronScale(1)}
         >
@@ -34,7 +41,7 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
           scale={confitureScale}
           onPointerDown={() => {
             setConfitureScale(0.8);
-            onSauceClick('confiture');
+            handleSauceClick('confiture');
           }}
           onPointerUp={() => setConfitureScale(1)}
         >
@@ -48,7 +55,7 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
             setSauceScale(0.8);
-            onSauceClick('sauce');
+            handleSauceClick('sauce');
           }}
           onPointerUp={() => setSauceScale(1)}
         >

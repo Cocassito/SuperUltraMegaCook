@@ -56,7 +56,7 @@ const autresData: Record<AutreType, AutreData> = {
   saumon: {
     name: "Saumon",
     model: saumonModel,
-    image: require("../assets/images/ingredients/confiture.png"),
+    image: require("../assets/images/ingredients/saumon.png"),
     price: 2,
     nutritional: {
       sweet: 3,

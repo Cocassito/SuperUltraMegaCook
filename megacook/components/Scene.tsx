@@ -2,16 +2,12 @@
 
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 import { Canvas } from "@react-three/fiber";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { BaseType } from "@/data/basesData";
 import { NavigationButtons } from "./ui/button/NavigationButtons";
 import CameraControls from "./camera/CameraControls";
 import { Mesh } from "three";
-import {
-  GestureHandlerRootView,
-  GestureDetector,
-  Gesture,
-} from "react-native-gesture-handler";
+import { GestureHandlerRootView, GestureDetector, Gesture } from "react-native-gesture-handler";
 
 import { FrontView } from "./view/frontview/FrontView";
 import { RightView } from "./view/rightview/RightView";
@@ -41,13 +37,23 @@ import { SceneLights } from "./sceneLights/SceneLights";
 import { Order } from "./view/leftview/Order";
 import { Environment } from "./Environment";
 import PlateScene from "./view/frontview/PlateScene";
+import { AverageResult } from "./view/frontview/AverageResult";
+import { useTicketSound, useSwipeSound, useMusicSound } from "@/hooks/useButtonSound";
 
 export default function Scene() {
   const window = useWindowDimensions();
   const navigation = useViewNavigation();
+  const playTicketSound = useTicketSound();  
+  const playSwipeSound = useSwipeSound();
+  const playMusic = useMusicSound();
   // Référence au cube pour la caméra
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
+
+  // Lancer la musique au montage du composant
+  useEffect(() => {
+    playMusic();
+  }, [playMusic]);
 
   const [selectedBase, setSelectedBase] = useState<BaseType | null>(null);
   const [selectedFruit, setSelectedFruit] = useState<FruitType | null>(null);
@@ -58,16 +64,17 @@ export default function Scene() {
   const [hasValidatedSauce, setHasValidatedSauce] = useState(false);
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
-    null
-  );
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
-    null
-  );
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
-    null
-  );
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
   const [showOrder, setShowOrder] = useState(false);
+  const [showAverageResult, setShowAverageResult] = useState(false);
+
+  const allValidated =
+    hasValidatedBase &&
+    hasValidatedFruit &&
+    hasValidatedSauce &&
+    !!validatedAutreModel;
 
   // Gestion des swipes
   const swipeGesture = Gesture.Pan().onEnd((event) => {
@@ -75,6 +82,7 @@ export default function Scene() {
     const threshold = 50;
 
     if (Math.abs(translationX) > threshold) {
+      playSwipeSound();
       if (translationX > 0) {
         // Swipe vers la droite - vue précédente
         navigation.prevView();
@@ -84,7 +92,7 @@ export default function Scene() {
       }
     }
   });
-
+ 
   return (
     <View
       style={[styles.container, { width: window.width, height: window.height }]}
@@ -93,7 +101,9 @@ export default function Scene() {
         <GestureDetector gesture={swipeGesture}>
           <View style={styles.canvasWrapper}>
             <Canvas style={styles.canvas}>
+
               <Environment />
+
               <CameraControls
                 cubeRef={cubeRef}
                 currentView={navigation.currentView}
@@ -114,6 +124,8 @@ export default function Scene() {
                   onValidate={() => {
                     navigation.setCurrentView(0);
                   }}
+                  onOpenAverageResult={() => setShowAverageResult(true)}
+                  canShowAverage={allValidated}
                 />
               )}
 
@@ -129,24 +141,45 @@ export default function Scene() {
                   onAutreClick={setSelectedAutre}
                 />
               )}
+
               {navigation.currentView === 2 && (
                 <LeftView
                   cubeRef={cubeRef}
                   onOpenOrder={() => setShowOrder(true)}
                 />
               )}
-              {navigation.currentView === 3 && <BottomView cubeRef={cubeRef} />}
-              {navigation.currentView === 4 && (
-                <BottomRightView cubeRef={cubeRef} />
-              )}
-              {navigation.currentView === 5 && (
-                <BottomLeftView cubeRef={cubeRef} />
-              )}
-              {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
 
+              {navigation.currentView === 3 && (
+                <BottomView 
+                  cubeRef={cubeRef} 
+                />
+              )}
+
+              {navigation.currentView === 4 && (
+                <BottomRightView 
+                  cubeRef={cubeRef} 
+                />
+              )}
+
+              {navigation.currentView === 5 && (
+                <BottomLeftView 
+                  cubeRef={cubeRef} 
+                />
+              )}
+
+              {navigation.currentView === 6 && (
+                <BackView 
+                  cubeRef={cubeRef} 
+                />
+              )}
+
+              {/* Post Processing */}
               <PixelatedPass pixelSize={4} />
+
+              {/* Lights */}
               <SceneLights />
-              <OrbitControls />
+
+              {/* <OrbitControls /> */}
             </Canvas>
 
             {/* Canvas sans le post Processing dans la Right View*/}
@@ -161,6 +194,7 @@ export default function Scene() {
                 hasValidatedBase={hasValidatedBase}
                 hasValidatedFruit={hasValidatedFruit}
                 hasValidatedSauce={hasValidatedSauce}
+                onScreenClick={() => navigation.setCurrentView(4)}
                 onValidate={() => {
                   if (!hasValidatedBase && selectedBase) {
                     setValidatedModel(basesData[selectedBase].model);
@@ -190,6 +224,7 @@ export default function Scene() {
                     selectedAutre
                   ) {
                     setValidatedAutreModel(autresData[selectedAutre].model);
+                    playTicketSound(); 
                     navigation.setCurrentView(0);
                   }
                 }}
@@ -206,7 +241,11 @@ export default function Scene() {
               />
             </Canvas>
 
-            {!showOrder && <NavigationButtons {...navigation} />}
+            
+            {!showOrder && !showAverageResult && <NavigationButtons {...navigation} />}
+
+            {/* Average Result Front View */}
+            {showAverageResult && <AverageResult onClose={() => setShowAverageResult(false)} />}
 
             {/* Order Left View */}
             {showOrder && <Order onClose={() => setShowOrder(false)} />}

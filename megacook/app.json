@@ -44,9 +44,12 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/pixelgridtrial-linedownboldm.otf"]
+          "fonts": [
+            "./assets/fonts/pixelgridtrial-linedownboldm.otf"
+          ]
         }
-      ]
+      ],
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true

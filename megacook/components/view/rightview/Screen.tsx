@@ -5,6 +5,7 @@ import { Image } from "expo-image";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { useState } from "react";
 import { Checkbox } from "expo-checkbox";
+import { useConfirmButtonSound } from "@/hooks/useButtonSound";
 import basesData from "@/data/basesData";
 import fruitsData from "@/data/fruitsData";
 import saucesData from "@/data/saucesData";
@@ -23,11 +24,13 @@ type ScreenProps = {
   hasValidatedFruit: boolean;
   hasValidatedSauce: boolean;
   onValidate?: () => void;
+  onScreenClick?: () => void;
 };
 
 
-export default function Screen({ selectedBase, selectedFruit, selectedSauce, selectedAutre, hasValidatedBase, hasValidatedFruit, hasValidatedSauce, onValidate }: ScreenProps) {
+export default function Screen({ selectedBase, selectedFruit, selectedSauce, selectedAutre, hasValidatedBase, hasValidatedFruit, hasValidatedSauce, onValidate, onScreenClick }: ScreenProps) {
   const [isCuire, setIsCuire] = useState(false);
+  const playConfirmSound = useConfirmButtonSound();
   
   // Déterminer quelle phase nous sommes
   const isBasePhase = !hasValidatedBase;
@@ -47,18 +50,17 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
   
   return (
     <>
-
       <group position={[18, 3, 2]} rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}>
         <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
           
           {!selectedItem ? (
-            <View style={styles.container}>
+            <View style={styles.container} onTouchStart={onScreenClick}>
               <Text style={styles.title}>Megacook</Text>
               <Text style={styles.subtitle}>{isBasePhase ? "Sélectionne une base" : isFruitPhase ? "Sélectionne un fruit" : isSaucePhase ? "Sélectionne une sauce" : "Sélectionne un autre"}</Text>
             </View>
           ) : (
             data && (
-              <View style={styles.container}>
+              <View style={styles.container} onTouchStart={onScreenClick}>
                 <View style={styles.content}>
                   <View>
                     <Text style={styles.title}>{data.name}</Text>
@@ -82,7 +84,10 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                       />
                       <Text style={{ marginLeft: 8 }}>Cuire</Text>
                     </View>
-                    <TouchableOpacity onPress={onValidate}>
+                    <TouchableOpacity onPress={() => {
+                      playConfirmSound();
+                      onValidate?.();
+                    }}>
                       <Text>Valider</Text>
                     </TouchableOpacity>
                   </View>
@@ -97,8 +102,8 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
 }
 
 const htmlStyle = {
-  width: "400px",
-  height: "300px",
+  width: "300px",
+  height: "225px",
   pointerEvents: "auto",
   border: "10px solid #000",
 } as const;
@@ -110,8 +115,8 @@ const styles = StyleSheet.create({
     height: "100%",
     flexDirection: "column",
     flex: 1,
-    paddingVertical: 20,
-    paddingHorizontal: 40,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     backgroundColor: "#FFF2DD",
     color: "#000000",
   },
@@ -119,19 +124,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
-    gap: 20,
+    gap: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: "bold",
   },
   description: {
     fontSize: 12,
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   gauges: {
     flexDirection: "column",
@@ -144,13 +149,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   image: {
-    width: 130,
-    height: 130,
+    width: 80,
+    height: 80,
   },
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 12,
+    marginVertical: 6,
   },
   checkbox: {
     marginVertical: 8,

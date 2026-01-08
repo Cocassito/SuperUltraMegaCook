@@ -1,4 +1,5 @@
 import { Mesh } from 'three';
+import * as THREE from 'three';
 import { BaseType } from '@/data/basesData';
 import { Base } from './ingredients/Base';
 import { Fruit } from './ingredients/Fruit';
@@ -42,18 +43,17 @@ export const RightView = ({
 
   return (
     <>
-
-      <ShaderEffect 
-        position={[17, 1, 2]}
-        rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}
-        planeSize={[15, 11]}
-      />
-
       {/* Cube invisible pour la caméra */}
       <mesh ref={cubeRef} position={[10, 8, 18]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshBasicMaterial color="yellow" visible={false} />
       </mesh>
+
+      <ShaderEffect 
+        position={[18, 3, 2]} 
+        rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}
+        planeSize={[9.0, 7.5]}
+      />
 
       {/* PlateScene avec les modèles validés */}
       <PlateScene

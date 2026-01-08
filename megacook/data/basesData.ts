@@ -41,7 +41,7 @@ const basesData: Record<BaseType, BaseData> = {
   riz: {
     name: "Riz",
     model: rizModel,
-    image: require("../assets/images/ingredients/pomme.png"),
+    image: require("../assets/images/ingredients/riz.png"),
     price: 3,
     nutritional: {
       sweet: 4,

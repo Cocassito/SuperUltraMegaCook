@@ -25,6 +25,7 @@ export const Order = ({ onClose }: OrderProps) => {
             <Image
               source={require("../../../assets/images/autres/codebarre.png")}
               style={styles.barcode}
+              resizeMode="contain"
             />
           </View>
         </View>
@@ -87,6 +88,5 @@ const styles = StyleSheet.create({
   barcode: {
     width: 160,
     height: 25,
-    resizeMode: "contain",
   },
 });

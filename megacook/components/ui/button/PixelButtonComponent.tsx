@@ -7,6 +7,7 @@ import {
   GestureResponderEvent,
   Platform,
 } from "react-native";
+import { useButtonSound } from "@/hooks/useButtonSound";
 
 interface ButtonPixelProps {
   title?: string;
@@ -38,6 +39,13 @@ export default function PixelButton({
   onPress,
 }: ButtonPixelProps) {
   const [size, setSize] = React.useState({ width: 0, height: 0 });
+  const playButtonSound = useButtonSound();
+
+  const handlePress = (event: GestureResponderEvent) => {
+    playButtonSound();
+    onPress?.(event);
+  };
+
   return (
     <>
       <View
@@ -73,7 +81,7 @@ export default function PixelButton({
         <View style={[styles.bottomBlack, { backgroundColor: colorBorder }]} />
 
         <Pressable
-          onPress={onPress}
+          onPress={handlePress}
           style={({ pressed }) => [styles.container, pressed && styles.active]}
         >
           {/* LEFT JPP PTN DE BUTTON */}

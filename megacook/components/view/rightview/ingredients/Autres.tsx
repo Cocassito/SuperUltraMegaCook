@@ -1,6 +1,7 @@
 import { useState, Suspense } from 'react';
 import autresData, { AutreType } from '@/data/autresData';
 import Model from '@/components/Model';
+import { useSelectedFoodSound } from '@/hooks/useButtonSound';
 
 type AutresProps = {
   onAutreClick: (autreType: AutreType) => void;
@@ -10,6 +11,12 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
   const [chocolatScale, setChocolatScale] = useState(1);
   const [pouletScale, setPouletScale] = useState(1);
   const [saumonScale, setSaumonScale] = useState(1);
+  const playSelectedFoodSound = useSelectedFoodSound();
+
+  const handleAutreClick = async (autreType: AutreType) => {
+    await playSelectedFoodSound();
+    onAutreClick(autreType);
+  };
 
   return (
     <Suspense fallback={null}>
@@ -22,7 +29,7 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
           scale={chocolatScale}
           onPointerDown={() => {
             setChocolatScale(0.8);
-            onAutreClick('chocolat');
+            handleAutreClick('chocolat');
           }}
           onPointerUp={() => setChocolatScale(1)}
         >
@@ -35,7 +42,7 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
           scale={pouletScale}
           onPointerDown={() => {
             setPouletScale(0.8);
-            onAutreClick('poulet');
+            handleAutreClick('poulet');
           }}
           onPointerUp={() => setPouletScale(1)}
         >
@@ -49,7 +56,7 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
             setSaumonScale(0.8);
-            onAutreClick('saumon');
+            handleAutreClick('saumon');
           }}
           onPointerUp={() => setSaumonScale(1)}
         >

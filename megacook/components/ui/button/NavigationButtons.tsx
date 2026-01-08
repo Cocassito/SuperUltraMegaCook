@@ -25,7 +25,7 @@ export const NavigationButtons = ({
 }: NavigationButtonsProps) => {
   return (
     <>
-      {currentView === 3 || currentView === 4 || currentView === 5 ? (
+      {currentView === 3 || currentView === 5 ? (
         //   // Si on est en bottom view, afficher seulement ↑
         //   // <TouchableOpacity style={styles.arrowTop} onPress={topView}>
         //   //   <Text style={styles.arrowText}>↑</Text>

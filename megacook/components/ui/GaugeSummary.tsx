@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { RadarChart } from '@salmonco/react-native-radar-chart';
 
 export type Nutritional = {
@@ -28,7 +28,7 @@ export default function GaugeSummary({ nutritional }: GaugeSummaryProps) {
   ];
 
   return (
-    <View style={styles.container}>
+    <View>
       <RadarChart
         data={data}
         maxValue={5}
@@ -45,9 +45,3 @@ export default function GaugeSummary({ nutritional }: GaugeSummaryProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    shadowOpacity: 0.2,
-  },
-});

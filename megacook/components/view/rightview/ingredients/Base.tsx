@@ -1,6 +1,7 @@
 import { useState, Suspense } from 'react';
 import basesData, { BaseType } from '@/data/basesData';
 import Model from '@/components/Model';
+import { useSelectedFoodSound } from '@/hooks/useButtonSound';
 
 type BaseProps = {
   onBaseClick: (baseType: BaseType) => void;
@@ -10,6 +11,12 @@ export const Base = ({ onBaseClick }: BaseProps) => {
   const [fritesScale, setFritesScale] = useState(1);
   const [rizScale, setRizScale] = useState(1);
   const [pâtesScale, setPâtesScale] = useState(1);
+  const playSelectedFoodSound = useSelectedFoodSound();
+
+  const handleBaseClick = async (baseType: BaseType) => {
+    await playSelectedFoodSound();
+    onBaseClick(baseType);
+  };
 
   return (
     <Suspense fallback={null}>
@@ -22,7 +29,7 @@ export const Base = ({ onBaseClick }: BaseProps) => {
           scale={fritesScale}
           onPointerDown={() => {
             setFritesScale(0.8);
-            onBaseClick('frites');
+            handleBaseClick('frites');
           }}
           onPointerUp={() => setFritesScale(1)}
         >
@@ -35,7 +42,7 @@ export const Base = ({ onBaseClick }: BaseProps) => {
           scale={rizScale}
           onPointerDown={() => {
             setRizScale(0.8);
-            onBaseClick('riz');
+            handleBaseClick('riz');
           }}
           onPointerUp={() => setRizScale(1)}
         >
@@ -49,7 +56,7 @@ export const Base = ({ onBaseClick }: BaseProps) => {
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {
             setPâtesScale(0.8);
-            onBaseClick('pâtes');
+            handleBaseClick('pâtes');
           }}
           onPointerUp={() => setPâtesScale(1)}
         >
