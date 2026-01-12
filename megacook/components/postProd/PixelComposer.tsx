@@ -3,7 +3,11 @@ import { useRef, useEffect } from "react";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPixelatedPass } from "three/addons/postprocessing/RenderPixelatedPass.js";
 
-export default function PixelatedPass({ pixelSize = 6 }: { pixelSize?: number }) {
+export default function PixelatedPass({
+  pixelSize = 6,
+}: {
+  pixelSize?: number;
+}) {
   const { gl, scene, camera, size } = useThree();
   const composerRef = useRef<any>(null);
 
