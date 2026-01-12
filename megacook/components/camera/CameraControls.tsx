@@ -36,9 +36,9 @@ export default function CameraControls({ cubeRef, currentView, cameraRef }: Came
       targetPosition.current.lerp(cubeRef.current.position, smoothFactor);
        
         // Déplacer la caméra : en BottomRightView on bouge sur X, sinon on zoome sur Z
-        const targetZ = isBottomRightView ? 8.9 : isBottomView ? 5 : 18;
-        const targetX = isBottomRightView ? 15.3 : 0;
-        const targetY = isBottomRightView ? 5.7 : 8;
+        const targetZ = isBottomRightView ? 6.1 : isBottomView ? 5 : 18;
+        const targetX = isBottomRightView ? 16.0 : 0;
+        const targetY = isBottomRightView ? 4.9 : 8;
 
         camera.position.z = MathUtils.lerp(camera.position.z, targetZ, 0.05);
         camera.position.x = MathUtils.lerp(camera.position.x, targetX, 0.05);
