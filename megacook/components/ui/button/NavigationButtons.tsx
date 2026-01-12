@@ -26,19 +26,27 @@ export const NavigationButtons = ({
   return (
     <>
       {currentView === 3 || currentView === 5 ? (
-        //   // Si on est en bottom view, afficher seulement ↑
-        //   // <TouchableOpacity style={styles.arrowTop} onPress={topView}>
-        //   //   <Text style={styles.arrowText}>↑</Text>
-        //   // </TouchableOpacity>
-        // ) : currentView === 6 ? (
-        //   // Si on est en back view, afficher seulement ← →
         <>
-          <TouchableOpacity style={styles.arrowLeft} onPress={prevView}>
-            <Text style={styles.arrowText}>←</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.arrowRight} onPress={nextView}>
-            <Text style={styles.arrowText}>→</Text>
-          </TouchableOpacity>
+          <View style={styles.arrowLeft}>
+            <PixelButton
+              icon={<ArrowLeft />}
+              colorPrimary="#C8A2DA"
+              colorSecondary="#773B94"
+              colorBorder="#55256D"
+              colorInnerShadow="#E9DAF0"
+              onPress={prevView}
+            />
+          </View>
+          <View style={styles.arrowRight}>
+            <PixelButton
+              icon={<ArrowRight />}
+              colorPrimary="#C8A2DA"
+              colorSecondary="#773B94"
+              colorBorder="#55256D"
+              colorInnerShadow="#E9DAF0"
+              onPress={nextView}
+            />
+          </View>
         </>
       ) : (
         // Vues normales : ← → et ↓ selon la vue

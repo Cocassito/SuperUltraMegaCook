@@ -45,7 +45,9 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/pixelgridtrial-linedownboldm.otf"
+            "./assets/fonts/pixelgridtrial-linedownboldm.otf",
+            "./assets/fonts/pixelgridtrial-linedownbolds.otf",
+            "./assets/fonts/pixelgridtrial-linedownboldxl.otf"
           ]
         }
       ],

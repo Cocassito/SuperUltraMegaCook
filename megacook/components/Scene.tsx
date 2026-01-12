@@ -160,6 +160,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
                       navigation.setCurrentView(0);
                     }}
                     onOpenAverageResult={() => setShowAverageResult(true)}
+                    onNavigateToBottomView={() => navigation.setCurrentView(3)}
                     canShowAverage={allValidated}
                   />
                 )}
@@ -186,7 +187,10 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 )}
 
                 {navigation.currentView === 3 && (
-                  <BottomView cubeRef={cubeRef} />
+                  <BottomView 
+                    cubeRef={cubeRef}
+                    onNavigateToFront={() => navigation.setCurrentView(0)}
+                  />
                 )}
                 {navigation.currentView === 4 && (
                   <BottomRightView cubeRef={cubeRef} />
@@ -194,7 +198,9 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 {navigation.currentView === 5 && (
                   <BottomLeftView cubeRef={cubeRef} />
                 )}
-                {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
+                {navigation.currentView === 6 && (
+                  <BackView cubeRef={cubeRef} />
+                )}
 
                 {/* ⭐ FIN DU LOADING */}
                 <SceneReady

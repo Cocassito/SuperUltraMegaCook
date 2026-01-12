@@ -80,11 +80,13 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "center",
     marginVertical: 10,
+    fontFamily: "pixelgridtrial-linedownboldm",
   },
   sectionLabel: {
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 8,
+    fontFamily: "pixelgridtrial-linedownbolds",
   },
   contentSection: {
     marginVertical: 16,
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
   clientRequest: {
     fontSize: 14,
     fontStyle: "italic",
+    fontFamily: "pixelgridtrial-linedownbolds",
   },
   barcode: {
     width: 160,

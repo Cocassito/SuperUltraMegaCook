@@ -5,7 +5,7 @@ export const useViewNavigation = () => {
   
   const nextView = () => {
     setCurrentView((prev) => {
-      if (prev === 3) return 0; // BottomView -> Front
+      if (prev === 3) return 1; // BottomView -> RightView (bouton droite)
       if (prev === 4) return 1; // BottomRightView -> Right
       if (prev === 5) return 2; // BottomLeftView -> Left
       if (prev === 0) return 1; // Front -> Right
@@ -18,7 +18,7 @@ export const useViewNavigation = () => {
   
   const prevView = () => {
     setCurrentView((prev) => {
-      if (prev === 3) return 0; // BottomView -> Front
+      if (prev === 3) return 2; // BottomView -> LeftView (bouton gauche)
       if (prev === 4) return 0; // BottomRightView -> Front
       if (prev === 5) return 2; // BottomLeftView -> Left
       if (prev === 0) return 2; // Front -> Left

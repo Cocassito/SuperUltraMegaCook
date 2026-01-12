@@ -82,8 +82,15 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                   <View>
                     <Text style={styles.title}>{data.name}</Text>
                     <Text style={styles.subtitle}>Détails des goûts</Text>
-                    <View>
-                      <GaugeSummary nutritional={data.nutritional} />
+                    <View style={styles.gaugeWrapper}>
+                      <GaugeSummary 
+                        nutritional={isSaucePhase ? { sweet: 0, salty: 0, acidity: 0, bitter: 0, spicy: 0, protein: 0, fat: 0 } : data.nutritional} 
+                      />
+                      {isSaucePhase && (
+                        <View style={styles.questionMarkOverlay}>
+                          <Text style={styles.questionMark}>???</Text>
+                        </View>
+                      )}
                     </View>
                   </View>
                   <View style={styles.rightSection}>
@@ -100,7 +107,7 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                           value={isCuire}
                           onValueChange={handleCuireChange}
                         />
-                        <Text style={{ marginLeft: 8 }}>Cuire</Text>
+                        <Text style={styles.text}>Cuire</Text>
                       </View>
                     )}
                     {/* {isBottomRightView && ( */}
@@ -149,6 +156,7 @@ const styles = StyleSheet.create({
   finishedText: {
     fontSize: 40,
     fontWeight: "bold",
+    fontFamily: "pixelgridtrial-linedownboldm"
   },
   content: {
     flexDirection: "row",
@@ -159,6 +167,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: "bold",
+    fontFamily: "pixelgridtrial-linedownboldxl",
+    textTransform: "uppercase",
   },
   description: {
     fontSize: 12,
@@ -166,6 +176,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 12,
     fontWeight: "bold",
+    fontFamily: "pixelgridtrial-linedownbolds",
     marginBottom: 5,
   },
   gauges: {
@@ -187,7 +198,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 6,
   },
+  text: {
+    marginLeft: 8,
+    fontFamily: "pixelgridtrial-linedownboldm",
+  },
   checkbox: {
     marginVertical: 8,
+  },
+  gaugeWrapper: {
+    position: "relative",
+    width: 180,
+    height: 180,
+  },
+  questionMarkOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255, 242, 221, 0.5)",
+    borderRadius: 90,
+  },
+  questionMark: {
+    fontSize: 50,
+    fontWeight: "bold",
+    color: "#55256D",
   },
 });

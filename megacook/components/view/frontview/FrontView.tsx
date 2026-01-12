@@ -7,16 +7,21 @@ type FrontViewProps = {
   cubeRef: React.RefObject<Mesh>;
   onValidate: () => void;
   onOpenAverageResult: () => void;
+  onNavigateToBottomView: () => void;
   canShowAverage: boolean;
 };
 
-export const FrontView = ({ cubeRef, onOpenAverageResult, canShowAverage }: FrontViewProps) => {
+export const FrontView = ({ cubeRef, onOpenAverageResult, onNavigateToBottomView, canShowAverage }: FrontViewProps) => {
 
   const playPaperSound = usePaperSound();
   
   const handleAverageResultClick = async () => {
     await playPaperSound();
     onOpenAverageResult();
+  };
+
+  const handlePlateSceneClick = () => {
+    onNavigateToBottomView();
   };
 
   return (
@@ -27,6 +32,19 @@ export const FrontView = ({ cubeRef, onOpenAverageResult, canShowAverage }: Fron
         <meshBasicMaterial color="yellow" visible={false} />
       </mesh>
 
+      {/* Zone Plate Scene */}
+      <mesh
+        position={[0, 3, 0]}
+        rotation={[0, 0, 0]}
+        onClick={handlePlateSceneClick}
+      >
+        <boxGeometry args={[4, 4, 4]} />
+        <meshBasicMaterial 
+          color="blue" 
+          visible={false}
+        />
+      </mesh>
+
       {canShowAverage && (
         <>
           <BorderFadeShader
@@ -35,6 +53,8 @@ export const FrontView = ({ cubeRef, onOpenAverageResult, canShowAverage }: Fron
             planeSize={[3.6, 1.7]}
           />
 
+
+          {/* Zone Ticket de Caisse */}
           <mesh
             position={[-10.95, 0.6, 1.6]}
             rotation={[Math.PI / 2, 0, Math.PI / 2.9]}

@@ -18,7 +18,7 @@ interface GaugeSummaryProps {
   labelSize?: number;
 }
 
-export default function GaugeSummary({ nutritional, size = 180, labelSize = 11 }: GaugeSummaryProps) {
+export default function GaugeSummary({ nutritional, size = 180, labelSize = 9 }: GaugeSummaryProps) {
   const data = [
     { label: 'Sucré', value: nutritional.sweet },
     { label: 'Salé', value: nutritional.salty },
@@ -38,8 +38,8 @@ export default function GaugeSummary({ nutritional, size = 180, labelSize = 11 }
         fillOpacity={0.35}
         labelColor="#333"
         labelSize={labelSize}
-        labelDistance={1.2}
-        labelFontFamily=''
+        labelDistance={1.23}
+        labelFontFamily='pixelgridtrial-linedownboldm'
         dataFillColor="#FFF2DD"
         dataFillOpacity={0.6}
         size={size}

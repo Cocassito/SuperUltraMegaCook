@@ -7,7 +7,8 @@ import { SauceType } from "@/data/saucesData";
 import { AutreType } from "@/data/autresData";
 import ordersData, { OrderType } from "@/data/ordersData";
 import { computeIngredientsAverage } from "@/utils/nutrition";
-import Animated from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { useCardAnimation } from "@/hooks/useCardAnimation";
  
 type AverageResultProps = {
@@ -36,6 +37,16 @@ const RatingRow = ({ label, value, stacked }: RatingRowProps) => (
 
 export const AverageResult = ({ onClose, validatedBase, validatedFruit, validatedSauce, validatedAutre, orderType }: AverageResultProps) => {
   const { animatedStyle, handleClose } = useCardAnimation(onClose);
+  const cardTranslateY = useSharedValue(0);
+
+  const panGesture = Gesture.Pan()
+    .onChange((event) => {
+      cardTranslateY.value = event.translationY;
+    })
+
+  const cardAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: cardTranslateY.value }, { rotate: '3deg' }],
+  }));
   
   const average = computeIngredientsAverage(validatedBase || null, validatedFruit || null, validatedSauce || null, validatedAutre || null) || { sweet: 0, salty: 0, fat: 0, bitter: 0, acidity: 0, spicy: 0, protein: 0 };
 
@@ -65,9 +76,11 @@ export const AverageResult = ({ onClose, validatedBase, validatedFruit, validate
   })();
 
   return (
-    <Pressable style={styles.orderOverlay} onPress={handleClose}>
-      <Animated.View style={[styles.orderCard, animatedStyle]}>
-        <View style={styles.container}>
+    <View style={styles.orderOverlay}>
+      <Pressable style={StyleSheet.absoluteFill} onPress={handleClose} />
+      <GestureDetector gesture={panGesture}>
+        <Animated.View style={[styles.orderCard, animatedStyle, cardAnimatedStyle]}>
+          <View style={styles.container}>
 
           <View style={styles.titleSection}>
 
@@ -91,6 +104,28 @@ export const AverageResult = ({ onClose, validatedBase, validatedFruit, validate
           <LineSVG />
 
           <View style={styles.contentSection}>
+            <Text style={styles.sectionLabel}>Goûts</Text>
+            <RatingRow label="Sucré" value={average.sweet} />
+            <RatingRow label="Salé" value={average.salty} />
+            <RatingRow label="Acidité" value={average.acidity} />
+            <RatingRow label="Épicé" value={average.spicy} />
+            <RatingRow label="Protéines" value={average.protein} />
+            <RatingRow label="Amer" value={average.bitter} />
+            <RatingRow label="Gras" value={average.fat} />
+          </View>
+
+          <View style={styles.contentSection}>
+            <Text style={styles.sectionLabel}>Goûts</Text>
+            <RatingRow label="Sucré" value={average.sweet} />
+            <RatingRow label="Salé" value={average.salty} />
+            <RatingRow label="Acidité" value={average.acidity} />
+            <RatingRow label="Épicé" value={average.spicy} />
+            <RatingRow label="Protéines" value={average.protein} />
+            <RatingRow label="Amer" value={average.bitter} />
+            <RatingRow label="Gras" value={average.fat} />
+          </View>
+
+          <View style={styles.contentSection}>
             <Text style={styles.sectionLabel}>Note du client</Text>
             <RatingRow label="Respect de la demande" value={respectScore} stacked />
             <RatingRow label="Originalité" value={3} stacked />
@@ -98,13 +133,13 @@ export const AverageResult = ({ onClose, validatedBase, validatedFruit, validate
 
           <DashLine />
 
-          {/* <View style={styles.contentSection}>
+          <View style={styles.contentSection}>
             <Text style={styles.sectionLabel}>Total</Text>
             <View style={styles.flexSection}>
               <Text style={styles.text}>Prix</Text>
               <Text style={styles.text}>$59.90</Text>
             </View>
-          </View> */}
+          </View>
 
           <View style={{ marginTop: 8 }}>
             <Image
@@ -114,8 +149,9 @@ export const AverageResult = ({ onClose, validatedBase, validatedFruit, validate
             />
           </View>
         </View>
-      </Animated.View>
-    </Pressable>
+        </Animated.View>
+      </GestureDetector>
+    </View>
   );
 };
 
@@ -129,11 +165,9 @@ const styles = StyleSheet.create({
     zIndex: 2,
     backgroundColor: "rgba(0,0,0,0.60)",
     alignItems: "center",
-    justifyContent: "center",
   },
   orderCard: {
     width: 220,
-    height: 370,
     backgroundColor: "#fff",
     borderColor: "#000",
     borderWidth: 2,
