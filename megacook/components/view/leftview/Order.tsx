@@ -1,36 +1,44 @@
 import { CloseButton } from "@/components/ui/button/CloseButton";
 import { Text, View, Image, StyleSheet, Pressable } from "react-native";
 import DashLine from "@/components/svg/DashLine";
+import ordersData, { OrderType } from "@/data/ordersData";
+import Animated from "react-native-reanimated";
+import { useCardAnimation } from "@/hooks/useCardAnimation";
  
 type OrderProps = {
   onClose: () => void;
+  orderType: OrderType;
 };
 
-export const Order = ({ onClose }: OrderProps) => {
+export const Order = ({ onClose, orderType }: OrderProps) => {
+  const order = ordersData[orderType];
+  const { animatedStyle, handleClose } = useCardAnimation(onClose);
+  
   return (
-    <Pressable style={styles.orderOverlay} onPress={onClose}>
-      <View style={styles.orderCard}>
-        <View style={styles.container}>
-          <View style={styles.titleSection}>
+    <View style={styles.orderOverlay}>
+      <Pressable style={StyleSheet.absoluteFill} onPress={handleClose} />
+      <Animated.View style={[styles.orderCard, animatedStyle]}>
+          <View style={styles.container}>
+            <View style={styles.titleSection}>
+              <DashLine />
+              <Text style={styles.title}>Commande</Text>
+              <DashLine />
+            </View>
+            <View style={styles.contentSection}>
+              <Text style={styles.sectionLabel}>Demande Client</Text>
+              <Text style={styles.clientRequest}>"{order.clientRequest}"</Text>
+            </View>
             <DashLine />
-            <Text style={styles.title}>Commande</Text>
-            <DashLine />
+            <View style={{ marginTop: 16 }}>
+              <Image
+                source={require("../../../assets/images/autres/codebarre.png")}
+                style={styles.barcode}
+                resizeMode="contain"
+              />
+            </View>
           </View>
-          <View style={styles.contentSection}>
-            <Text style={styles.sectionLabel}>Demande Client</Text>
-            <Text style={styles.clientRequest}>"Je voudrais un plat qui me court après la nuit."</Text>
-          </View>
-          <DashLine />
-          <View style={{ marginTop: 16 }}>
-            <Image
-              source={require("../../../assets/images/autres/codebarre.png")}
-              style={styles.barcode}
-              resizeMode="contain"
-            />
-          </View>
-        </View>
-      </View>
-    </Pressable>
+        </Animated.View>
+    </View>
   );
 };
 

@@ -4,11 +4,6 @@ import { Audio } from 'expo-av';
 export const useSound = (soundPath: any) => {
   const playSound = useCallback(async () => {
     try {
-      await Audio.setAudioModeAsync({
-        playsInSilentModeIOS: true,
-        allowsRecordingIOS: false,
-        staysActiveInBackground: false,
-      });
       const { sound } = await Audio.Sound.createAsync(soundPath);
       await sound.playAsync();
       

@@ -4,11 +4,8 @@ import { FruitType } from "@/data/fruitsData";
 import { SauceType } from "@/data/saucesData";
 import { AutreType } from "@/data/autresData";
 import { StyleSheet, View, Text } from "react-native";
-import basesData from "@/data/basesData";
-import fruitsData from "@/data/fruitsData";
-import saucesData from "@/data/saucesData";
-import autresData from "@/data/autresData";
 import GaugeSummary from "@/components/ui/GaugeSummary";
+import { computeIngredientsAverage } from "@/utils/nutrition";
 
 type ScreenAverageProps = {
   validatedBase: BaseType | null;
@@ -25,52 +22,13 @@ export default function ScreenAverage({
   validatedFruit,
   validatedSauce,
   validatedAutre,
-  hasValidatedBase,
-  hasValidatedFruit,
-  hasValidatedSauce,
 }: ScreenAverageProps) {
-  // Collecter les données nutritionnelles de tous les ingrédients sélectionnés
-  const nutritionalArray: Array<{
-    sweet: number;
-    salty: number;
-    fat: number;
-    bitter: number;
-    acidity: number;
-    spicy: number;
-    protein: number;
-  }> = [];
-
-  if (validatedBase) {
-    nutritionalArray.push(basesData[validatedBase].nutritional);
-  }
-  if (validatedFruit) {
-    nutritionalArray.push(fruitsData[validatedFruit].nutritional);
-  }
-  if (validatedSauce) {
-    nutritionalArray.push(saucesData[validatedSauce].nutritional);
-  }
-  if (validatedAutre) {
-    nutritionalArray.push(autresData[validatedAutre].nutritional);
-  }
-
-  // Calculer la moyenne
-  const calculateAverage = () => {
-    if (nutritionalArray.length === 0) {
-      return null;
-    }
-
-    const keys = ["sweet", "salty", "fat", "bitter", "acidity", "spicy", "protein"] as const;
-    const average: Record<string, number> = {};
-
-    keys.forEach((key) => {
-      const sum = nutritionalArray.reduce((acc, item) => acc + (item[key] || 0), 0);
-      average[key] = sum / nutritionalArray.length;
-    });
-
-    return average as any;
-  };
-
-  const average = calculateAverage();
+  const average = computeIngredientsAverage(
+    validatedBase,
+    validatedFruit,
+    validatedSauce,
+    validatedAutre,
+  );
 
   if (!average) {
     return (
@@ -86,12 +44,12 @@ export default function ScreenAverage({
   }
 
   return (
-    <group position={[0, 5, 38]} rotation={[0, Math.PI, 0]}>
+    <group position={[3, 7, 40]} rotation={[0, Math.PI, 0]}>
       <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
         <View style={styles.container}>
           <Text style={styles.title}>Moyenne de vos ingrédients</Text>
           <View style={styles.gaugeContainer}>
-            <GaugeSummary nutritional={average} />
+            <GaugeSummary nutritional={average} size={440} labelSize={30} />
           </View>
         </View>
       </Html>
@@ -100,8 +58,8 @@ export default function ScreenAverage({
 }
 
 const htmlStyle = {
-  width: "450px",
-  height: "350px",
+  width: "1000px",
+  height: "600px",
   pointerEvents: "auto",
   border: "10px solid #000",
 } as const;
@@ -118,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
+    fontSize: 54,
     fontWeight: "bold",
     marginBottom: 5,
   },

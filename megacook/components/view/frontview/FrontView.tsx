@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import ShaderEffect from '@/components/ShaderEffect';
+import BorderFadeShader from '@/components/shaders/borderFadeShader/BorderFadeShader';
 import { Mesh } from 'three';
 import { usePaperSound } from '@/hooks/useButtonSound';
 
@@ -29,7 +29,7 @@ export const FrontView = ({ cubeRef, onOpenAverageResult, canShowAverage }: Fron
 
       {canShowAverage && (
         <>
-          <ShaderEffect 
+          <BorderFadeShader
             position={[-10.97, 0.51, 1.6]}
             rotation={[Math.PI / 2, 0, Math.PI / 2.9]}
             planeSize={[3.6, 1.7]}

@@ -2,7 +2,7 @@
 
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 import { Canvas } from "@react-three/fiber";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { BaseType } from "@/data/basesData";
 import { NavigationButtons } from "./ui/button/NavigationButtons";
 import CameraControls from "./camera/CameraControls";
@@ -39,8 +39,13 @@ import { Environment } from "./Environment";
 import PlateScene from "./view/frontview/PlateScene";
 import { AverageResult } from "./view/frontview/AverageResult";
 import { useTicketSound, useSwipeSound, useMusicSound } from "@/hooks/useButtonSound";
+import { OrderType } from "@/data/ordersData";
 
-export default function Scene() {
+type SceneProps = {
+  onSceneReady?: () => void;
+};
+
+export default function Scene({ onSceneReady }: SceneProps) {
   const window = useWindowDimensions();
   const navigation = useViewNavigation();
   const playTicketSound = useTicketSound();  
@@ -50,10 +55,13 @@ export default function Scene() {
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
 
-  // Lancer la musique au montage du composant
-  useEffect(() => {
-    playMusic();
-  }, [playMusic]);
+  const handleCanvasCreated = useCallback(() => {
+    // 10 secondes de chargement
+    setTimeout(() => {
+      playMusic();
+      onSceneReady?.();
+    }, 1000);
+  }, [playMusic, onSceneReady]);
 
   const [selectedBase, setSelectedBase] = useState<BaseType | null>(null);
   const [selectedFruit, setSelectedFruit] = useState<FruitType | null>(null);
@@ -62,12 +70,18 @@ export default function Scene() {
   const [hasValidatedBase, setHasValidatedBase] = useState(false);
   const [hasValidatedFruit, setHasValidatedFruit] = useState(false);
   const [hasValidatedSauce, setHasValidatedSauce] = useState(false);
+  const [hasValidatedAutre, setHasValidatedAutre] = useState(false);
+  
+  const [isCuireBase, setIsCuireBase] = useState(false);
+  const [isCuireFruit, setIsCuireFruit] = useState(false);
+  const [isCuireAutre, setIsCuireAutre] = useState(false);
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
   const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
   const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
   const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
   const [showOrder, setShowOrder] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState<OrderType>(0);
   const [showAverageResult, setShowAverageResult] = useState(false);
 
   const allValidated =
@@ -84,10 +98,10 @@ export default function Scene() {
     if (Math.abs(translationX) > threshold) {
       playSwipeSound();
       if (translationX > 0) {
-        // Swipe vers la droite - vue précédente
+        // Swipe droite
         navigation.prevView();
       } else {
-        // Swipe vers la gauche - vue suivante
+        // Swipe gauche
         navigation.nextView();
       }
     }
@@ -95,12 +109,19 @@ export default function Scene() {
  
   return (
     <View
-      style={[styles.container, { width: window.width, height: window.height }]}
+      style={
+        [ styles.container, 
+          { 
+            width: window.width, 
+            height: window.height 
+          }
+        ]
+      }
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <GestureDetector gesture={swipeGesture}>
           <View style={styles.canvasWrapper}>
-            <Canvas style={styles.canvas}>
+            <Canvas style={styles.canvas} onCreated={handleCanvasCreated}>
 
               <Environment />
 
@@ -116,6 +137,10 @@ export default function Scene() {
                 validatedFruitModel={validatedFruitModel}
                 validatedSauceModel={validatedSauceModel}
                 validatedAutreModel={validatedAutreModel}
+                isCuireBase={isCuireBase}
+                isCuireFruit={isCuireFruit}
+                isCuireAutre={isCuireAutre}
+                resetKey={navigation.currentView}
               />
 
               {navigation.currentView === 0 && (
@@ -135,6 +160,7 @@ export default function Scene() {
                   hasValidatedBase={hasValidatedBase}
                   hasValidatedFruit={hasValidatedFruit}
                   hasValidatedSauce={hasValidatedSauce}
+                  hasValidatedAutre={hasValidatedAutre}
                   onBaseClick={setSelectedBase}
                   onFruitClick={setSelectedFruit}
                   onSauceClick={setSelectedSauce}
@@ -174,7 +200,7 @@ export default function Scene() {
               )}
 
               {/* Post Processing */}
-              <PixelatedPass pixelSize={4} />
+              <PixelatedPass pixelSize={2} />
 
               {/* Lights */}
               <SceneLights />
@@ -194,7 +220,18 @@ export default function Scene() {
                 hasValidatedBase={hasValidatedBase}
                 hasValidatedFruit={hasValidatedFruit}
                 hasValidatedSauce={hasValidatedSauce}
+                allValidated={allValidated}
+                isBottomRightView={navigation.currentView === 4}
                 onScreenClick={() => navigation.setCurrentView(4)}
+                onCuireChange={(isCuire) => {
+                  if (!hasValidatedBase) {
+                    setIsCuireBase(isCuire);
+                  } else if (!hasValidatedFruit) {
+                    setIsCuireFruit(isCuire);
+                  } else if (hasValidatedSauce) {
+                    setIsCuireAutre(isCuire);
+                  }
+                }}
                 onValidate={() => {
                   if (!hasValidatedBase && selectedBase) {
                     setValidatedModel(basesData[selectedBase].model);
@@ -224,6 +261,7 @@ export default function Scene() {
                     selectedAutre
                   ) {
                     setValidatedAutreModel(autresData[selectedAutre].model);
+                    setHasValidatedAutre(true);
                     playTicketSound(); 
                     navigation.setCurrentView(0);
                   }
@@ -240,15 +278,25 @@ export default function Scene() {
                 hasValidatedSauce={hasValidatedSauce}
               />
             </Canvas>
-
             
             {!showOrder && !showAverageResult && <NavigationButtons {...navigation} />}
 
             {/* Average Result Front View */}
-            {showAverageResult && <AverageResult onClose={() => setShowAverageResult(false)} />}
+            {showAverageResult && <AverageResult 
+              onClose={() => setShowAverageResult(false)}
+              validatedBase={selectedBase}
+              validatedFruit={selectedFruit}
+              validatedSauce={selectedSauce}
+              validatedAutre={selectedAutre}
+              orderType={currentOrder}
+            />}
 
             {/* Order Left View */}
-            {showOrder && <Order onClose={() => setShowOrder(false)} />}
+            {showOrder && <Order 
+              onClose={() => setShowOrder(false)} 
+              orderType={currentOrder} 
+            />}
+
           </View>
         </GestureDetector>
       </GestureHandlerRootView>

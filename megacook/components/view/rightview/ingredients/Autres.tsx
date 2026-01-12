@@ -5,9 +5,10 @@ import { useSelectedFoodSound } from '@/hooks/useButtonSound';
 
 type AutresProps = {
   onAutreClick: (autreType: AutreType) => void;
+  hasValidatedAutre?: boolean;
 };
 
-export const Autres = ({ onAutreClick }: AutresProps) => {
+export const Autres = ({ onAutreClick, hasValidatedAutre = false }: AutresProps) => {
   const [chocolatScale, setChocolatScale] = useState(1);
   const [pouletScale, setPouletScale] = useState(1);
   const [saumonScale, setSaumonScale] = useState(1);
@@ -20,7 +21,7 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
 
   return (
     <Suspense fallback={null}>
-
+      {!hasValidatedAutre && (
       <group>
         {/* Chocolat */}
         <group
@@ -63,6 +64,7 @@ export const Autres = ({ onAutreClick }: AutresProps) => {
           <Model src={autresData.saumon.model} scale={1} />
         </group>
       </group>
+      )}
     </Suspense>
   );
 };

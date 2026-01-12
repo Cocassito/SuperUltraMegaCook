@@ -3,7 +3,7 @@ import { BaseType } from "@/data/basesData";
 import { FruitType } from "@/data/fruitsData";
 import { Image } from "expo-image";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "expo-checkbox";
 import { useConfirmButtonSound } from "@/hooks/useButtonSound";
 import basesData from "@/data/basesData";
@@ -23,12 +23,15 @@ type ScreenProps = {
   hasValidatedBase: boolean;
   hasValidatedFruit: boolean;
   hasValidatedSauce: boolean;
+  allValidated?: boolean;
+  isBottomRightView?: boolean;
   onValidate?: () => void;
   onScreenClick?: () => void;
+  onCuireChange?: (isCuire: boolean) => void;
 };
 
 
-export default function Screen({ selectedBase, selectedFruit, selectedSauce, selectedAutre, hasValidatedBase, hasValidatedFruit, hasValidatedSauce, onValidate, onScreenClick }: ScreenProps) {
+export default function Screen({ selectedBase, selectedFruit, selectedSauce, selectedAutre, hasValidatedBase, hasValidatedFruit, hasValidatedSauce, allValidated = false, isBottomRightView = false, onValidate, onScreenClick, onCuireChange }: ScreenProps) {
   const [isCuire, setIsCuire] = useState(false);
   const playConfirmSound = useConfirmButtonSound();
   
@@ -37,6 +40,16 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
   const isFruitPhase = hasValidatedBase && !hasValidatedFruit;
   const isSaucePhase = hasValidatedBase && hasValidatedFruit && !hasValidatedSauce;
   const isAutrePhase = hasValidatedBase && hasValidatedFruit && hasValidatedSauce;
+
+  // Réinitialiser isCuire quand on change de phase
+  useEffect(() => {
+    setIsCuire(false);
+  }, [isBasePhase, isFruitPhase, isSaucePhase, isAutrePhase]);
+  
+  const handleCuireChange = (value: boolean) => {
+    setIsCuire(value);
+    onCuireChange?.(value);
+  };
   
   const selectedItem = isBasePhase ? selectedBase : isFruitPhase ? selectedFruit : isSaucePhase ? selectedSauce : selectedAutre;
   const data = isBasePhase 
@@ -46,14 +59,18 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
     : isSaucePhase
     ? (selectedSauce ? saucesData[selectedSauce] : null)
     : (selectedAutre ? autresData[selectedAutre] : null);
-
   
   return (
     <>
       <group position={[18, 3, 2]} rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}>
         <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
-          
-          {!selectedItem ? (
+          {allValidated ? (
+            <View style={styles.container} onTouchStart={onScreenClick}>
+              <View style={styles.finishedWrapper}>
+                <Text style={styles.finishedText}>MEGACOOK</Text>
+              </View>
+            </View>
+          ) : !selectedItem ? (
             <View style={styles.container} onTouchStart={onScreenClick}>
               <Text style={styles.title}>Megacook</Text>
               <Text style={styles.subtitle}>{isBasePhase ? "Sélectionne une base" : isFruitPhase ? "Sélectionne un fruit" : isSaucePhase ? "Sélectionne une sauce" : "Sélectionne un autre"}</Text>
@@ -75,21 +92,25 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                       alt={data.name}
                       style={styles.image}
                     />
-                    <View style={styles.checkboxContainer}>
-                      <Checkbox
-                        style={styles.checkbox}
-                        color={isCuire ? "#55256D" : undefined}
-                        value={isCuire}
-                        onValueChange={setIsCuire}
-                      />
-                      <Text style={{ marginLeft: 8 }}>Cuire</Text>
-                    </View>
-                    <TouchableOpacity onPress={() => {
-                      playConfirmSound();
-                      onValidate?.();
-                    }}>
-                      <Text>Valider</Text>
-                    </TouchableOpacity>
+                    {!isSaucePhase && (
+                      <View style={styles.checkboxContainer}>
+                        <Checkbox
+                          style={styles.checkbox}
+                          color={isCuire ? "#55256D" : undefined}
+                          value={isCuire}
+                          onValueChange={handleCuireChange}
+                        />
+                        <Text style={{ marginLeft: 8 }}>Cuire</Text>
+                      </View>
+                    )}
+                    {/* {isBottomRightView && ( */}
+                      <TouchableOpacity onPress={() => {
+                        playConfirmSound();
+                        onValidate?.();
+                      }}>
+                        <Text>{isAutrePhase ? "Terminer" : "Valider"}</Text>
+                      </TouchableOpacity>
+                    {/* )} */}
                   </View>
                 </View>
               </View>
@@ -119,6 +140,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: "#FFF2DD",
     color: "#000000",
+  },
+  finishedWrapper: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  finishedText: {
+    fontSize: 40,
+    fontWeight: "bold",
   },
   content: {
     flexDirection: "row",

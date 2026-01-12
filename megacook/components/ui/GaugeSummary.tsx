@@ -14,9 +14,11 @@ export type Nutritional = {
 
 interface GaugeSummaryProps {
   nutritional: Nutritional;
+  size?: number;
+  labelSize?: number;
 }
 
-export default function GaugeSummary({ nutritional }: GaugeSummaryProps) {
+export default function GaugeSummary({ nutritional, size = 180, labelSize = 11 }: GaugeSummaryProps) {
   const data = [
     { label: 'Sucré', value: nutritional.sweet },
     { label: 'Salé', value: nutritional.salty },
@@ -35,12 +37,12 @@ export default function GaugeSummary({ nutritional }: GaugeSummaryProps) {
         fillColor="#55256D"
         fillOpacity={0.35}
         labelColor="#333"
-        labelSize={11}
+        labelSize={labelSize}
         labelDistance={1.2}
         labelFontFamily=''
         dataFillColor="#FFF2DD"
         dataFillOpacity={0.6}
-        size={180}
+        size={size}
       />
     </View>
   );

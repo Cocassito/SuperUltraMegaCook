@@ -1,6 +1,6 @@
 import { Mesh } from 'three';
 import * as THREE from 'three';
-import ShaderEffect from '@/components/ShaderEffect';
+import BorderFadeShader from '@/components/shaders/borderFadeShader/BorderFadeShader';
 import { usePaperSound } from '@/hooks/useButtonSound';
 
 
@@ -26,7 +26,7 @@ export const LeftView = ({ cubeRef, onOpenOrder }: LeftViewProps) => {
         <meshBasicMaterial color="red" visible={false} />
       </mesh>
   
-      <ShaderEffect 
+      <BorderFadeShader
         position={[-18.4, 0.49, 17.4]} 
         rotation={[Math.PI / 2, 0, Math.PI / 6]} 
         planeSize={[3.4, 3.1]}

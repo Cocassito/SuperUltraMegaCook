@@ -9,13 +9,14 @@ import { FruitType } from '@/data/fruitsData';
 import { SauceType } from '@/data/saucesData';
 import { AutreType } from '@/data/autresData';
 import PlateScene from '../frontview/PlateScene';
-import ShaderEffect from '@/components/ShaderEffect';
+import BorderFadeShader from '@/components/shaders/borderFadeShader/BorderFadeShader';
 
 type RightViewProps = {
   cubeRef: React.RefObject<Mesh>;
   hasValidatedBase: boolean;
   hasValidatedFruit: boolean;
   hasValidatedSauce: boolean;
+  hasValidatedAutre: boolean;
   onBaseClick: (baseType: BaseType) => void;
   onFruitClick: (fruitType: FruitType) => void;
   onSauceClick: (sauceType: SauceType) => void;
@@ -30,7 +31,8 @@ export const RightView = ({
   cubeRef, 
   hasValidatedBase, 
   hasValidatedFruit, 
-  hasValidatedSauce, 
+  hasValidatedSauce,
+  hasValidatedAutre, 
   onBaseClick, 
   onFruitClick, 
   onSauceClick, 
@@ -49,7 +51,7 @@ export const RightView = ({
         <meshBasicMaterial color="yellow" visible={false} />
       </mesh>
 
-      <ShaderEffect 
+      <BorderFadeShader
         position={[18, 3, 2]} 
         rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}
         planeSize={[9.0, 7.5]}
@@ -87,7 +89,7 @@ export const RightView = ({
       {/* Autre */}
       {hasValidatedBase && hasValidatedFruit && hasValidatedSauce && (
         <group position={[0, 1, 0]}>
-          <Autres onAutreClick={onAutreClick} />
+          <Autres onAutreClick={onAutreClick} hasValidatedAutre={hasValidatedAutre} />
         </group>
       )}
     </>

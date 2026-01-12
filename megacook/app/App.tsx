@@ -1,6 +1,14 @@
 import Scene from "@/components/Scene";
-import React from "react";
+import React, { useState } from "react";
+import { LoadingScreen } from "@/components/loadingScreen/LoadingScreen";
 
 export default function App() {
-  return <Scene />;
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <>
+      {isLoading && <LoadingScreen />}
+      <Scene onSceneReady={() => setIsLoading(false)} />
+    </>
+  );
 }

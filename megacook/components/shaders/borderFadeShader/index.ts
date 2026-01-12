@@ -9,7 +9,7 @@ export const vertexShader = `
  
 export const fragmentShader = `
   varying vec2 vUv;
-  uniform float time;
+  uniform float uTime;
 
   void main() {    
     // Rose foncé et rose clair
@@ -23,7 +23,7 @@ export const fragmentShader = `
     alpha *= smoothstep(1.0, 0.95, vUv.y);      // Côté Haut
     
     // Anime l'opacité - apparaît et disparaît
-    float opacity = 0.5 + 0.5 * sin(time * 3.5);
+    float opacity = 0.5 + 0.5 * sin(uTime * 3.5);
     alpha *= opacity;
     
     gl_FragColor = vec4(roseDark, alpha);

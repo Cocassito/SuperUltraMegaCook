@@ -1,22 +1,21 @@
-
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { vertexShader, fragmentShader } from "./shaders";
+import { vertexShader, fragmentShader } from "./index";
 import { useRef } from "react";
 
-type ShaderEffectProps = {
+type BorderFadeShaderProps = {
   position?: THREE.Vector3 | [number, number, number];
   rotation?: THREE.Euler | [number, number, number];
   planeSize?: [number, number];
 };
 
-export default function ShaderEffect({ position = [0, 0, 0], rotation = [0, 0, 0], planeSize = [0.0, 0.0] }: ShaderEffectProps) {
+export default function BorderFadeShader({ position = [0, 0, 0], rotation = [0, 0, 0], planeSize = [0.0, 0.0] }: BorderFadeShaderProps) {
 
   const shaderRef = useRef<THREE.ShaderMaterial>(null);
   
   useFrame(({ clock }) => {
     if (shaderRef.current) {
-      shaderRef.current.uniforms.time.value = clock.getElapsedTime();
+      shaderRef.current.uniforms.uTime.value = clock.getElapsedTime();
     }
   });
 
@@ -30,7 +29,7 @@ export default function ShaderEffect({ position = [0, 0, 0], rotation = [0, 0, 0
         side={THREE.DoubleSide}
         transparent={true}
         uniforms={{
-          time: { value: 0 }
+          uTime: { value: 0 }
         }}
       />
     </mesh>
