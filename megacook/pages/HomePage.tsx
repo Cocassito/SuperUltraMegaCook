@@ -7,11 +7,21 @@ import LoadGameButton from "@/components/ui/button/LoadGameButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SettingsButton } from "@/components/ui/button/SettingsButton";
 import { SettingsPopup } from "@/components/ui/popup/SettingsPopup";
+import { preloadModel } from "@/utils/PreloadModel";
+import scene from "../assets/models/environment/scene.glb";
 
 export default function HomePage() {
   const [ready, setReady] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Asset.fromModule(scene).downloadAsync();
+  }, []);
+
+  useEffect(() => {
+    preloadModel(scene);
+  }, []);
 
   useEffect(() => {
     async function loadAssets() {

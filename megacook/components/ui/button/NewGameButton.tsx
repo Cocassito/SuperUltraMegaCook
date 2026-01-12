@@ -5,7 +5,7 @@ export default function NewGameButton() {
   const router = useRouter();
 
   return (
-    <PixelButton 
+    <PixelButton
       onPress={() => {
         router.push("/App");
       }}
