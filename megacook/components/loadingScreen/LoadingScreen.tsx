@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     zIndex: 9999,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000",
+    backgroundColor: "#ff0000ff",
   },
   video: {
     width: "100%",
