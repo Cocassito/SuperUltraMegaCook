@@ -5,7 +5,7 @@ export const LoadingScreen = () => {
   return (
     <View style={styles.container}>
       <Video
-        source={require("../../assets/video/CLOOOCHE.mp4")}
+        source={require("../../assets/video/Loading.mp4")}
         rate={1.0}
         volume={1.0}
         isMuted={false}
