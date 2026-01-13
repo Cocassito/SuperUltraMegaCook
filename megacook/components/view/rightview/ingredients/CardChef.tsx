@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ImageSourcePropType,
 } from "react-native";
-import Star from "./svg/Star";
+import Star from "@/components/svg/Star";
 
 export type ChefPoint = string;
 

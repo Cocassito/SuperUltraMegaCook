@@ -25,6 +25,7 @@ type RightViewProps = {
   validatedFruitModel?: string | null;
   validatedSauceModel?: string | null;
   validatedAutreModel?: string | null;
+  hasOpenedOrder?: boolean;
 };
 
 export const RightView = ({ 
@@ -41,6 +42,7 @@ export const RightView = ({
   validatedFruitModel,
   validatedSauceModel,
   validatedAutreModel,
+  hasOpenedOrder = false,
 }: RightViewProps) => {
 
   return (
@@ -66,7 +68,7 @@ export const RightView = ({
       />
 
       {/* Base */}
-      {!hasValidatedBase && (
+      {hasOpenedOrder && !hasValidatedBase && (
         <group position={[0, 1, 0]}>
           <Base onBaseClick={onBaseClick} />
         </group>

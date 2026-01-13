@@ -1,91 +1,100 @@
 import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
+import { useState, useEffect } from "react";
 import PixelButton from "./PixelButtonComponent";
+import { WarningButton } from "./WarningButton";
+import { useWarningSound } from "@/hooks/useButtonSound";
 import ArrowLeft from "@/components/svg/ArrowLeft";
 import ArrowRight from "@/components/svg/ArrowRight";
 
 interface NavigationButtonsProps {
   prevView: () => void;
   nextView: () => void;
-  bottomView: () => void;
-  bottomRightView: () => void;
-  bottomLeftView: () => void;
-  topView: () => void;
-  backView: () => void;
   currentView?: number;
+  onWarningLeftPress?: () => void;
+  onWarningRightPress?: () => void;
+  hasOpenedOrder?: boolean;
+  allValidated?: boolean;
 }
 
 export const NavigationButtons = ({
   prevView,
   nextView,
-  bottomView,
-  bottomRightView,
-  bottomLeftView,
-  topView,
   currentView,
+  onWarningLeftPress,
+  onWarningRightPress,
+  hasOpenedOrder = false,
+  allValidated = false,
 }: NavigationButtonsProps) => {
+  const [showWarnings, setShowWarnings] = useState(false);
+
+  // Délai de 5 secondes pour afficher les warnings
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowWarnings(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []); 
+
+  // Logique pour afficher les warning buttons selon la vue et l'état
+  let showWarningLeft = false;
+  let showWarningRight = false;
+
+  // Ne plus afficher les warnings si tous les aliments sont validés
+  if (allValidated) {
+    showWarningLeft = false;
+    showWarningRight = false;
+  } else if (!hasOpenedOrder) {
+    if (currentView === 0) {
+      showWarningLeft = showWarnings;
+    } else if (currentView === 6) {
+      showWarningRight = showWarnings;
+    } else if (currentView === 1) {
+      showWarningLeft = showWarnings;
+    }
+  } else {
+    // Après avoir ouvert l'ordre : warning droite pour aller à RightView
+    if (currentView === 0 || currentView === 2) {
+      showWarningRight = true;
+    } else if (currentView === 6) {
+      showWarningLeft = true;
+    }
+  }
+
   return (
     <>
-      {currentView === 3 || currentView === 5 ? (
-        <>
-          <View style={styles.arrowLeft}>
-            <PixelButton
-              icon={<ArrowLeft />}
-              colorPrimary="#C8A2DA"
-              colorSecondary="#773B94"
-              colorBorder="#55256D"
-              colorInnerShadow="#E9DAF0"
-              onPress={prevView}
-            />
-          </View>
-          <View style={styles.arrowRight}>
-            <PixelButton
-              icon={<ArrowRight />}
-              colorPrimary="#C8A2DA"
-              colorSecondary="#773B94"
-              colorBorder="#55256D"
-              colorInnerShadow="#E9DAF0"
-              onPress={nextView}
-            />
-          </View>
-        </>
-      ) : (
-        // Vues normales : ← → et ↓ selon la vue
-        <>
-          <View style={styles.arrowLeft}>
-            <PixelButton
-              icon={<ArrowLeft />}
-              colorPrimary="#C8A2DA"
-              colorSecondary="#773B94"
-              colorBorder="#55256D"
-              colorInnerShadow="#E9DAF0"
-              onPress={prevView}
-            />
-          </View>
-          <View style={styles.arrowRight}>
-            <PixelButton
-              icon={<ArrowRight />}
-              colorPrimary="#C8A2DA"
-              colorSecondary="#773B94"
-              colorBorder="#55256D"
-              colorInnerShadow="#E9DAF0"
-              onPress={nextView}
-            />
-          </View>
-          {/* {currentView === 0 && (
-            <TouchableOpacity style={styles.arrowBottom} onPress={bottomView}>
-              <Text style={styles.arrowText}>↓</Text>
-            </TouchableOpacity>
-          )}
-          {currentView === 1 && (
-            <TouchableOpacity style={styles.arrowBottom} onPress={bottomRightView}>
-              <Text style={styles.arrowText}>↓</Text>
-            </TouchableOpacity>
-          )}
-          {currentView === 2 && (
-            <TouchableOpacity style={styles.arrowBottom} onPress={bottomLeftView}>
-              <Text style={styles.arrowText}>↓</Text>
-            </TouchableOpacity> */}
-        </>
+      <View style={styles.arrowLeft}>
+        <PixelButton
+          icon={<ArrowLeft />}
+          colorPrimary="#C8A2DA"
+          colorSecondary="#773B94"
+          colorBorder="#55256D"
+          colorInnerShadow="#E9DAF0"
+          onPress={prevView}
+        />
+      </View>
+
+      <View style={styles.arrowRight}>
+        <PixelButton
+          icon={<ArrowRight />}
+          colorPrimary="#C8A2DA"
+          colorSecondary="#773B94"
+          colorBorder="#55256D"
+          colorInnerShadow="#E9DAF0"
+          onPress={nextView}
+        />
+      </View>
+
+      {showWarningLeft && (
+        <View style={styles.warningLeft}>
+          <WarningButton />
+        </View>
+      )}
+
+      {showWarningRight && (
+        <View style={styles.warningRight}>
+          <WarningButton />
+        </View>
       )}
     </>
   );
@@ -117,32 +126,22 @@ const styles = StyleSheet.create({
     zIndex: 9999,
     elevation: 10,
   },
-  // arrowTop: {
-  //   position: "absolute",
-  //   right: "50%",
-  //   top: 12,
-  //   marginRight: -24,
-  //   backgroundColor: "#FFF2DD",
-  //   borderRadius: 24,
-  //   width: 48,
-  //   height: 48,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   zIndex: 9999,
-  //   elevation: 10,
-  // },
-  // arrowBottom: {
-  //   position: "absolute",
-  //   right: "50%",
-  //   bottom: 12,
-  //   marginRight: -24,
-  //   backgroundColor: "#FFF2DD",
-  //   borderRadius: 24,
-  //   width: 48,
-  //   height: 48,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   zIndex: 9999,
-  //   elevation: 10,
-  // },
+  warningLeft: {
+    position: "absolute",
+    left: 46,
+    top: "50%",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9999,
+    elevation: 10,
+  },
+  warningRight: {
+    position: "absolute",
+    right: 46,
+    top: '50%',
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9999,
+    elevation: 10,
+  }
 });

@@ -1,14 +1,19 @@
 import { useRouter } from "expo-router";
+import { useButtonSound } from "@/hooks/useButtonSound";
 import PixelButton from "./PixelButtonComponent";
 
 export default function NewGameButton() {
   const router = useRouter();
+  const playButtonSound = useButtonSound();
+
+  const handlePress = async () => {
+    await playButtonSound();
+    router.push("/App");
+  };
 
   return (
     <PixelButton
-      onPress={() => {
-        router.push("/App");
-      }}
+      onPress={handlePress}
       title="Nouvelle partie"
       colorPrimary="#C8A2DA"
       colorSecondary="#773B94"

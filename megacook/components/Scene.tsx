@@ -23,6 +23,7 @@ import { SyncedCamera } from "./camera/SyncedCamera";
 
 import { Environment } from "./Environment";
 import PlateScene from "./view/frontview/PlateScene";
+import WalkingCharacter from "./animationcharacter/WalkingCharacter";
 
 import { FrontView } from "./view/frontview/FrontView";
 import { RightView } from "./view/rightview/RightView";
@@ -106,6 +107,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
   const [showOrder, setShowOrder] = useState(false);
   const [showAverageResult, setShowAverageResult] = useState(false);
   const [currentOrder, setCurrentOrder] = useState<OrderType>(0);
+  const [hasOpenedOrder, setHasOpenedOrder] = useState(false);
 
   const allValidated =
     hasValidatedBase &&
@@ -153,6 +155,10 @@ export default function Scene({ onSceneReady }: SceneProps) {
                   resetKey={navigation.currentView}
                 />
 
+                {/* Perso qui marche */}
+                <WalkingCharacter position={[-5, 0, -7]} rotation={[0, Math.PI / 2, 0]} scale={5} />
+                <WalkingCharacter position={[-25, 1, 23]} rotation={[0, Math.PI, 0]} scale={5} />
+
                 {navigation.currentView === 0 && (
                   <FrontView
                     cubeRef={cubeRef}
@@ -176,13 +182,17 @@ export default function Scene({ onSceneReady }: SceneProps) {
                     onFruitClick={setSelectedFruit}
                     onSauceClick={setSelectedSauce}
                     onAutreClick={setSelectedAutre}
+                    hasOpenedOrder={hasOpenedOrder}
                   />
                 )}
 
                 {navigation.currentView === 2 && (
                   <LeftView
                     cubeRef={cubeRef}
-                    onOpenOrder={() => setShowOrder(true)}
+                    onOpenOrder={() => {
+                      setShowOrder(true);
+                      setHasOpenedOrder(true);
+                    }}
                   />
                 )}
 
@@ -205,7 +215,6 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 {/* ⭐ FIN DU LOADING */}
                 <SceneReady
                   onReady={() => {
-                    playMusic();
                     onSceneReady?.();
                   }}
                 />
@@ -266,7 +275,11 @@ export default function Scene({ onSceneReady }: SceneProps) {
             </Canvas>
 
             {!showOrder && !showAverageResult && (
-              <NavigationButtons {...navigation} />
+              <NavigationButtons 
+                {...navigation}
+                hasOpenedOrder={hasOpenedOrder}
+                allValidated={allValidated}
+              />
             )}
             {showAverageResult && (
               <AverageResult

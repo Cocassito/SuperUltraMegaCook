@@ -46,6 +46,10 @@ export const useSwipeSound = () => {
   return useSound(require("@/assets/sounds/swipe.mp3"));
 };
 
+export const useWarningSound = () => {
+  return useSound(require("@/assets/sounds/warning.mp3"));
+};  
+
 export function useMusicSound() {
   const soundRef = useRef<Audio.Sound | null>(null);
 
