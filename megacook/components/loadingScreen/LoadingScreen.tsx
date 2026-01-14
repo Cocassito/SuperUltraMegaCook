@@ -5,13 +5,15 @@ export const LoadingScreen = () => {
   return (
     <View style={styles.container}>
       <Video
-        source={require("../../assets/video/CLOOOCHE.mp4")}
+        source={require("../../assets/video/Loading.mp4")}
         rate={1.0}
         volume={1.0}
         isMuted={false}
         shouldPlay
         isLooping
-        resizeMode={ResizeMode.COVER}
+        scaleX={0.8}
+        scaleY={0.8}
+        resizeMode={ResizeMode.CONTAIN}
         style={StyleSheet.absoluteFill}
       />
     </View>
@@ -29,6 +31,6 @@ const styles = StyleSheet.create({
     zIndex: 9999,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "#FFF2DD",
   },
 });
