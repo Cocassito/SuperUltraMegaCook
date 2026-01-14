@@ -24,7 +24,6 @@ export default function PlateScene({
   isCuireAutre = false,
   resetKey,
 }: PlateSceneProps) {
-  const assiette = require("../../../assets/models/objets/assiette.glb");
   const plateRef = useRef<Group>(null);
 
   return (
@@ -36,12 +35,12 @@ export default function PlateScene({
           <group position={[1.5, 0.5, 0]}>
             {validatedModel && <Model src={validatedModel} scale={1} />}
             {validatedModel && isCuireBase && (
-              <SmokeShader 
+              <SmokeShader
                 key={`smoke-base-${resetKey}-${validatedModel}`}
                 resetKey={resetKey ? `${resetKey}-base` : undefined}
-                position={[0, 2.5, 0]} 
-                rotation={[0, 0, 0]} 
-                planeSize={[2.5, 3.5]} 
+                position={[0, 2.5, 0]}
+                rotation={[0, 0, 0]}
+                planeSize={[2.5, 3.5]}
               />
             )}
           </group>
@@ -52,12 +51,12 @@ export default function PlateScene({
               <Model src={validatedFruitModel} scale={1} />
             )}
             {validatedFruitModel && isCuireFruit && (
-              <SmokeShader 
+              <SmokeShader
                 key={`smoke-fruit-${resetKey}-${validatedFruitModel}`}
                 resetKey={resetKey ? `${resetKey}-fruit` : undefined}
-                position={[0, 2.5, 0]} 
-                rotation={[0, 0, 0]} 
-                planeSize={[2.5, 3.5]} 
+                position={[0, 2.5, 0]}
+                rotation={[0, 0, 0]}
+                planeSize={[2.5, 3.5]}
               />
             )}
           </group>
@@ -75,12 +74,12 @@ export default function PlateScene({
               <Model src={validatedAutreModel} scale={1} />
             )}
             {validatedAutreModel && isCuireAutre && (
-              <SmokeShader 
+              <SmokeShader
                 key={`smoke-autre-${resetKey}-${validatedAutreModel}`}
                 resetKey={resetKey ? `${resetKey}-autre` : undefined}
-                position={[0, 2.5, 0]} 
-                rotation={[0, 0, 0]} 
-                planeSize={[2.5, 3.5]} 
+                position={[0, 2.5, 0]}
+                rotation={[0, 0, 0]}
+                planeSize={[2.5, 3.5]}
               />
             )}
           </group>
