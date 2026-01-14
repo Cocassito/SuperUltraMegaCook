@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginBottom: 2,
   },
-
   icon: {
     marginHorizontal: 3,
   },

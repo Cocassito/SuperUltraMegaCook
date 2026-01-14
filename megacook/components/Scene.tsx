@@ -15,6 +15,7 @@ import { FruitType } from "@/data/fruitsData";
 import { SauceType } from "@/data/saucesData";
 import { AutreType } from "@/data/autresData";
 import { OrderType } from "@/data/ordersData";
+import { ChefType } from "@/data/chefsData";
 
 import { NavigationButtons } from "./ui/button/NavigationButtons";
 import CameraControls from "./camera/CameraControls";
@@ -37,6 +38,7 @@ import Screen from "./view/rightview/Screen";
 import ScreenAverage from "./view/backview/ScreenAverage";
 import { AverageResult } from "./view/frontview/AverageResult";
 import { Order } from "./view/leftview/Order";
+import { ChefCard } from "./view/rightview/ingredients/ChefCard";
 
 import PixelatedPass from "./postProd/PixelComposer";
 import { SceneLights } from "./sceneLights/SceneLights";
@@ -45,6 +47,9 @@ import basesData from "@/data/basesData";
 import fruitsData from "@/data/fruitsData";
 import saucesData from "@/data/saucesData";
 import autresData from "@/data/autresData";
+import chefsData from "@/data/chefsData";
+
+import { OrbitControls } from "@react-three/drei";
 
 import {
   useTicketSound,
@@ -83,28 +88,26 @@ export default function Scene({ onSceneReady }: SceneProps) {
   const [selectedFruit, setSelectedFruit] = useState<FruitType | null>(null);
   const [selectedSauce, setSelectedSauce] = useState<SauceType | null>(null);
   const [selectedAutre, setSelectedAutre] = useState<AutreType | null>(null);
+  const [selectedChef, setSelectedChef] = useState<ChefType | null>(null);
 
   const [hasValidatedBase, setHasValidatedBase] = useState(false);
   const [hasValidatedFruit, setHasValidatedFruit] = useState(false);
   const [hasValidatedSauce, setHasValidatedSauce] = useState(false);
   const [hasValidatedAutre, setHasValidatedAutre] = useState(false);
+  const [hasValidatedChef, setHasValidatedChef] = useState(false);
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
-    null
-  );
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
-    null
-  );
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
-    null
-  );
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
+  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(null);
 
   const [isCuireBase, setIsCuireBase] = useState(false);
   const [isCuireFruit, setIsCuireFruit] = useState(false);
   const [isCuireAutre, setIsCuireAutre] = useState(false);
 
   const [showOrder, setShowOrder] = useState(false);
+  const [showChefCard, setShowChefCard] = useState(false);
   const [showAverageResult, setShowAverageResult] = useState(false);
   const [currentOrder, setCurrentOrder] = useState<OrderType>(0);
   const [hasOpenedOrder, setHasOpenedOrder] = useState(false);
@@ -113,7 +116,19 @@ export default function Scene({ onSceneReady }: SceneProps) {
     hasValidatedBase &&
     hasValidatedFruit &&
     hasValidatedSauce &&
-    !!validatedAutreModel;
+    hasValidatedAutre &&
+    hasValidatedChef;
+
+  /* ------------------------ HELPERS: Chef navigation ------------------------ */
+  const chefOrder: ChefType[] = ["lola", "leo", "philippeetchebest"];
+  const getNextChef = (type: ChefType) => {
+    const idx = chefOrder.indexOf(type);
+    return chefOrder[(idx + 1) % chefOrder.length];
+  };
+  const getPrevChef = (type: ChefType) => {
+    const idx = chefOrder.indexOf(type);
+    return chefOrder[(idx - 1 + chefOrder.length) % chefOrder.length];
+  };
 
   /* ------------------------ GESTURES ------------------------ */
 
@@ -156,8 +171,8 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 />
 
                 {/* Perso qui marche */}
-                <WalkingCharacter position={[-5, 0, -7]} rotation={[0, Math.PI / 2, 0]} scale={5} />
-                <WalkingCharacter position={[-25, 1, 23]} rotation={[0, Math.PI, 0]} scale={5} />
+                <WalkingCharacter position={[-28, -10, -18]} rotation={[0, Math.PI / 2, 0]} scale={15} />
+                <WalkingCharacter position={[-55, -10, 23]} rotation={[0, Math.PI, 0]} scale={15} />
 
                 {navigation.currentView === 0 && (
                   <FrontView
@@ -178,10 +193,20 @@ export default function Scene({ onSceneReady }: SceneProps) {
                     hasValidatedFruit={hasValidatedFruit}
                     hasValidatedSauce={hasValidatedSauce}
                     hasValidatedAutre={hasValidatedAutre}
+                    hasValidatedChef={hasValidatedChef}
                     onBaseClick={setSelectedBase}
                     onFruitClick={setSelectedFruit}
                     onSauceClick={setSelectedSauce}
                     onAutreClick={setSelectedAutre}
+                    onChefClick={(chef) => {
+                      setSelectedChef(chef);
+                      setShowChefCard(true);
+                    }}
+                    validatedModel={validatedModel}
+                    validatedFruitModel={validatedFruitModel}
+                    validatedSauceModel={validatedSauceModel}
+                    validatedAutreModel={validatedAutreModel}
+                    validatedChefModel={validatedChefModel}
                     hasOpenedOrder={hasOpenedOrder}
                   />
                 )}
@@ -222,6 +247,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
 
               <PixelatedPass pixelSize={2} />
               <SceneLights />
+              <OrbitControls />
             </Canvas>
 
             {/* ======================= OVERLAY CANVAS ======================= */}
@@ -233,12 +259,40 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 selectedFruit={selectedFruit}
                 selectedSauce={selectedSauce}
                 selectedAutre={selectedAutre}
+                selectedChef={selectedChef}
                 hasValidatedBase={hasValidatedBase}
                 hasValidatedFruit={hasValidatedFruit}
                 hasValidatedSauce={hasValidatedSauce}
+                hasValidatedAutre={hasValidatedAutre}
+                hasValidatedChef={hasValidatedChef}
                 allValidated={allValidated}
                 isBottomRightView={navigation.currentView === 4}
+                currentView={navigation.currentView}
                 onScreenClick={() => navigation.setCurrentView(4)}
+                onRestart={() => {
+                  setSelectedBase(null);
+                  setSelectedFruit(null);
+                  setSelectedSauce(null);
+                  setSelectedAutre(null);
+                  setSelectedChef(null);
+                  setHasValidatedBase(false);
+                  setHasValidatedFruit(false);
+                  setHasValidatedSauce(false);
+                  setHasValidatedAutre(false);
+                  setHasValidatedChef(false);
+                  setValidatedModel(null);
+                  setValidatedFruitModel(null);
+                  setValidatedSauceModel(null);
+                  setValidatedAutreModel(null);
+                  setValidatedChefModel(null);
+                  setIsCuireBase(false);
+                  setIsCuireFruit(false);
+                  setIsCuireAutre(false);
+                  setShowAverageResult(false);
+                  setCurrentOrder(0);
+                  setHasOpenedOrder(false);
+                  navigation.setCurrentView(0);
+                }}
                 onCuireChange={(isCuire) => {
                   if (!hasValidatedBase) setIsCuireBase(isCuire);
                   else if (!hasValidatedFruit) setIsCuireFruit(isCuire);
@@ -257,6 +311,9 @@ export default function Scene({ onSceneReady }: SceneProps) {
                   } else if (selectedAutre) {
                     setValidatedAutreModel(autresData[selectedAutre].model);
                     setHasValidatedAutre(true);
+                  } else if (selectedChef && !hasValidatedChef) {
+                    setValidatedChefModel(chefsData[selectedChef].name);
+                    setHasValidatedChef(true);
                     playTicketSound();
                   }
                   navigation.setCurrentView(0);
@@ -274,7 +331,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
               />
             </Canvas>
 
-            {!showOrder && !showAverageResult && (
+            {!showOrder && !showAverageResult && !showChefCard && (
               <NavigationButtons 
                 {...navigation}
                 hasOpenedOrder={hasOpenedOrder}
@@ -296,6 +353,22 @@ export default function Scene({ onSceneReady }: SceneProps) {
               <Order
                 onClose={() => setShowOrder(false)}
                 orderType={currentOrder}
+              />
+            )}
+
+            {showChefCard && (
+              <ChefCard
+                chefType={selectedChef}
+                onClose={() => setShowChefCard(false)}
+                onPrev={() => selectedChef && setSelectedChef(getPrevChef(selectedChef))}
+                onNext={() => selectedChef && setSelectedChef(getNextChef(selectedChef))}
+                onValidate={() => {
+                  setShowChefCard(false);
+                  setValidatedChefModel(selectedChef);
+                  setHasValidatedChef(true);
+                  playTicketSound();
+                  navigation.setCurrentView(0);
+                }}
               />
             )}
           </View>

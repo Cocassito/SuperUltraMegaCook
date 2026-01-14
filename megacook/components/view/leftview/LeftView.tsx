@@ -25,7 +25,7 @@ export const LeftView = ({ cubeRef, onOpenOrder }: LeftViewProps) => {
         <boxGeometry args={[1, 1, 1]} />
         <meshBasicMaterial color="red" visible={false} />
       </mesh>
-  
+
       <BorderFadeShader
         position={[-18.4, 0.49, 17.4]} 
         rotation={[Math.PI / 2, 0, Math.PI / 6]} 
@@ -45,6 +45,7 @@ export const LeftView = ({ cubeRef, onOpenOrder }: LeftViewProps) => {
           opacity={0.0001} 
         />
       </mesh>
+
     </>
   );
 }; 

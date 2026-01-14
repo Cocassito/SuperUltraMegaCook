@@ -53,7 +53,6 @@ export const FrontView = ({ cubeRef, onOpenAverageResult, onNavigateToBottomView
             planeSize={[3.6, 1.7]}
           />
 
-
           {/* Zone Ticket de Caisse */}
           <mesh
             position={[-10.95, 0.6, 1.6]}

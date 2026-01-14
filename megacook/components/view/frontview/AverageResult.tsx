@@ -104,28 +104,6 @@ export const AverageResult = ({ onClose, validatedBase, validatedFruit, validate
           <LineSVG />
 
           <View style={styles.contentSection}>
-            <Text style={styles.sectionLabel}>Goûts</Text>
-            <RatingRow label="Sucré" value={average.sweet} />
-            <RatingRow label="Salé" value={average.salty} />
-            <RatingRow label="Acidité" value={average.acidity} />
-            <RatingRow label="Épicé" value={average.spicy} />
-            <RatingRow label="Protéines" value={average.protein} />
-            <RatingRow label="Amer" value={average.bitter} />
-            <RatingRow label="Gras" value={average.fat} />
-          </View>
-
-          <View style={styles.contentSection}>
-            <Text style={styles.sectionLabel}>Goûts</Text>
-            <RatingRow label="Sucré" value={average.sweet} />
-            <RatingRow label="Salé" value={average.salty} />
-            <RatingRow label="Acidité" value={average.acidity} />
-            <RatingRow label="Épicé" value={average.spicy} />
-            <RatingRow label="Protéines" value={average.protein} />
-            <RatingRow label="Amer" value={average.bitter} />
-            <RatingRow label="Gras" value={average.fat} />
-          </View>
-
-          <View style={styles.contentSection}>
             <Text style={styles.sectionLabel}>Note du client</Text>
             <RatingRow label="Respect de la demande" value={respectScore} stacked />
             <RatingRow label="Originalité" value={3} stacked />

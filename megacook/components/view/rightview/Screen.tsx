@@ -1,17 +1,23 @@
 import { Html } from "../../lib/drei/index";
-import { BaseType } from "@/data/basesData";
-import { FruitType } from "@/data/fruitsData";
 import { Image } from "expo-image";
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { Checkbox } from "expo-checkbox";
 import { useConfirmButtonSound } from "@/hooks/useButtonSound";
+import PixelButton from "@/components/ui/button/PixelButtonComponent";
+
 import basesData from "@/data/basesData";
 import fruitsData from "@/data/fruitsData";
 import saucesData from "@/data/saucesData";
 import autresData from "@/data/autresData";
+import chefsData from "@/data/chefsData";
+
+import { BaseType } from "@/data/basesData";
+import { FruitType } from "@/data/fruitsData";
 import { SauceType } from "@/data/saucesData";
 import { AutreType } from "@/data/autresData";
+import { ChefType } from "@/data/chefsData";
+
 import GaugeSummary from "@/components/ui/GaugeSummary";
 
 
@@ -20,18 +26,23 @@ type ScreenProps = {
   selectedFruit: FruitType | null;
   selectedSauce: SauceType | null;
   selectedAutre: AutreType | null;
+  selectedChef: ChefType | null;
   hasValidatedBase: boolean;
   hasValidatedFruit: boolean;
   hasValidatedSauce: boolean;
+  hasValidatedAutre: boolean;
+  hasValidatedChef?: boolean;
   allValidated?: boolean;
   isBottomRightView?: boolean;
+  currentView?: number;
   onValidate?: () => void;
   onScreenClick?: () => void;
+  onRestart?: () => void;
   onCuireChange?: (isCuire: boolean) => void;
 };
 
 
-export default function Screen({ selectedBase, selectedFruit, selectedSauce, selectedAutre, hasValidatedBase, hasValidatedFruit, hasValidatedSauce, allValidated = false, isBottomRightView = false, onValidate, onScreenClick, onCuireChange }: ScreenProps) {
+export default function Screen({ selectedBase, selectedFruit, selectedSauce, selectedAutre, selectedChef, hasValidatedBase, hasValidatedFruit, hasValidatedSauce, hasValidatedAutre, hasValidatedChef = false, allValidated = false, isBottomRightView = false, currentView = 0, onValidate, onScreenClick, onRestart, onCuireChange }: ScreenProps) {
   const [isCuire, setIsCuire] = useState(false);
   const playConfirmSound = useConfirmButtonSound();
   
@@ -39,41 +50,56 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
   const isBasePhase = !hasValidatedBase;
   const isFruitPhase = hasValidatedBase && !hasValidatedFruit;
   const isSaucePhase = hasValidatedBase && hasValidatedFruit && !hasValidatedSauce;
-  const isAutrePhase = hasValidatedBase && hasValidatedFruit && hasValidatedSauce;
+  const isAutrePhase = hasValidatedBase && hasValidatedFruit && hasValidatedSauce && !hasValidatedAutre;
+  const isChefPhase = hasValidatedBase && hasValidatedFruit && hasValidatedSauce && hasValidatedAutre && !hasValidatedChef;
 
   // Réinitialiser isCuire quand on change de phase
   useEffect(() => {
     setIsCuire(false);
-  }, [isBasePhase, isFruitPhase, isSaucePhase, isAutrePhase]);
+  }, [isBasePhase, isFruitPhase, isSaucePhase, isAutrePhase, isChefPhase]);
   
   const handleCuireChange = (value: boolean) => {
     setIsCuire(value);
     onCuireChange?.(value);
   };
   
-  const selectedItem = isBasePhase ? selectedBase : isFruitPhase ? selectedFruit : isSaucePhase ? selectedSauce : selectedAutre;
+  const selectedItem = isBasePhase ? selectedBase : isFruitPhase ? selectedFruit : isSaucePhase ? selectedSauce : isAutrePhase ? selectedAutre : isChefPhase ? selectedChef : null;
   const data = isBasePhase 
     ? (selectedBase ? basesData[selectedBase] : null)
     : isFruitPhase
     ? (selectedFruit ? fruitsData[selectedFruit] : null)
     : isSaucePhase
     ? (selectedSauce ? saucesData[selectedSauce] : null)
-    : (selectedAutre ? autresData[selectedAutre] : null);
+    : isAutrePhase
+    ? (selectedAutre ? autresData[selectedAutre] : null)
+    : isChefPhase
+    ? (selectedChef ? chefsData[selectedChef] : null)
+    : null;
   
   return (
     <>
       <group position={[18, 3, 2]} rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}>
         <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
-          {allValidated ? (
-            <View style={styles.container} onTouchStart={onScreenClick}>
+          {allValidated && currentView === 0 ? (
+            <View style={styles.container}>
               <View style={styles.finishedWrapper}>
                 <Text style={styles.finishedText}>MEGACOOK</Text>
+                <View style={styles.restartButtonWrapper}>
+                  <PixelButton
+                    title="Restart"
+                    colorPrimary="#C8A2DA"
+                    colorSecondary="#773B94"
+                    colorBorder="#55256D"
+                    colorInnerShadow="#E9DAF0"
+                    onPress={onRestart}
+                  />
+                </View>
               </View>
             </View>
           ) : !selectedItem ? (
             <View style={styles.container} onTouchStart={onScreenClick}>
               <Text style={styles.title}>Megacook</Text>
-              <Text style={styles.subtitle}>{isBasePhase ? "Sélectionne une base" : isFruitPhase ? "Sélectionne un fruit" : isSaucePhase ? "Sélectionne une sauce" : "Sélectionne un autre"}</Text>
+              <Text style={styles.subtitle}>{isBasePhase ? "Sélectionne une base" : isFruitPhase ? "Sélectionne un fruit" : isSaucePhase ? "Sélectionne une sauce" : isAutrePhase ? "Sélectionne un autre" : "Sélectionne un chef"}</Text>
             </View>
           ) : (
             data && (
@@ -84,7 +110,11 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                     <Text style={styles.subtitle}>Détails des goûts</Text>
                     <View style={styles.gaugeWrapper}>
                       <GaugeSummary 
-                        nutritional={isSaucePhase ? { sweet: 0, salty: 0, acidity: 0, bitter: 0, spicy: 0, protein: 0, fat: 0 } : data.nutritional} 
+                        nutritional={isSaucePhase ? { sweet: 0, salty: 0, acidity: 0, bitter: 0, spicy: 0, protein: 0, fat: 0 } 
+                          : 
+                          (data?.nutritional || { sweet: 0, salty: 0, acidity: 0, bitter: 0, spicy: 0, protein: 0, fat: 0 })
+                        }
+                        labelSize={12} 
                       />
                       {isSaucePhase && (
                         <View style={styles.questionMarkOverlay}>
@@ -99,7 +129,7 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                       alt={data.name}
                       style={styles.image}
                     />
-                    {!isSaucePhase && (
+                    {!isSaucePhase && !isChefPhase && (
                       <View style={styles.checkboxContainer}>
                         <Checkbox
                           style={styles.checkbox}
@@ -110,14 +140,19 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                         <Text style={styles.text}>Cuire</Text>
                       </View>
                     )}
-                    {/* {isBottomRightView && ( */}
-                      <TouchableOpacity onPress={() => {
-                        playConfirmSound();
-                        onValidate?.();
-                      }}>
-                        <Text>{isAutrePhase ? "Terminer" : "Valider"}</Text>
-                      </TouchableOpacity>
-                    {/* )} */}
+                    <View style={styles.validateButtonWrapper}>
+                      <PixelButton
+                        title={isChefPhase ? "Terminer" : "Valider"}
+                        colorPrimary="#C8A2DA"
+                        colorSecondary="#773B94"
+                        colorBorder="#55256D"
+                        colorInnerShadow="#E9DAF0"
+                        onPress={() => {
+                          playConfirmSound();
+                          onValidate?.();
+                        }}
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
@@ -225,5 +260,14 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontWeight: "bold",
     color: "#55256D",
+  },
+  restartButtonWrapper: {
+    marginTop: 24,
+    alignItems: "center",
+  },
+  validateButtonWrapper: {
+    marginTop: 6,
+    alignItems: "center",
+    transform: [{ scale: 0.5 }],
   },
 });
