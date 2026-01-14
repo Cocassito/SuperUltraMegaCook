@@ -11,7 +11,9 @@ export const LoadingScreen = () => {
         isMuted={false}
         shouldPlay
         isLooping
-        resizeMode={ResizeMode.COVER}
+        scaleX={0.8}
+        scaleY={0.8}
+        resizeMode={ResizeMode.CONTAIN}
         style={StyleSheet.absoluteFill}
       />
     </View>
@@ -29,6 +31,6 @@ const styles = StyleSheet.create({
     zIndex: 9999,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "#FFF2DD",
   },
 });

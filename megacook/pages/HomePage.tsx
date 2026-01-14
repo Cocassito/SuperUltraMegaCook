@@ -30,18 +30,24 @@ export default function HomePage() {
   /* ------------------ Assets ------------------ */
 
   useEffect(() => {
-    Asset.fromModule(scene).downloadAsync();
-    preloadModel(scene);
-  }, []);
+    async function preloadAssets() {
+      await Promise.all([
+        Asset.fromModule(scene).downloadAsync(),
+        preloadModel(scene),
 
-  useEffect(() => {
-    async function loadAssets() {
-      await Asset.fromModule(
-        require("../assets/images/logo/Logo_MC_CompletOmbrage2.webp")
-      ).downloadAsync();
+        Asset.fromModule(
+          require("../assets/images/logo/Logo_MC_CompletOmbrage2.webp")
+        ).downloadAsync(),
+
+        Asset.fromModule(
+          require("../assets/video/VideoBDmegacook.mp4")
+        ).downloadAsync(),
+      ]);
+
       setReady(true);
     }
-    loadAssets();
+
+    preloadAssets();
   }, []);
 
   /* ------------------ UI fade ------------------ */

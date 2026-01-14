@@ -20,6 +20,7 @@ import { NavigationButtons } from "./ui/button/NavigationButtons";
 import CameraControls from "./camera/CameraControls";
 import { useViewNavigation } from "@/hooks/useViewNavigation";
 import { SyncedCamera } from "./camera/SyncedCamera";
+import { PreloadIngredients } from "./preload/PreloadIngredients";
 
 import { Environment } from "./Environment";
 import PlateScene from "./view/frontview/PlateScene";
@@ -130,6 +131,8 @@ export default function Scene({ onSceneReady }: SceneProps) {
     <View
       style={[styles.container, { width: window.width, height: window.height }]}
     >
+      <PreloadIngredients />
+
       <GestureHandlerRootView style={{ flex: 1 }}>
         <GestureDetector gesture={swipeGesture}>
           <View style={styles.canvasWrapper}>
@@ -156,8 +159,16 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 />
 
                 {/* Perso qui marche */}
-                <WalkingCharacter position={[-5, 0, -7]} rotation={[0, Math.PI / 2, 0]} scale={5} />
-                <WalkingCharacter position={[-25, 1, 23]} rotation={[0, Math.PI, 0]} scale={5} />
+                <WalkingCharacter
+                  position={[-5, 0, -7]}
+                  rotation={[0, Math.PI / 2, 0]}
+                  scale={5}
+                />
+                <WalkingCharacter
+                  position={[-25, 1, 23]}
+                  rotation={[0, Math.PI, 0]}
+                  scale={5}
+                />
 
                 {navigation.currentView === 0 && (
                   <FrontView
@@ -197,7 +208,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 )}
 
                 {navigation.currentView === 3 && (
-                  <BottomView 
+                  <BottomView
                     cubeRef={cubeRef}
                     onNavigateToFront={() => navigation.setCurrentView(0)}
                   />
@@ -208,9 +219,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 {navigation.currentView === 5 && (
                   <BottomLeftView cubeRef={cubeRef} />
                 )}
-                {navigation.currentView === 6 && (
-                  <BackView cubeRef={cubeRef} />
-                )}
+                {navigation.currentView === 6 && <BackView cubeRef={cubeRef} />}
 
                 {/* ⭐ FIN DU LOADING */}
                 <SceneReady
@@ -275,7 +284,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
             </Canvas>
 
             {!showOrder && !showAverageResult && (
-              <NavigationButtons 
+              <NavigationButtons
                 {...navigation}
                 hasOpenedOrder={hasOpenedOrder}
                 allValidated={allValidated}
