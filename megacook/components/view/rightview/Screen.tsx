@@ -1,10 +1,11 @@
 import { Html } from "../../lib/drei/index";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ImageSourcePropType } from "react-native";
 import { useState, useEffect } from "react";
 import { Checkbox } from "expo-checkbox";
 import { useConfirmButtonSound } from "@/hooks/useButtonSound";
 import PixelButton from "@/components/ui/button/PixelButtonComponent";
+import { Asset } from "expo-asset";
 
 import basesData from "@/data/basesData";
 import fruitsData from "@/data/fruitsData";
@@ -39,6 +40,63 @@ type ScreenProps = {
   onRestart?: () => void;
   onCuireChange?: (isCuire: boolean) => void;
 };
+
+// Helper function to get the URI from ImageSourcePropType
+function getImageUri(image: ImageSourcePropType): string | undefined {
+  if (typeof image === "number") {
+    const asset = Asset.fromModule(image);
+    return asset.localUri || asset.uri;
+  } else if (
+    typeof image === "object" &&
+    !Array.isArray(image) &&
+    "uri" in image
+  ) {
+    return image.uri;
+  }
+  return undefined;
+}
+
+// Preload images before rendering the component
+async function preloadImages() {
+  try {
+    await Promise.all([
+      ...Object.values(basesData).map((base) => {
+        const uri = getImageUri(base.image);
+        if (uri) {
+          return Asset.fromURI(uri).downloadAsync();
+        }
+      }),
+      ...Object.values(fruitsData).map((fruit) => {
+        const uri = getImageUri(fruit.image);
+        if (uri) {
+          return Asset.fromURI(uri).downloadAsync();
+        }
+      }),
+      ...Object.values(saucesData).map((sauce) => {
+        const uri = getImageUri(sauce.image);
+        if (uri) {
+          return Asset.fromURI(uri).downloadAsync();
+        }
+      }),
+      ...Object.values(autresData).map((autre) => {
+        const uri = getImageUri(autre.image);
+        if (uri) {
+          return Asset.fromURI(uri).downloadAsync();
+        }
+      }),
+      ...Object.values(chefsData).map((chef) => {
+        const uri = getImageUri(chef.image);
+        if (uri) {
+          return Asset.fromURI(uri).downloadAsync();
+        }
+      }),
+    ]);
+  } catch (error) {
+    console.error("Error preloading images:", error);
+  }
+}
+
+preloadImages();
 
 export default function Screen({
   selectedBase,
@@ -197,7 +255,7 @@ export default function Screen({
                                 fat: 0,
                               }
                         }
-                        labelSize={9} 
+                        labelSize={9}
                       />
                       {isSaucePhase && (
                         <View style={styles.questionMarkOverlay}>
