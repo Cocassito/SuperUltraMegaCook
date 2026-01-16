@@ -127,8 +127,6 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
   const validation = useSceneValidation();
   const actions = useSceneActions(playTicketSound);
 
-  /* ---------------- JSX ---------------- */
-
   return (
     <View
       style={[styles.container, { width: window.width, height: window.height }]}

@@ -3,7 +3,6 @@ import { useFrame } from "@react-three/fiber";
 import React, { useRef } from "react";
 import { Group } from "three";
 
-// Composant interne pour animer le modèle (doit vivre à l'intérieur du Canvas pour utiliser useFrame)
 export const FinalPlateModel = ({ src }: { src: any }) => {
   const plateRef = useRef<Group>(null);
   const animationStart = useRef<number | null>(null);
@@ -19,7 +18,8 @@ export const FinalPlateModel = ({ src }: { src: any }) => {
       animationStart.current = state.clock.getElapsedTime();
     }
 
-    const elapsed = state.clock.getElapsedTime() - (animationStart.current ?? 0);
+    const elapsed =
+      state.clock.getElapsedTime() - (animationStart.current ?? 0);
     const duration = 1.5;
     const t = Math.min(elapsed / duration, 1);
     // easeInOut
@@ -37,7 +37,7 @@ export const FinalPlateModel = ({ src }: { src: any }) => {
 
   return (
     <group ref={plateRef} position={[0, 0, 0]}>
-      <Model src={src} scale={0.5} />
+      <Model src={finalplate} scale={0.5} />
     </group>
   );
 };
