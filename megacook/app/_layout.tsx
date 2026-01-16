@@ -4,9 +4,9 @@ import { Stack } from "expo-router";
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    "pixelgridtrial-linedownboldm": require("../assets/fonts/pixelgridtrial-linedownboldm.otf"),
-    "pixelgridtrial-linedownbolds": require("../assets/fonts/pixelgridtrial-linedownbolds.otf"),
-    "pixelgridtrial-linedownboldxl": require("../assets/fonts/pixelgridtrial-linedownboldxl.otf"),
+    "pixelgridtrial-linedownboldm": require("../assets/fonts/pixelgridtrial-linedownboldm.ttf"),
+    "pixelgridtrial-linedownbolds": require("../assets/fonts/pixelgridtrial-linedownbolds.ttf"),
+    "pixelgridtrial-linedownboldxl": require("../assets/fonts/pixelgridtrial-linedownboldxl.ttf"),
   });
 
   if (!loaded && !error) {

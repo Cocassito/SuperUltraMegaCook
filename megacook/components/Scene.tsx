@@ -59,6 +59,8 @@ import {
   useSwipeSound,
   useMusicSound,
 } from "@/hooks/useButtonSound";
+import Stepper from "./svg/gauge/Stepper";
+import { useFonts } from "expo-font";
 
 type SceneProps = {
   onSceneReady?: () => void;
@@ -100,10 +102,18 @@ export default function Scene({ onSceneReady }: SceneProps) {
   const [hasValidatedChef, setHasValidatedChef] = useState(false);
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
-  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(null);
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
+    null
+  );
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
+    null
+  );
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
+    null
+  );
+  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(
+    null
+  );
 
   const [isCuireBase, setIsCuireBase] = useState(false);
   const [isCuireFruit, setIsCuireFruit] = useState(false);
@@ -144,7 +154,25 @@ export default function Scene({ onSceneReady }: SceneProps) {
     }
   });
 
-  /* ------------------------ RENDER ------------------------ */
+  const TOTAL_STEPS = 5;
+
+  const currentStep = [
+    hasValidatedBase,
+    hasValidatedFruit,
+    hasValidatedSauce,
+    hasValidatedAutre,
+    hasValidatedChef,
+  ].filter(Boolean).length;
+
+  const [loaded, error] = useFonts({
+    "pixelgridtrial-linedownboldm": require("../assets/fonts/pixelgridtrial-linedownboldm.ttf"),
+    "pixelgridtrial-linedownbolds": require("../assets/fonts/pixelgridtrial-linedownbolds.ttf"),
+    "pixelgridtrial-linedownboldxl": require("../assets/fonts/pixelgridtrial-linedownboldxl.ttf"),
+  });
+
+  if (!loaded && !error) {
+    return null;
+  }
 
   return (
     <View
@@ -179,8 +207,16 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 />
 
                 {/* Perso qui marche */}
-                <WalkingCharacter position={[-28, -10, -18]} rotation={[0, Math.PI / 2, 0]} scale={15} />
-                <WalkingCharacter position={[-55, -10, 23]} rotation={[0, Math.PI, 0]} scale={15} />
+                <WalkingCharacter
+                  position={[-28, -10, -18]}
+                  rotation={[0, Math.PI / 2, 0]}
+                  scale={15}
+                />
+                <WalkingCharacter
+                  position={[-55, -10, 23]}
+                  rotation={[0, Math.PI, 0]}
+                  scale={15}
+                />
 
                 {navigation.currentView === 0 && (
                   <FrontView
@@ -337,6 +373,21 @@ export default function Scene({ onSceneReady }: SceneProps) {
               />
             </Canvas>
 
+            {/* 🟣 STEPPER */}
+            {hasOpenedOrder && (
+              <Stepper
+                totalSteps={5}
+                currentStep={currentStep}
+                stepTitles={[
+                  "Étape 1 : La base",
+                  "Étape 2 : Fruits & légumes",
+                  "Étape 3 : Sauces & condiments",
+                  "Étape 4 : Autres",
+                  "Étape 5 : Préparateur",
+                ]}
+              />
+            )}
+
             {!showOrder && !showAverageResult && !showChefCard && !showPlayerMachine && !showFinalPlate && (
               <NavigationButtons 
                 {...navigation}
@@ -366,8 +417,12 @@ export default function Scene({ onSceneReady }: SceneProps) {
               <ChefCard
                 chefType={selectedChef}
                 onClose={() => setShowChefCard(false)}
-                onPrev={() => selectedChef && setSelectedChef(getPrevChef(selectedChef))}
-                onNext={() => selectedChef && setSelectedChef(getNextChef(selectedChef))}
+                onPrev={() =>
+                  selectedChef && setSelectedChef(getPrevChef(selectedChef))
+                }
+                onNext={() =>
+                  selectedChef && setSelectedChef(getNextChef(selectedChef))
+                }
                 onValidate={() => {
                   setShowChefCard(false);
                   setValidatedChefModel(selectedChef);
