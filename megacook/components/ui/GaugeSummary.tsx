@@ -38,7 +38,7 @@ export default function GaugeSummary({ nutritional, size = 180, labelSize = 9 }:
         fillOpacity={0.35}
         labelColor="#333"
         labelSize={labelSize}
-        labelDistance={1.23}
+        labelDistance={1.1}
         labelFontFamily='pixelgridtrial-linedownboldm'
         dataFillColor="#FFF2DD"
         dataFillOpacity={0.6}

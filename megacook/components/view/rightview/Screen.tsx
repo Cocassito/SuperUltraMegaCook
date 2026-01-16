@@ -96,6 +96,13 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                 </View>
               </View>
             </View>
+          ) : isChefPhase && !selectedItem ? (
+            <View style={styles.container} onTouchStart={onScreenClick}>
+              <View style={styles.chefPhaseWrapper}>
+                <Text style={styles.finishedText}>MEGACOOK</Text>
+                <Text style={styles.selectChefText}>Sélectionne un chef</Text>
+              </View>
+            </View>
           ) : !selectedItem ? (
             <View style={styles.container} onTouchStart={onScreenClick}>
               <Text style={styles.title}>Megacook</Text>
@@ -114,7 +121,7 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                           : 
                           (data?.nutritional || { sweet: 0, salty: 0, acidity: 0, bitter: 0, spicy: 0, protein: 0, fat: 0 })
                         }
-                        labelSize={12} 
+                        labelSize={9} 
                       />
                       {isSaucePhase && (
                         <View style={styles.questionMarkOverlay}>
@@ -269,5 +276,24 @@ const styles = StyleSheet.create({
     marginTop: 6,
     alignItems: "center",
     transform: [{ scale: 0.5 }],
+  },
+  chefPhaseWrapper: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
+  megacookText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    fontFamily: "pixelgridtrial-linedownboldxl",
+    textTransform: "uppercase",
+    color: "#000000",
+  },
+  selectChefText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    fontFamily: "pixelgridtrial-linedownbolds",
+    color: "#000000",
   },
 });

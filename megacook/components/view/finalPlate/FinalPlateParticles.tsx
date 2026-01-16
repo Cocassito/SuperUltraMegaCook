@@ -10,11 +10,11 @@ interface FinalPlateParticlesProps {
 
 // Particules Sparkles prêtes à l'emploi
 export const FinalPlateParticles = ({
-  count = 300,
-  radius = 20,
+  count = 100,
+  radius = 10,
   speed = 0.4,
-  size = 6,
-  color = "#FFD084",
+  size = 2,
+  color = "#ffea00",
 }: FinalPlateParticlesProps) => {
   return (
     <Sparkles
