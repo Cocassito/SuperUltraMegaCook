@@ -40,6 +40,8 @@ import ScreenAverage from "./view/backview/ScreenAverage";
 import { AverageResult } from "./view/frontview/AverageResult";
 import { Order } from "./view/leftview/Order";
 import { ChefCard } from "./view/rightview/ingredients/ChefCard";
+import { PlayerMachine } from "./PlayerMachine";
+import { FinalPlateView } from "./view/finalPlate/FinalPlateView";
 
 import PixelatedPass from "./postProd/PixelComposer";
 import { SceneLights } from "./sceneLights/SceneLights";
@@ -110,6 +112,8 @@ export default function Scene({ onSceneReady }: SceneProps) {
   const [showOrder, setShowOrder] = useState(false);
   const [showChefCard, setShowChefCard] = useState(false);
   const [showAverageResult, setShowAverageResult] = useState(false);
+  const [showPlayerMachine, setShowPlayerMachine] = useState(false);
+  const [showFinalPlate, setShowFinalPlate] = useState(false);
   const [currentOrder, setCurrentOrder] = useState<OrderType>(0);
   const [hasOpenedOrder, setHasOpenedOrder] = useState(false);
 
@@ -171,6 +175,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
                   isCuireFruit={isCuireFruit}
                   isCuireAutre={isCuireAutre}
                   resetKey={navigation.currentView}
+                  hasValidatedChef={hasValidatedChef}
                 />
 
                 {/* Perso qui marche */}
@@ -246,7 +251,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
                 />
               </Suspense>
 
-              <PixelatedPass pixelSize={2} />
+              <PixelatedPass pixelSize={1} />
               <SceneLights />
               <OrbitControls />
             </Canvas>
@@ -332,7 +337,7 @@ export default function Scene({ onSceneReady }: SceneProps) {
               />
             </Canvas>
 
-            {!showOrder && !showAverageResult && !showChefCard && (
+            {!showOrder && !showAverageResult && !showChefCard && !showPlayerMachine && !showFinalPlate && (
               <NavigationButtons 
                 {...navigation}
                 hasOpenedOrder={hasOpenedOrder}
@@ -367,10 +372,32 @@ export default function Scene({ onSceneReady }: SceneProps) {
                   setShowChefCard(false);
                   setValidatedChefModel(selectedChef);
                   setHasValidatedChef(true);
-                  playTicketSound();
-                  navigation.setCurrentView(0);
+                  setShowPlayerMachine(true);
                 }}
               />
+            )}
+
+            {showPlayerMachine && (
+              <View style={styles.playerMachineOverlay}>
+                <PlayerMachine
+                  onVideoEnd={() => {
+                    setShowPlayerMachine(false);
+                    setShowFinalPlate(true);
+                  }}
+                />
+              </View>
+            )}
+
+            {showFinalPlate && (
+              <View style={styles.playerMachineOverlay}>
+                <FinalPlateView
+                  onTimeout={() => {
+                    setShowFinalPlate(false);
+                    playTicketSound();
+                    navigation.setCurrentView(0);
+                  }}
+                />
+              </View>
             )}
           </View>
         </GestureDetector>
@@ -393,5 +420,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     pointerEvents: "none",
     zIndex: 1,
+  },
+  playerMachineOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 10,
+    backgroundColor: "#000",
   },
 });

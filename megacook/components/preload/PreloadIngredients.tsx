@@ -27,6 +27,9 @@ export function PreloadIngredients() {
     preloadModel(autresData.chocolat.model);
     preloadModel(autresData.poulet.model);
     preloadModel(autresData.saumon.model);
+
+    // Précharger le model final
+    // preloadModel(require("../../data/assets/models/ingredients/final.glb"));
   }, []);
 
   return null;
