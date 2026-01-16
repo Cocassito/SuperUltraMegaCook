@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Asset } from "expo-asset";
 import { useFonts } from "expo-font";
+import { preloadModel } from "@/utils/PreloadModel";
+import finalplate from "megacook/assets/models/ingredients/finalplate.glb";
 
 export function SceneLoader({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
@@ -13,15 +15,30 @@ export function SceneLoader({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     async function preload() {
-      await Asset.fromModule(
-        require("../assets/video/pixelvideo.mp4")
-      ).downloadAsync();
-      setReady(true);
+      try {
+        await Promise.all([
+          Asset.fromModule(
+            require("../assets/video/pixelvideo.mp4")
+          ).downloadAsync(),
+          Asset.fromModule(finalplate).downloadAsync(),
+          preloadModel(finalplate),
+        ]);
+        setReady(true);
+      } catch (error) {
+        console.error("Error preloading assets:", error);
+      }
     }
     preload();
   }, []);
 
-  if (!ready || (!fontsLoaded && !fontError)) return null;
+  if (!fontsLoaded) return null; // Wait for fonts to load
+
+  if (fontError) {
+    console.error("Error loading fonts:", fontError);
+    return null; // Handle font loading error
+  }
+
+  if (!ready) return null; // Wait for assets to preload
 
   return <>{children}</>;
 }
