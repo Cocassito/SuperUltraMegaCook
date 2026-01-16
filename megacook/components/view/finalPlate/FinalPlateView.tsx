@@ -1,11 +1,11 @@
 import React, { forwardRef, useRef } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { PerspectiveCamera, useHelper } from "@react-three/drei";
-import Model from "../../Model";
 import { FinalPlateParticles } from "./FinalPlateParticles";
 import { Group, Vector2, DirectionalLight, DirectionalLightHelper } from "three";
 import PixelatedPass from "@/components/postProd/PixelComposer";
+import { FinalPlateModel } from "./FinalPlateAnim";
 import PixelButton from "@/components/ui/button/PixelButtonComponent";
 import { OrbitControls } from "@react-three/drei";
 

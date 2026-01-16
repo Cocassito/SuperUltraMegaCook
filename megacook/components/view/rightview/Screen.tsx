@@ -20,7 +20,6 @@ import { ChefType } from "@/data/chefsData";
 
 import GaugeSummary from "@/components/ui/GaugeSummary";
 
-
 type ScreenProps = {
   selectedBase: BaseType | null;
   selectedFruit: FruitType | null;
@@ -41,44 +40,94 @@ type ScreenProps = {
   onCuireChange?: (isCuire: boolean) => void;
 };
 
-
-export default function Screen({ selectedBase, selectedFruit, selectedSauce, selectedAutre, selectedChef, hasValidatedBase, hasValidatedFruit, hasValidatedSauce, hasValidatedAutre, hasValidatedChef = false, allValidated = false, isBottomRightView = false, currentView = 0, onValidate, onScreenClick, onRestart, onCuireChange }: ScreenProps) {
+export default function Screen({
+  selectedBase,
+  selectedFruit,
+  selectedSauce,
+  selectedAutre,
+  selectedChef,
+  hasValidatedBase,
+  hasValidatedFruit,
+  hasValidatedSauce,
+  hasValidatedAutre,
+  hasValidatedChef = false,
+  allValidated = false,
+  isBottomRightView = false,
+  currentView = 0,
+  onValidate,
+  onScreenClick,
+  onRestart,
+  onCuireChange,
+}: ScreenProps) {
   const [isCuire, setIsCuire] = useState(false);
   const playConfirmSound = useConfirmButtonSound();
-  
+
   // Déterminer quelle phase nous sommes
   const isBasePhase = !hasValidatedBase;
   const isFruitPhase = hasValidatedBase && !hasValidatedFruit;
-  const isSaucePhase = hasValidatedBase && hasValidatedFruit && !hasValidatedSauce;
-  const isAutrePhase = hasValidatedBase && hasValidatedFruit && hasValidatedSauce && !hasValidatedAutre;
-  const isChefPhase = hasValidatedBase && hasValidatedFruit && hasValidatedSauce && hasValidatedAutre && !hasValidatedChef;
+  const isSaucePhase =
+    hasValidatedBase && hasValidatedFruit && !hasValidatedSauce;
+  const isAutrePhase =
+    hasValidatedBase &&
+    hasValidatedFruit &&
+    hasValidatedSauce &&
+    !hasValidatedAutre;
+  const isChefPhase =
+    hasValidatedBase &&
+    hasValidatedFruit &&
+    hasValidatedSauce &&
+    hasValidatedAutre &&
+    !hasValidatedChef;
 
   // Réinitialiser isCuire quand on change de phase
   useEffect(() => {
     setIsCuire(false);
   }, [isBasePhase, isFruitPhase, isSaucePhase, isAutrePhase, isChefPhase]);
-  
+
   const handleCuireChange = (value: boolean) => {
     setIsCuire(value);
     onCuireChange?.(value);
   };
-  
-  const selectedItem = isBasePhase ? selectedBase : isFruitPhase ? selectedFruit : isSaucePhase ? selectedSauce : isAutrePhase ? selectedAutre : isChefPhase ? selectedChef : null;
-  const data = isBasePhase 
-    ? (selectedBase ? basesData[selectedBase] : null)
+
+  const selectedItem = isBasePhase
+    ? selectedBase
     : isFruitPhase
-    ? (selectedFruit ? fruitsData[selectedFruit] : null)
+    ? selectedFruit
     : isSaucePhase
-    ? (selectedSauce ? saucesData[selectedSauce] : null)
+    ? selectedSauce
     : isAutrePhase
-    ? (selectedAutre ? autresData[selectedAutre] : null)
+    ? selectedAutre
     : isChefPhase
-    ? (selectedChef ? chefsData[selectedChef] : null)
+    ? selectedChef
     : null;
-  
+  const data = isBasePhase
+    ? selectedBase
+      ? basesData[selectedBase]
+      : null
+    : isFruitPhase
+    ? selectedFruit
+      ? fruitsData[selectedFruit]
+      : null
+    : isSaucePhase
+    ? selectedSauce
+      ? saucesData[selectedSauce]
+      : null
+    : isAutrePhase
+    ? selectedAutre
+      ? autresData[selectedAutre]
+      : null
+    : isChefPhase
+    ? selectedChef
+      ? chefsData[selectedChef]
+      : null
+    : null;
+
   return (
     <>
-      <group position={[18, 3, 2]} rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}>
+      <group
+        position={[18, 3, 2]}
+        rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}
+      >
         <Html transform occlude position={[0, 0, 0.01]} style={htmlStyle}>
           {allValidated && currentView === 0 ? (
             <View style={styles.container}>
@@ -106,7 +155,17 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
           ) : !selectedItem ? (
             <View style={styles.container} onTouchStart={onScreenClick}>
               <Text style={styles.title}>Megacook</Text>
-              <Text style={styles.subtitle}>{isBasePhase ? "Sélectionne une base" : isFruitPhase ? "Sélectionne un fruit" : isSaucePhase ? "Sélectionne une sauce" : isAutrePhase ? "Sélectionne un autre" : "Sélectionne un chef"}</Text>
+              <Text style={styles.subtitle}>
+                {isBasePhase
+                  ? "Sélectionne une base"
+                  : isFruitPhase
+                  ? "Sélectionne un fruit"
+                  : isSaucePhase
+                  ? "Sélectionne une sauce"
+                  : isAutrePhase
+                  ? "Sélectionne un autre"
+                  : "Sélectionne un chef"}
+              </Text>
             </View>
           ) : (
             data && (
@@ -116,10 +175,27 @@ export default function Screen({ selectedBase, selectedFruit, selectedSauce, sel
                     <Text style={styles.title}>{data.name}</Text>
                     <Text style={styles.subtitle}>Détails des goûts</Text>
                     <View style={styles.gaugeWrapper}>
-                      <GaugeSummary 
-                        nutritional={isSaucePhase ? { sweet: 0, salty: 0, acidity: 0, bitter: 0, spicy: 0, protein: 0, fat: 0 } 
-                          : 
-                          (data?.nutritional || { sweet: 0, salty: 0, acidity: 0, bitter: 0, spicy: 0, protein: 0, fat: 0 })
+                      <GaugeSummary
+                        nutritional={
+                          isSaucePhase
+                            ? {
+                                sweet: 0,
+                                salty: 0,
+                                acidity: 0,
+                                bitter: 0,
+                                spicy: 0,
+                                protein: 0,
+                                fat: 0,
+                              }
+                            : data?.nutritional || {
+                                sweet: 0,
+                                salty: 0,
+                                acidity: 0,
+                                bitter: 0,
+                                spicy: 0,
+                                protein: 0,
+                                fat: 0,
+                              }
                         }
                         labelSize={9} 
                       />
@@ -178,7 +254,6 @@ const htmlStyle = {
   border: "10px solid #000",
 } as const;
 
-
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -198,7 +273,7 @@ const styles = StyleSheet.create({
   finishedText: {
     fontSize: 40,
     fontWeight: "bold",
-    fontFamily: "pixelgridtrial-linedownboldm"
+    fontFamily: "pixelgridtrial-linedownboldm",
   },
   content: {
     flexDirection: "row",
