@@ -9,42 +9,37 @@ import {
   GestureDetector,
   Gesture,
 } from "react-native-gesture-handler";
-
-import { BaseType } from "@/data/basesData";
-import { FruitType } from "@/data/fruitsData";
-import { SauceType } from "@/data/saucesData";
-import { AutreType } from "@/data/autresData";
 import { OrderType } from "@/data/ordersData";
 import { ChefType } from "@/data/chefsData";
 
-import { NavigationButtons } from "./ui/button/NavigationButtons";
-import CameraControls from "./camera/CameraControls";
+import { NavigationButtons } from "../ui/button/NavigationButtons";
+import CameraControls from "../camera/CameraControls";
 import { useViewNavigation } from "@/hooks/useViewNavigation";
-import { SyncedCamera } from "./camera/SyncedCamera";
-import { PreloadIngredients } from "./preload/PreloadIngredients";
+import { SyncedCamera } from "../camera/SyncedCamera";
+import { PreloadIngredients } from "../preload/PreloadIngredients";
 
-import { Environment } from "./Environment";
-import PlateScene from "./view/frontview/PlateScene";
-import WalkingCharacter from "./animationcharacter/WalkingCharacter";
+import { Environment } from "../Environment";
+import PlateScene from "../view/frontview/PlateScene";
+import WalkingCharacter from "../animationcharacter/WalkingCharacter";
 
-import { FrontView } from "./view/frontview/FrontView";
-import { RightView } from "./view/rightview/RightView";
-import { LeftView } from "./view/leftview/LeftView";
-import { BottomView } from "./view/frontview/BottomView";
-import { BottomRightView } from "./view/rightview/BottomRightView";
-import { BottomLeftView } from "./view/leftview/BottomLeftView";
-import { BackView } from "./view/backview/BackView";
+import { FrontView } from "../view/frontview/FrontView";
+import { RightView } from "../view/rightview/RightView";
+import { LeftView } from "../view/leftview/LeftView";
+import { BottomView } from "../view/frontview/BottomView";
+import { BottomRightView } from "../view/rightview/BottomRightView";
+import { BottomLeftView } from "../view/leftview/BottomLeftView";
+import { BackView } from "../view/backview/BackView";
 
-import Screen from "./view/rightview/Screen";
-import ScreenAverage from "./view/backview/ScreenAverage";
-import { AverageResult } from "./view/frontview/AverageResult";
-import { Order } from "./view/leftview/Order";
-import { ChefCard } from "./view/rightview/ingredients/ChefCard";
-import { PlayerMachine } from "./PlayerMachine";
-import { FinalPlateView } from "./view/finalPlate/FinalPlateView";
+import Screen from "../view/rightview/Screen";
+import ScreenAverage from "../view/backview/ScreenAverage";
+import { AverageResult } from "../view/frontview/AverageResult";
+import { Order } from "../view/leftview/Order";
+import { ChefCard } from "../view/rightview/ingredients/ChefCard";
+import { PlayerMachine } from "../PlayerMachine";
+import { FinalPlateView } from "../view/finalPlate/FinalPlateView";
 
-import PixelatedPass from "./postProd/PixelComposer";
-import { SceneLights } from "./sceneLights/SceneLights";
+import PixelatedPass from "../postProd/PixelComposer";
+import { SceneLights } from "../sceneLights/SceneLights";
 
 import basesData from "@/data/basesData";
 import fruitsData from "@/data/fruitsData";
@@ -59,7 +54,7 @@ import {
   useSwipeSound,
   useMusicSound,
 } from "@/hooks/useButtonSound";
-import Stepper from "./svg/gauge/Stepper";
+import Stepper from "../svg/gauge/Stepper";
 
 import { useSceneUI } from "@/hooks/useSceneUI";
 import { useSceneSelection } from "@/hooks/useSceneSelection";
@@ -70,7 +65,6 @@ type SceneProps = {
   onSceneReady?: () => void;
 };
 
-/* ⭐ déclenché quand le canvas est prêt */
 function SceneReady({ onReady }: { onReady?: () => void }) {
   useEffect(() => {
     onReady?.();

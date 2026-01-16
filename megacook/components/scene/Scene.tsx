@@ -1,4 +1,4 @@
-import SceneContent from "../SceneContent";
+import SceneContent from "./SceneContent";
 import { SceneLoader } from "./SceneLoader";
 
 type SceneProps = {

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { PlayerBD } from "@/components/PlayerBD";
 import { LoadingScreen } from "@/components/loadingScreen/LoadingScreen";
-import { useFonts } from "expo-font";
-import SceneContent from "@/components/SceneContent";
+import SceneContent from "@/components/scene/SceneContent";
 
 export default function App() {
   const [videoFinished, setVideoFinished] = useState(false);
