@@ -163,12 +163,12 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
 
                 {/* Perso qui marche */}
                 <WalkingCharacter
-                  position={[-28, -10, -18]}
+                  position={[-28, -11, -58]}
                   rotation={[0, Math.PI / 2, 0]}
                   scale={15}
                 />
                 <WalkingCharacter
-                  position={[-55, -10, 23]}
+                  position={[-71, -11, -58]}
                   rotation={[0, Math.PI, 0]}
                   scale={15}
                 />

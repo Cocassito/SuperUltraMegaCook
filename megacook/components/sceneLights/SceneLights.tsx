@@ -1,8 +1,18 @@
 export const SceneLights = () => {
   return (
     <>
-      <color attach="background" args={[0xfff2dd]} />
-      <ambientLight color={0xffffff} intensity={3} />
+      <ambientLight color={0xffffff} intensity={2} />
+      <directionalLight
+        position={[10, 10, 10]}
+        intensity={1}
+        color={0xffffff}
+        castShadow
+      />
+      <directionalLight
+        position={[-5, 5, 5]}
+        intensity={1}
+        color={0xffffff}
+      />
     </>
   );
 };

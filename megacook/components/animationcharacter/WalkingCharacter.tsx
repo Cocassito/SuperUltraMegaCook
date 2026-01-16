@@ -18,7 +18,7 @@ export default function WalkingCharacter({
 
   const gltf = useLoader(
     GLTFLoader,
-    require("@/assets/models/character/walking.glb"),
+    require("@/assets/models/character/sitdown.glb"),
     (loader) => {
       const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath(

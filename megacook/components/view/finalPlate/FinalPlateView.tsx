@@ -3,7 +3,6 @@ import { View, StyleSheet, ImageBackground } from "react-native";
 import { Canvas, useThree } from "@react-three/fiber";
 import { PerspectiveCamera, useHelper } from "@react-three/drei";
 import { FinalPlateParticles } from "./FinalPlateParticles";
-import { Group, Vector2, DirectionalLight, DirectionalLightHelper } from "three";
 import PixelatedPass from "@/components/postProd/PixelComposer";
 import PixelButton from "@/components/ui/button/PixelButtonComponent";
 import { OrbitControls } from "@react-three/drei";
@@ -12,13 +11,6 @@ import { FinalPlateModel } from "./FinalPlateAnim";
 interface FinalPlateViewProps {
   onTimeout?: () => void;
 }
-
-const LightWithHelper = ({ position, intensity }: { position: [number, number, number]; intensity: number }) => {
-  const lightRef = useRef<DirectionalLight>(null!);
-  useHelper(lightRef, DirectionalLightHelper, 5, 'red');
-  
-  return <directionalLight ref={lightRef} position={position} intensity={intensity} />;
-};
 
 export const FinalPlateView = forwardRef<View, FinalPlateViewProps>(
   ({ onTimeout }, ref) => {
@@ -44,10 +36,10 @@ export const FinalPlateView = forwardRef<View, FinalPlateViewProps>(
 
           {/* Lumières */}
           <ambientLight intensity={5} />
-          <LightWithHelper position={[5, 5, 5]} intensity={2} />
-          <LightWithHelper position={[-5, 5, -5]} intensity={2} />
-          <LightWithHelper position={[0, 5, 5]} intensity={2} />
-          <LightWithHelper position={[5, -25, 5]} intensity={2} />
+          <directionalLight position={[5, 5, 5]} intensity={2} />
+          <directionalLight position={[-5, 5, -5]} intensity={2} />
+          <directionalLight position={[0, 5, 5]} intensity={2} />
+          <directionalLight position={[5, -25, 5]} intensity={2} />
 
           {/* Particules décoratives */}
           <FinalPlateParticles />
