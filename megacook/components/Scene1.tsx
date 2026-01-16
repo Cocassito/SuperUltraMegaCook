@@ -61,6 +61,7 @@ import {
 } from "@/hooks/useButtonSound";
 import Stepper from "./svg/gauge/Stepper";
 import { useFonts } from "expo-font";
+import { Asset } from "expo-asset";
 
 type SceneProps = {
   onSceneReady?: () => void;
@@ -77,6 +78,24 @@ function SceneReady({ onReady }: { onReady?: () => void }) {
 }
 
 export default function Scene({ onSceneReady }: SceneProps) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    async function preloadAssets() {
+      await Promise.all([
+        Asset.fromModule(
+          require("../assets/video/pixelvideo.mp4")
+        ).downloadAsync(),
+      ]);
+
+      setReady(true);
+    }
+
+    preloadAssets();
+  }, []);
+
+  if (!ready) return null;
+
   const window = useWindowDimensions();
   const navigation = useViewNavigation();
 
@@ -388,13 +407,17 @@ export default function Scene({ onSceneReady }: SceneProps) {
               />
             )}
 
-            {!showOrder && !showAverageResult && !showChefCard && !showPlayerMachine && !showFinalPlate && (
-              <NavigationButtons 
-                {...navigation}
-                hasOpenedOrder={hasOpenedOrder}
-                allValidated={allValidated}
-              />
-            )}
+            {!showOrder &&
+              !showAverageResult &&
+              !showChefCard &&
+              !showPlayerMachine &&
+              !showFinalPlate && (
+                <NavigationButtons
+                  {...navigation}
+                  hasOpenedOrder={hasOpenedOrder}
+                  allValidated={allValidated}
+                />
+              )}
             {showAverageResult && (
               <AverageResult
                 onClose={() => setShowAverageResult(false)}
