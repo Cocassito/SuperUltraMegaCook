@@ -58,6 +58,7 @@ import {
   useMusicSound,
 } from "@/hooks/useButtonSound";
 import Stepper from "./svg/gauge/Stepper";
+import { useFonts } from "expo-font";
 
 type SceneProps = {
   onSceneReady?: () => void;
@@ -158,6 +159,16 @@ export default function Scene({ onSceneReady }: SceneProps) {
     hasValidatedAutre,
     hasValidatedChef,
   ].filter(Boolean).length;
+
+  const [loaded, error] = useFonts({
+    "pixelgridtrial-linedownboldm": require("../assets/fonts/pixelgridtrial-linedownboldm.ttf"),
+    "pixelgridtrial-linedownbolds": require("../assets/fonts/pixelgridtrial-linedownbolds.ttf"),
+    "pixelgridtrial-linedownboldxl": require("../assets/fonts/pixelgridtrial-linedownboldxl.ttf"),
+  });
+
+  if (!loaded && !error) {
+    return null;
+  }
 
   return (
     <View

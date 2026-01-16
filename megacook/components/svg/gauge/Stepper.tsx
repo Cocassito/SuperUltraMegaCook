@@ -16,13 +16,32 @@ export default function Stepper({
 }: StepperProps) {
   return (
     <>
-      <View style={{ position: "absolute", top: 24, left: 24, zIndex: 10 }}>
+      <View
+        style={{
+          position: "absolute",
+          top: 24,
+          left: 24,
+          zIndex: 10,
+          elevation: 20, // 🔥 ANDROID
+        }}
+      >
         <Toc />
       </View>
 
-      <Text style={styles.activeStepTitle}>
-        {stepTitles[currentStep] || `Step ${currentStep}`}
-      </Text>
+      <View
+        style={{
+          position: "absolute",
+          top: 24,
+          left: 77,
+          zIndex: 20,
+          elevation: 20,
+        }}
+      >
+        <Text style={styles.activeStepTitle}>
+          {stepTitles[currentStep] || `Step ${currentStep}`}
+        </Text>
+      </View>
+
       <View style={styles.container}>
         <Gauge />
       </View>
@@ -59,15 +78,15 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   activeStepTitle: {
-    position: "absolute",
-    top: 24,
-    left: 77,
-    zIndex: 2,
-    fontFamily: "pixelgridtrial-linedownboldxl",
+    fontFamily: "pixelgridtrial-linedownboldm",
     fontSize: 16,
-    marginBottom: 8,
+    lineHeight: 18,
+    includeFontPadding: false,
+    fontWeight: "normal",
+    fontStyle: "normal",
     color: "#FFF",
   },
+
   stepsContainer: {
     position: "absolute",
     top: 50,
