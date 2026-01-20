@@ -14,6 +14,11 @@ export default function PixelatedPass({
   useEffect(() => {
     const composer = new EffectComposer(gl);
     const pass = new RenderPixelatedPass(pixelSize, scene, camera);
+    
+    // Désactive le normalEdgeStrength pour éviter les bordures blanches
+    (pass as any).normalEdgeStrength = 0;
+    (pass as any).depthEdgeStrength = 0;
+    
     composer.addPass(pass);
     composer.setSize(size.width, size.height);
     composerRef.current = composer;

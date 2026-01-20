@@ -9,8 +9,8 @@ type ChefProps = {
 };
 
 export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
-  const [lolaScale, setLolaScale] = useState(1);
-  const [leoScale, setLeoScale] = useState(1);
+  const [sylvainScale, setSylvainScale] = useState(1);
+  const [mereCotteScale, setMereCotteScale] = useState(1);
   const [philippeScale, setPhilippeScale] = useState(1);
   const playSelectedFoodSound = useSelectedFoodSound();
 
@@ -23,15 +23,15 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
     <Suspense fallback={null}>
       {!hasValidatedChef && (
       <group>
-        {/* Lola */}
+        {/* Sylvain */}
         <group 
           position={[18, 0, 13]}
-          scale={lolaScale}
+          scale={sylvainScale}
           onPointerDown={() => {
-            setLolaScale(0.8);
-            handleChefClick('lola');
+            setSylvainScale(0.8);
+            handleChefClick('sylvain');
           }}
-          onPointerUp={() => setLolaScale(1)}
+          onPointerUp={() => setSylvainScale(1)}
         >
           <mesh 
             position={[0, 0, 0]}
@@ -42,15 +42,15 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
           </mesh>
         </group>
 
-        {/* Léo */}
+        {/* Mère Cotte */}
         <group 
           position={[18, 0, 18]}
-          scale={leoScale}
+          scale={mereCotteScale}
           onPointerDown={() => {
-            setLeoScale(0.8);
-            handleChefClick('leo');
+            setMereCotteScale(0.8);
+            handleChefClick('merecotte');
           }}
-          onPointerUp={() => setLeoScale(1)}
+          onPointerUp={() => setMereCotteScale(1)}
         >
           <mesh 
             position={[0, 0, 0]}

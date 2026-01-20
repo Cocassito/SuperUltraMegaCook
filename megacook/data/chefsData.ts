@@ -1,8 +1,7 @@
-export type ChefType = 'lola' | 'leo' | 'philippeetchebest';
+export type ChefType = 'sylvain' | 'merecotte' | 'philippeetchebest';
 
 export interface ChefData {
   name: string;
-  description: string;
   price: number;
   image: any;
   nutritional: {
@@ -14,29 +13,31 @@ export interface ChefData {
     bitter: number;
     spicy: number;
   };
+  strengths: string[];
+  weaknesses: string[];
 }
 
 const chefsData: Record<ChefType, ChefData> = {
-  lola: {
-    name: 'Lola',
-    description: 'Créative et audacieuse, Lola revisite les classiques avec une touche sucrée.',
-    price: 4,
-    image: require('../assets/images/chefs/lola.jpg'),
+  sylvain: {
+    name: 'Sylvain Duriff',
+    price: 1,
+    image: require('../assets/images/chefs/sylvain.png'),
     nutritional: { 
         sweet: 4, 
         salty: 2, 
         acidity: 3, 
         protein: 2, 
-        fat: 2,
+        fat: 2, 
         bitter: 1,
         spicy: 1
     },
+    strengths: ['Christ cosmique'],
+    weaknesses: ['Fou'],
   },
-  leo: {
-    name: 'Léo',
-    description: 'Léo privilégie les saveurs salées et les associations inattendues.',
-    price: 3,
-    image: require('../assets/images/chefs/leo.jpg'),
+  merecotte: {
+    name: 'Mère Cotte',
+    price: 5,
+    image: require('../assets/images/chefs/merecotte.png'),
     nutritional: { 
         sweet: 2, 
         salty: 5, 
@@ -46,10 +47,11 @@ const chefsData: Record<ChefType, ChefData> = {
         bitter: 2,
         spicy: 3
     },
+    strengths: ['Salem Aleykoum, les pâtissiers', 'Elle aime le sucre'],
+    weaknesses: ['Elle aime le sucre'],
   },
   philippeetchebest: {
     name: 'Philippe Etchebest',
-    description: 'Un chef exigeant, ses plats sont puissants et riches en protéines.',
     price: 5,
     image: require('../assets/images/chefs/philippeetchebest.jpg'),
     nutritional: { 
@@ -61,6 +63,8 @@ const chefsData: Record<ChefType, ChefData> = {
         bitter: 3,
         spicy: 2
     },
+    strengths: ['Meilleur ouvrier de France', 'C\'est lui le chef'],
+    weaknesses: ['Trop fort', 'C\'est lui le chef'],
   }
 };
 

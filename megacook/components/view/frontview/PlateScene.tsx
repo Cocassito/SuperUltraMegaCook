@@ -13,6 +13,7 @@ type PlateSceneProps = {
   isCuireAutre?: boolean;
   resetKey?: string | number;
   hasValidatedChef?: boolean;
+  selectedAutre?: string | null;
 };
 
 export default function PlateScene({
@@ -25,6 +26,7 @@ export default function PlateScene({
   isCuireAutre = false,
   resetKey,
   hasValidatedChef = false,
+  selectedAutre = null,
 }: PlateSceneProps) {
   const final = require("../../../assets/models/ingredients/final.glb");
   const plateRef = useRef<Group>(null);
@@ -90,13 +92,14 @@ export default function PlateScene({
                 {validatedAutreModel && (
                   <Model src={validatedAutreModel} scale={1} />
                 )}
-                {validatedAutreModel && isCuireAutre && (
+                  {validatedAutreModel && selectedAutre === "saumon" && (
                   <SmokeShader 
                     key={`smoke-autre-${resetKey}-${validatedAutreModel}`}
                     resetKey={resetKey ? `${resetKey}-autre` : undefined}
                     position={[0, 2.5, 0]} 
                     rotation={[0, 0, 0]} 
                     planeSize={[2.5, 3.5]} 
+                      isDark={true}
                   />
                 )}
               </group>

@@ -2,7 +2,6 @@ import { Text, View, Image, StyleSheet, Pressable, useWindowDimensions } from "r
 import React, { useEffect, useRef, useState } from "react";
 import Animated, { useSharedValue, withTiming, useAnimatedStyle, runOnJS } from "react-native-reanimated";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
-import DashLine from "@/components/svg/DashLine";
 import chefsData, { ChefType } from "@/data/chefsData";
 import { useCardAnimation } from "@/hooks/useCardAnimation";
 import PixelButton from "@/components/ui/button/PixelButtonComponent";
@@ -25,6 +24,10 @@ export const ChefCard = ({ onClose, chefType, onPrev, onNext, onValidate }: Chef
 
   const [displayChefType, setDisplayChefType] = useState<ChefType>(chefType);
   const chef = chefsData[displayChefType];
+
+  if (!chef) return null;
+
+  const rating = Math.max(1, Math.min(5, chef.price));
 
   const slideX = useSharedValue(0);
   const cardOpacity = useSharedValue(1);
@@ -93,39 +96,41 @@ export const ChefCard = ({ onClose, chefType, onPrev, onNext, onValidate }: Chef
       <Animated.View style={[styles.orderCard, animatedStyle, cardAnimatedStyle]}>
           <View style={styles.imageWrapper}>
             <Image source={chef.image} style={styles.photo} resizeMode="cover" />
-            <View style={styles.stars}>
+            <View style={styles.stars}> 
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
                   width={20}
                   height={20}
-                  // style={[
-                  //   styles.icon,
-                  //   i < rating ? styles.iconActive : styles.iconInactive,
-                  // ]}
+                  opacity={i < rating ? 1 : 0}
                 />
               ))}
             </View>
           </View>
           <View style={styles.container}>
             <Text style={styles.sectionLabel}>{chef.name.toUpperCase()}</Text>
-            <Text style={styles.clientRequest}>{chef.description}</Text>
 
             <Line strokeWidth={1} />
 
             <View style={styles.columns}>
               <View style={styles.column}>
                 <Text style={styles.title}>Points forts</Text>
-                <Text style={styles.description}>Meilleur ouvrier de France</Text>
-                <Text style={styles.description}>C'est lui le chef</Text>
+                {chef.strengths.map((strength, idx) => (
+                  <Text key={`${displayChefType}-strength-${idx}`} style={styles.description}>
+                    {strength}
+                  </Text>
+                ))}
               </View>
 
               <Line vertical strokeWidth={1} paddingHorizontal={3} />
     
               <View style={styles.column}>
                 <Text style={styles.title}>Points faibles</Text>
-                <Text style={styles.description}>Trop fort</Text>
-                <Text style={styles.description}>C'est lui le chef</Text>
+                {chef.weaknesses.map((weakness, idx) => (
+                  <Text key={`${displayChefType}-weakness-${idx}`} style={styles.description}>
+                    {weakness}
+                  </Text>
+                ))}
               </View>
             </View>
           </View>
@@ -185,7 +190,6 @@ const styles = StyleSheet.create({
   orderCard: {
     width: 180,
     height: 250,
-    backgroundColor: "#fff",
     borderColor: "#ffffff",
     borderWidth: 2,
     borderRadius: 10,
@@ -204,21 +208,21 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     padding: 5,
-    paddingVertical: 8
-  },
-  titleSection: {
-    width: "100%",
-    alignItems: "center",
+    paddingVertical: 8,
+    backgroundColor: "#C8A2DA",
   },
   title: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "#000",
+    color: "#FFF",
+    textShadowColor: "#00000074",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
     fontFamily: "pixelgridtrial-linedownboldm",
   },
   description: {
     fontSize: 10,
-    color: "#000",
+    color: "#FFF",
     marginTop: 4,
     fontFamily: "pixelgridtrial-linedownbolds",
   },
@@ -227,11 +231,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontFamily: "pixelgridtrial-linedownbolds",
     textAlign: "center",
-  },
-  clientRequest: {
-    fontSize: 12,
-    fontStyle: "italic",
-    fontFamily: "pixelgridtrial-linedownbolds",
+    color: "#FFF",
+    textShadowColor: "#00000074",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
   },
   price: {
     marginTop: 6,

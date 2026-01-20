@@ -56,6 +56,7 @@ export const vertexShader = `
 
 export const fragmentShader = `
   uniform float uTime;
+  uniform float uIsDark;
   varying vec2 vUv;
 
   // Fonction de bruit simple (hash-based)
@@ -112,8 +113,8 @@ export const fragmentShader = `
     smoke *= smoothstep(0.0, 0.3, vUv.y);  // Fade bas plus smooth
     smoke *= smoothstep(1.0, 0.2, vUv.y);  // Fade haut plus smooth
     
-    // Couleur
-    vec3 smokeColor = vec3(1.0, 1.0, 1.0);
+    // Couleur - blanc (1.0) ou noir (0.0) selon uIsDark
+    vec3 smokeColor = vec3(1.0 - uIsDark);
     
     gl_FragColor = vec4(smokeColor, smoke);
     #include <tonemapping_fragment>

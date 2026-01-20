@@ -2,7 +2,7 @@ import Model from "@/components/Model";
 import { useFrame } from "@react-three/fiber";
 import React, { useRef } from "react";
 import { Group } from "three";
-import finalplate from "@/assets/models/finalplate.glb";
+import finalplate from "@/assets/models/ingredients/finalplate.glb";
 
 export const FinalPlateModel = ({ src }: { src: any }) => {
   const plateRef = useRef<Group>(null);

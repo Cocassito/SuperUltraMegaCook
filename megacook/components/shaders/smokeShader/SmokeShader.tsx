@@ -10,9 +10,10 @@ type SmokeShaderProps = {
   planeSize?: [number, number];
   resetKey?: string | number;
   visible?: boolean;
+  isDark?: boolean;
 };
 
-export default function SmokeShader({ position = [0, 0, 0], rotation = [0, 0, 0], planeSize = [0, 0], resetKey, visible = true }: SmokeShaderProps) {
+export default function SmokeShader({ position = [0, 0, 0], rotation = [0, 0, 0], planeSize = [0, 0], resetKey, visible = true, isDark = false }: SmokeShaderProps) {
 
   const shaderRef = useRef<THREE.ShaderMaterial>(null);
   const localTimeRef = useRef(0);
@@ -46,7 +47,8 @@ export default function SmokeShader({ position = [0, 0, 0], rotation = [0, 0, 0]
         transparent={true}
         depthWrite={false}
         uniforms={{
-          uTime: { value: 0 }
+          uTime: { value: 0 },
+          uIsDark: { value: isDark ? 1.0 : 0.0 }
         }}
       />
     </mesh>

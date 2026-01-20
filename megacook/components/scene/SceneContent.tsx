@@ -20,7 +20,7 @@ import { PreloadIngredients } from "../preload/PreloadIngredients";
 
 import { Environment } from "../Environment";
 import PlateScene from "../view/frontview/PlateScene";
-import WalkingCharacter from "../animationcharacter/WalkingCharacter";
+import { AnimationCharacterScene } from "../animationcharacter/AnimationCharacterScene";
 
 import { FrontView } from "../view/frontview/FrontView";
 import { RightView } from "../view/rightview/RightView";
@@ -35,6 +35,7 @@ import ScreenAverage from "../view/backview/ScreenAverage";
 import { AverageResult } from "../view/frontview/AverageResult";
 import { Order } from "../view/leftview/Order";
 import { ChefCard } from "../view/rightview/ingredients/ChefCard";
+import { BurnedSalmonAlert } from "../view/rightview/BurnedSalmonAlert";
 import { PlayerMachine } from "../PlayerMachine";
 import { FinalPlateView } from "../view/finalPlate/FinalPlateView";
 
@@ -88,23 +89,15 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
   /* ---------------- STATE ---------------- */
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
-    null
-  );
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
-    null
-  );
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
-    null
-  );
-  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(
-    null
-  );
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
+  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(null);
 
   const [currentOrder, setCurrentOrder] = useState<OrderType>(0);
   const [hasOpenedOrder, setHasOpenedOrder] = useState(false);
 
-  const chefOrder: ChefType[] = ["lola", "leo", "philippeetchebest"];
+  const chefOrder: ChefType[] = ["sylvain", "merecotte", "philippeetchebest"];
 
   const getNextChef = (type: ChefType) =>
     chefOrder[(chefOrder.indexOf(type) + 1) % chefOrder.length];
@@ -157,19 +150,10 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   isCuireAutre={actions.isCuireAutre}
                   resetKey={navigation.currentView}
                   hasValidatedChef={validation.hasValidatedChef}
+                  selectedAutre={selection.selectedAutre}
                 />
 
-                {/* Perso qui marche */}
-                <WalkingCharacter
-                  position={[-28, -11, -58]}
-                  rotation={[0, Math.PI / 2, 0]}
-                  scale={15}
-                />
-                <WalkingCharacter
-                  position={[-71, -11, -58]}
-                  rotation={[0, Math.PI, 0]}
-                  scale={15}
-                />
+                <AnimationCharacterScene />
 
                 {navigation.currentView === 0 && (
                   <FrontView
@@ -284,15 +268,14 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   actions.setIsCuireFruit(false);
                   actions.setIsCuireAutre(false);
                   ui.setShowAverageResult(false);
+                  ui.setShowBurnedSalmon(false);
                   setCurrentOrder(0);
                   setHasOpenedOrder(false);
                   navigation.setCurrentView(0);
                 }}
                 onCuireChange={(isCuire) => {
-                  if (!validation.hasValidatedBase)
-                    actions.setIsCuireBase(isCuire);
-                  else if (!validation.hasValidatedFruit)
-                    actions.setIsCuireFruit(isCuire);
+                  if (!validation.hasValidatedBase) actions.setIsCuireBase(isCuire);
+                  else if (!validation.hasValidatedFruit) actions.setIsCuireFruit(isCuire);
                   else actions.setIsCuireAutre(isCuire);
                 }}
                 onValidate={() => {
@@ -320,6 +303,15 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                       autresData[selection.selectedAutre].model
                     );
                     validation.setHasValidatedAutre(true);
+
+                    // Si saumon + cuisson, afficher l'alerte cramé
+                    if (
+                      selection.selectedAutre === "saumon" &&
+                      actions.isCuireAutre
+                    ) {
+                      ui.setShowBurnedSalmon(true);
+                      return; // Ne pas changer de vue
+                    }
                   } else if (
                     selection.selectedChef &&
                     !validation.hasValidatedChef
@@ -346,7 +338,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
             </Canvas>
 
             {/* 🟣 STEPPER */}
-            {hasOpenedOrder && (
+            {hasOpenedOrder && !ui.showPlayerMachine && !ui.showFinalPlate && (
               <Stepper
                 totalSteps={5}
                 currentStep={validation.currentStep}
@@ -363,6 +355,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
             {!ui.showOrder &&
               !ui.showAverageResult &&
               !ui.showChefCard &&
+              !ui.showBurnedSalmon &&
               !ui.showPlayerMachine &&
               !ui.showFinalPlate && (
                 <NavigationButtons
@@ -386,6 +379,15 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
               <Order
                 onClose={() => ui.setShowOrder(false)}
                 orderType={currentOrder}
+              />
+            )}
+
+            {ui.showBurnedSalmon && (
+              <BurnedSalmonAlert
+                onClose={() => {
+                  ui.setShowBurnedSalmon(false);
+                  navigation.setCurrentView(0);
+                }}
               />
             )}
 

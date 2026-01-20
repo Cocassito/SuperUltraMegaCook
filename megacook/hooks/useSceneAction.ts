@@ -18,18 +18,10 @@ export function useSceneActions(playTicketSound: () => void) {
 
   // Modèles validés
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
-    null
-  );
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
-    null
-  );
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
-    null
-  );
-  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(
-    null
-  );
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
+  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(null);
 
   const resetAll = () => {
     selection.resetSelection();

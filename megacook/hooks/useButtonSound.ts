@@ -50,6 +50,10 @@ export const useWarningSound = () => {
   return useSound(require("@/assets/sounds/warning.mp3"));
 };  
 
+export const useAlertSound = () => {
+  return useSound(require("@/assets/sounds/alert.mp3"));
+}
+
 export function useMusicSound() {
   const soundRef = useRef<Audio.Sound | null>(null);
 

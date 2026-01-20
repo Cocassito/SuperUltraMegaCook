@@ -12,7 +12,7 @@ export default function LineSVG({ strokeWidth = 3, vertical = false, paddingHori
     return (
       <View style={{ paddingHorizontal }}>
         <Svg height="100%" width="5">
-          <Line x1="2" y1="0" x2="2" y2="100%" stroke="#000" strokeWidth={strokeWidth} />
+          <Line x1="2" y1="0" x2="2" y2="100%" stroke="#FFF" strokeWidth={strokeWidth} />
         </Svg>
       </View>
     );
@@ -20,7 +20,7 @@ export default function LineSVG({ strokeWidth = 3, vertical = false, paddingHori
   
   return (
     <Svg height="5" width="100%">
-        <Line x1="0" y1="2" x2="100%" y2="2" stroke="#000" strokeWidth={strokeWidth} />
+        <Line x1="0" y1="2" x2="100%" y2="2" stroke="#FFF" strokeWidth={strokeWidth} />
     </Svg>
     );
 }
