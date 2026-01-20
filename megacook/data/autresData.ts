@@ -16,6 +16,7 @@ export interface AutreData {
     bitter: number;
     spicy: number;
   };
+  dialogue: string;
 }
 
 const chocolatModel = require("../assets/models/ingredients/chocolat.glb");
@@ -37,6 +38,7 @@ const autresData: Record<AutreType, AutreData> = {
       bitter: 0,
       spicy: 1,
     },
+    dialogue: " P\'tit gourmand, loh !",
   },
   poulet: {
     name: "Poulet",
@@ -52,6 +54,7 @@ const autresData: Record<AutreType, AutreData> = {
       bitter: 1,
       spicy: 0,
     },
+    dialogue: "DU GRAAAAAAS !",
   },
   saumon: {
     name: "Saumon",
@@ -67,6 +70,7 @@ const autresData: Record<AutreType, AutreData> = {
       bitter: 0,
       spicy: 0,
     },
+    dialogue: "On est distingué ou on l\'est pas !",
   },
 };
 

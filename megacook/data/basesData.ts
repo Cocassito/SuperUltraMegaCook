@@ -16,6 +16,7 @@ export interface BaseData {
     spicy: number;
     protein: number;
   };
+  dialogue: string;
 }
 
 const fritesModel = require("../assets/models/ingredients/frites.glb");
@@ -37,6 +38,7 @@ const basesData: Record<BaseType, BaseData> = {
       spicy: 3,
       protein: 1,
     },
+    dialogue: "LE GRAS ! DU GRAS !",
   },
   riz: {
     name: "Riz",
@@ -52,6 +54,7 @@ const basesData: Record<BaseType, BaseData> = {
       spicy: 3,
       protein: 1,
     },
+    dialogue: "Okay TiboInshape, manque plus que la dinde.",
   },
   pâtes: {
     name: "Pâtes",
@@ -67,6 +70,7 @@ const basesData: Record<BaseType, BaseData> = {
       spicy: 3,
       protein: 4,
     },
+    dialogue: "L\'aliment universel. Se marie avec tout, surtout la flemme.",
   },
 };
 

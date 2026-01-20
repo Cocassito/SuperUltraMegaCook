@@ -16,6 +16,7 @@ export interface SauceData {
     spicy: number;
     protein: number;
   };
+  dialogue: string;
 }
 
 const citronModel = require("../assets/models/ingredients/citron.glb");
@@ -37,6 +38,7 @@ const saucesData: Record<SauceType, SauceData> = {
       spicy: 1,
       protein: 4,
     },
+    dialogue: "C\'est un mal pour un bien, je suppose.",
   },
   confiture: {
     name: "Confiture",
@@ -52,6 +54,7 @@ const saucesData: Record<SauceType, SauceData> = {
       spicy: 3,
       protein: 1,
     },
+    dialogue: "Celle que me préparait grand-mère, *snif*.",
   },
   sauce: {
     name: "Sauce",
@@ -67,6 +70,7 @@ const saucesData: Record<SauceType, SauceData> = {
       spicy: 3,
       protein: 4,
     },
+    dialogue: "La sauce du chef ? Il faut être courageux.",
   },
 };
 

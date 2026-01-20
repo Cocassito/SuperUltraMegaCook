@@ -16,6 +16,7 @@ export interface FruitData {
     spicy: number;
     protein: number;
   };
+  dialogue: string;
 }
 
 const broccoliModel = require("../assets/models/ingredients/broccoli.glb");
@@ -37,6 +38,7 @@ const fruitsData: Record<FruitType, FruitData> = {
       spicy: 5,
       protein: 3,
     },
+    dialogue: "Ew...",
   },
   pomme: {
     name: "Pomme",
@@ -52,6 +54,7 @@ const fruitsData: Record<FruitType, FruitData> = {
       spicy: 1,
       protein: 3,
     },
+    dialogue: "J\'aurais pas choisi ça, perso.",
   },
   tomate: {
     name: "Tomate",
@@ -67,6 +70,7 @@ const fruitsData: Record<FruitType, FruitData> = {
       spicy: 5,
       protein: 4,
     },
+    dialogue: "Tant qu\'on met pas ça dans un sandwich, j\'accepte.",
   },
 };
 

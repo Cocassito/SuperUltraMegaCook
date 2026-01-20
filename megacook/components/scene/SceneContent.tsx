@@ -13,6 +13,7 @@ import { OrderType } from "@/data/ordersData";
 import { ChefType } from "@/data/chefsData";
 
 import { NavigationButtons } from "../ui/button/NavigationButtons";
+import { DialogueDisplay } from "../ui/DialogueDisplay";
 import CameraControls from "../camera/CameraControls";
 import { useViewNavigation } from "@/hooks/useViewNavigation";
 import { SyncedCamera } from "../camera/SyncedCamera";
@@ -358,11 +359,34 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
               !ui.showBurnedSalmon &&
               !ui.showPlayerMachine &&
               !ui.showFinalPlate && (
-                <NavigationButtons
-                  {...navigation}
-                  hasOpenedOrder={hasOpenedOrder}
-                  allValidated={validation.allValidated}
-                />
+                <>
+                  <NavigationButtons
+                    {...navigation}
+                    hasOpenedOrder={hasOpenedOrder}
+                    allValidated={validation.allValidated}
+                  />
+                  <DialogueDisplay
+                    text={
+                      !hasOpenedOrder && navigation.currentView === 2
+                        ? "Bonjour, que puis-je pour vous ?"
+                        : hasOpenedOrder && !selection.selectedBase
+                        ? "Très précis comme demande..."
+                        : validation.currentStep === 0
+                        ? selection.selectedBase && basesData[selection.selectedBase]
+                          ? basesData[selection.selectedBase].dialogue : null
+                        : validation.currentStep === 1
+                        ? selection.selectedFruit && fruitsData[selection.selectedFruit]
+                          ? fruitsData[selection.selectedFruit].dialogue : null
+                        : validation.currentStep === 2
+                        ? selection.selectedSauce && saucesData[selection.selectedSauce]
+                          ? saucesData[selection.selectedSauce].dialogue : null
+                        : validation.currentStep === 3
+                        ? selection.selectedAutre && autresData[selection.selectedAutre]
+                          ? autresData[selection.selectedAutre].dialogue : null
+                        : null
+                    }
+                  />
+                </>
               )}
             {ui.showAverageResult && (
               <AverageResult

@@ -13,6 +13,7 @@ export interface ChefData {
     bitter: number;
     spicy: number;
   };
+  dialogue: string;
   strengths: string[];
   weaknesses: string[];
 }
@@ -33,6 +34,7 @@ const chefsData: Record<ChefType, ChefData> = {
     },
     strengths: ['Christ cosmique'],
     weaknesses: ['Fou'],
+    dialogue: "Non ! Pas le Christ Cosmique !",
   },
   merecotte: {
     name: 'Mère Cotte',
@@ -49,6 +51,7 @@ const chefsData: Record<ChefType, ChefData> = {
     },
     strengths: ['Salem Aleykoum, les pâtissiers', 'Elle aime le sucre'],
     weaknesses: ['Elle aime le sucre'],
+    dialogue: "Salam Aleykoum les pâtissiers !",
   },
   philippeetchebest: {
     name: 'Philippe Etchebest',
@@ -65,6 +68,7 @@ const chefsData: Record<ChefType, ChefData> = {
     },
     strengths: ['Meilleur ouvrier de France', 'C\'est lui le chef'],
     weaknesses: ['Trop fort', 'C\'est lui le chef'],
+    dialogue: "C\'est qui le chef ?",
   }
 };
 

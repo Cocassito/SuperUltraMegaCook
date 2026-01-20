@@ -170,6 +170,11 @@ export const ChefCard = ({ onClose, chefType, onPrev, onNext, onValidate }: Chef
             onPress={onValidate}
           />
         </View>
+
+        {/* Dialogue Display */}
+        <View style={styles.dialogueContainer}>
+          <Text style={styles.dialogueText}>{chef.dialogue.toUpperCase()}</Text>
+        </View>
       </View>
     </GestureDetector>
   );
@@ -260,6 +265,7 @@ const styles = StyleSheet.create({
   validateButtonContainer: {
     position: "absolute",
     bottom: 20,
+    right: 24,
     alignSelf: "center",
     zIndex: 3,
     elevation: 12,
@@ -270,6 +276,24 @@ const styles = StyleSheet.create({
   },
   column: {
     flex: 1,
+  },
+  dialogueContainer: {
+    position: "absolute",
+    bottom: 40,
+    left: "50%",
+    transform: [{ translateX: "-50%" }],
+    zIndex: 9998,
+    alignItems: "center",
+  },
+  dialogueText: {
+    color: "#ffffff",
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "center",
+    fontFamily: "pixelgridtrial-linedownbolds",
   },
   stars: {
     flexDirection: "row",
