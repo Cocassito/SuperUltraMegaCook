@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { View, StyleSheet, Animated } from "react-native";
 import { useVideoPlayer, VideoView } from "expo-video";
 
 interface PlayerMachineProps {
@@ -13,27 +13,43 @@ export const PlayerMachine = ({ onVideoEnd }: PlayerMachineProps) => {
       player.loop = false;
     },
   );
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     player.play();
+    // Fade in
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
     const subscription = player.addListener("playToEnd", () => {
-      onVideoEnd?.();
+      // Fade out
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start(() => {
+        onVideoEnd?.();
+      });
     });
     return () => {
       subscription.remove();
     };
-  }, [player, onVideoEnd]);
+  }, [player, onVideoEnd, fadeAnim]);
 
   return (
     <View style={styles.container}>
-      <VideoView
-        player={player}
-        style={styles.video}
-        contentFit="contain"
-        nativeControls={false}
-        allowsFullscreen={true}
-        allowsPictureInPicture={false}
-      />
+      <Animated.View style={[styles.video, { opacity: fadeAnim }]}>
+        <VideoView
+          player={player}
+          style={styles.video}
+          contentFit="contain"
+          nativeControls={false}
+          allowsFullscreen={true}
+          allowsPictureInPicture={false}
+        />
+      </Animated.View>
     </View>
   );
 };

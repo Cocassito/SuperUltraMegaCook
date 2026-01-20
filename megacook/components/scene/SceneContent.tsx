@@ -75,13 +75,17 @@ function SceneReady({ onReady }: { onReady?: () => void }) {
 
 export default function SceneContent({ onSceneReady }: SceneProps) {
   /* ---------------- HOOKS ---------------- */
-
-  const window = useWindowDimensions();
-  const navigation = useViewNavigation();
-
   const playTicketSound = useTicketSound();
   const playSwipeSound = useSwipeSound();
   const playMusic = useMusicSound();
+
+  const ui = useSceneUI();
+  const selection = useSceneSelection();
+  const validation = useSceneValidation();
+  const actions = useSceneActions(playTicketSound);
+
+  const window = useWindowDimensions();
+  const navigation = useViewNavigation();
 
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
@@ -117,16 +121,12 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
 
   /* ---------------- GESTURE ---------------- */
   const swipeGesture = Gesture.Pan().onEnd((event) => {
+    if (ui.showPlayerMachine || ui.showFinalPlate) return; // 🔒 désactive le swipe
     if (Math.abs(event.translationX) > 50) {
       playSwipeSound();
       event.translationX > 0 ? navigation.prevView() : navigation.nextView();
     }
   });
-
-  const ui = useSceneUI();
-  const selection = useSceneSelection();
-  const validation = useSceneValidation();
-  const actions = useSceneActions(playTicketSound);
 
   return (
     <View
