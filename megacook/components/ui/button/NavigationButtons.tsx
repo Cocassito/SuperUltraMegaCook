@@ -5,6 +5,8 @@ import { WarningButton } from "./WarningButton";
 import { useWarningSound } from "@/hooks/useButtonSound";
 import ArrowLeft from "@/components/svg/ArrowLeft";
 import ArrowRight from "@/components/svg/ArrowRight";
+import { LeftInfo } from "../../LeftInfo";
+import { RightInfo } from "../../RightInfo";
 
 interface NavigationButtonsProps {
   prevView: () => void;
@@ -34,7 +36,7 @@ export const NavigationButtons = ({
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []); 
+  }, []);
 
   // Logique pour afficher les warning buttons selon la vue et l'état
   let showWarningLeft = false;
@@ -87,13 +89,13 @@ export const NavigationButtons = ({
 
       {showWarningLeft && (
         <View style={styles.warningLeft}>
-          <WarningButton />
+          <LeftInfo />
         </View>
       )}
 
       {showWarningRight && (
         <View style={styles.warningRight}>
-          <WarningButton />
+          <RightInfo />
         </View>
       )}
     </>
@@ -130,18 +132,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 46,
     top: "50%",
-    alignItems: "center",
-    justifyContent: "center",
     zIndex: 9999,
     elevation: 10,
   },
   warningRight: {
     position: "absolute",
     right: 46,
-    top: '50%',
+    top: "50%",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 9999,
     elevation: 10,
-  }
+  },
 });

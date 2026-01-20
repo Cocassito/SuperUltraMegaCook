@@ -41,63 +41,6 @@ type ScreenProps = {
   onCuireChange?: (isCuire: boolean) => void;
 };
 
-// Helper function to get the URI from ImageSourcePropType
-function getImageUri(image: ImageSourcePropType): string | undefined {
-  if (typeof image === "number") {
-    const asset = Asset.fromModule(image);
-    return asset.localUri || asset.uri;
-  } else if (
-    typeof image === "object" &&
-    !Array.isArray(image) &&
-    "uri" in image
-  ) {
-    return image.uri;
-  }
-  return undefined;
-}
-
-// Preload images before rendering the component
-async function preloadImages() {
-  try {
-    await Promise.all([
-      ...Object.values(basesData).map((base) => {
-        const uri = getImageUri(base.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-      ...Object.values(fruitsData).map((fruit) => {
-        const uri = getImageUri(fruit.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-      ...Object.values(saucesData).map((sauce) => {
-        const uri = getImageUri(sauce.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-      ...Object.values(autresData).map((autre) => {
-        const uri = getImageUri(autre.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-      ...Object.values(chefsData).map((chef) => {
-        const uri = getImageUri(chef.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-    ]);
-  } catch (error) {
-    console.error("Error preloading images:", error);
-  }
-}
-
-preloadImages();
-
 export default function Screen({
   selectedBase,
   selectedFruit,
@@ -150,35 +93,35 @@ export default function Screen({
   const selectedItem = isBasePhase
     ? selectedBase
     : isFruitPhase
-    ? selectedFruit
-    : isSaucePhase
-    ? selectedSauce
-    : isAutrePhase
-    ? selectedAutre
-    : isChefPhase
-    ? selectedChef
-    : null;
+      ? selectedFruit
+      : isSaucePhase
+        ? selectedSauce
+        : isAutrePhase
+          ? selectedAutre
+          : isChefPhase
+            ? selectedChef
+            : null;
   const data = isBasePhase
     ? selectedBase
       ? basesData[selectedBase]
       : null
     : isFruitPhase
-    ? selectedFruit
-      ? fruitsData[selectedFruit]
-      : null
-    : isSaucePhase
-    ? selectedSauce
-      ? saucesData[selectedSauce]
-      : null
-    : isAutrePhase
-    ? selectedAutre
-      ? autresData[selectedAutre]
-      : null
-    : isChefPhase
-    ? selectedChef
-      ? chefsData[selectedChef]
-      : null
-    : null;
+      ? selectedFruit
+        ? fruitsData[selectedFruit]
+        : null
+      : isSaucePhase
+        ? selectedSauce
+          ? saucesData[selectedSauce]
+          : null
+        : isAutrePhase
+          ? selectedAutre
+            ? autresData[selectedAutre]
+            : null
+          : isChefPhase
+            ? selectedChef
+              ? chefsData[selectedChef]
+              : null
+            : null;
 
   return (
     <>
@@ -217,12 +160,12 @@ export default function Screen({
                 {isBasePhase
                   ? "Sélectionne une base"
                   : isFruitPhase
-                  ? "Sélectionne un fruit"
-                  : isSaucePhase
-                  ? "Sélectionne une sauce"
-                  : isAutrePhase
-                  ? "Sélectionne un autre"
-                  : "Sélectionne un chef"}
+                    ? "Sélectionne un fruit"
+                    : isSaucePhase
+                      ? "Sélectionne une sauce"
+                      : isAutrePhase
+                        ? "Sélectionne un autre"
+                        : "Sélectionne un chef"}
               </Text>
             </View>
           ) : (

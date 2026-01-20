@@ -76,13 +76,17 @@ function SceneReady({ onReady }: { onReady?: () => void }) {
 
 export default function SceneContent({ onSceneReady }: SceneProps) {
   /* ---------------- HOOKS ---------------- */
-
-  const window = useWindowDimensions();
-  const navigation = useViewNavigation();
-
   const playTicketSound = useTicketSound();
   const playSwipeSound = useSwipeSound();
   const playMusic = useMusicSound();
+
+  const ui = useSceneUI();
+  const selection = useSceneSelection();
+  const validation = useSceneValidation();
+  const actions = useSceneActions(playTicketSound);
+
+  const window = useWindowDimensions();
+  const navigation = useViewNavigation();
 
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
@@ -90,10 +94,18 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
   /* ---------------- STATE ---------------- */
 
   const [validatedModel, setValidatedModel] = useState<string | null>(null);
-  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(null);
-  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(null);
-  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(null);
-  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(null);
+  const [validatedFruitModel, setValidatedFruitModel] = useState<string | null>(
+    null,
+  );
+  const [validatedSauceModel, setValidatedSauceModel] = useState<string | null>(
+    null,
+  );
+  const [validatedAutreModel, setValidatedAutreModel] = useState<string | null>(
+    null,
+  );
+  const [validatedChefModel, setValidatedChefModel] = useState<string | null>(
+    null,
+  );
 
   const [currentOrder, setCurrentOrder] = useState<OrderType>(0);
   const [hasOpenedOrder, setHasOpenedOrder] = useState(false);
@@ -110,16 +122,12 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
 
   /* ---------------- GESTURE ---------------- */
   const swipeGesture = Gesture.Pan().onEnd((event) => {
+    if (ui.showPlayerMachine || ui.showFinalPlate) return; // 🔒 désactive le swipe
     if (Math.abs(event.translationX) > 50) {
       playSwipeSound();
       event.translationX > 0 ? navigation.prevView() : navigation.nextView();
     }
   });
-
-  const ui = useSceneUI();
-  const selection = useSceneSelection();
-  const validation = useSceneValidation();
-  const actions = useSceneActions(playTicketSound);
 
   return (
     <View
@@ -225,9 +233,9 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                 />
               </Suspense>
 
-              <PixelatedPass pixelSize={1} />
+              <PixelatedPass pixelSize={5} />
               <SceneLights />
-              <OrbitControls />
+              {/* <OrbitControls /> */}
             </Canvas>
 
             {/* ======================= OVERLAY CANVAS ======================= */}
@@ -275,8 +283,10 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   navigation.setCurrentView(0);
                 }}
                 onCuireChange={(isCuire) => {
-                  if (!validation.hasValidatedBase) actions.setIsCuireBase(isCuire);
-                  else if (!validation.hasValidatedFruit) actions.setIsCuireFruit(isCuire);
+                  if (!validation.hasValidatedBase)
+                    actions.setIsCuireBase(isCuire);
+                  else if (!validation.hasValidatedFruit)
+                    actions.setIsCuireFruit(isCuire);
                   else actions.setIsCuireAutre(isCuire);
                 }}
                 onValidate={() => {
@@ -288,7 +298,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                     selection.selectedFruit
                   ) {
                     setValidatedFruitModel(
-                      fruitsData[selection.selectedFruit].model
+                      fruitsData[selection.selectedFruit].model,
                     );
                     validation.setHasValidatedFruit(true);
                   } else if (
@@ -296,12 +306,12 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                     selection.selectedSauce
                   ) {
                     setValidatedSauceModel(
-                      saucesData[selection.selectedSauce].model
+                      saucesData[selection.selectedSauce].model,
                     );
                     validation.setHasValidatedSauce(true);
                   } else if (selection.selectedAutre) {
                     setValidatedAutreModel(
-                      autresData[selection.selectedAutre].model
+                      autresData[selection.selectedAutre].model,
                     );
                     validation.setHasValidatedAutre(true);
 
@@ -318,7 +328,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                     !validation.hasValidatedChef
                   ) {
                     setValidatedChefModel(
-                      chefsData[selection.selectedChef].name
+                      chefsData[selection.selectedChef].name,
                     );
                     validation.setHasValidatedChef(true);
                     playTicketSound();
@@ -487,6 +497,8 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 10,
-    backgroundColor: "#000",
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
