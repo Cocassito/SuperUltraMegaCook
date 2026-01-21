@@ -54,36 +54,6 @@ export const useDialogueSound = () => {
   return useSound(require("@/assets/sounds/dialogue.mp3"));
 }
 
-export const useTadamSound = () => {
-  const soundRef = useRef<Audio.Sound | null>(null);
-
-  const playTadamSound = async () => {
-    try {
-      // Si on a déjà une instance de son, la réutiliser
-      if (!soundRef.current) {
-        const { sound } = await Audio.Sound.createAsync(
-          require("@/assets/sounds/tadam.mp3")
-        );
-        soundRef.current = sound;
-      }
-
-      // Rembobiner et jouer
-      await soundRef.current.stopAsync();
-      await soundRef.current.playAsync();
-    } catch (error) {
-      console.log("Erreur lors de la lecture du son tadam:", error);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      soundRef.current?.unloadAsync();
-    };
-  }, []);
-
-  return playTadamSound;
-}
-
 export const useVictorySound = () => {
   return useSound(require("@/assets/sounds/victory.mp3"));
 }
@@ -123,29 +93,104 @@ export function useVictorySoundLoop() {
   return { playVictory, stopVictory };
 }
 
-export function useMusicSound() {
+export function useTadamSound() {
   const soundRef = useRef<Audio.Sound | null>(null);
 
-  const playMusic = async () => {
-    if (!soundRef.current) {
-      const { sound } = await Audio.Sound.createAsync(
-        require("@/assets/sounds/music.mp3"),
-        {
-          isLooping: true, 
-          volume: 0.5,
-        },
-      );
-      soundRef.current = sound;
-    }
+  const playTadam = async () => {
+    try {
+      // Configure audio mode for iOS
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        staysActiveInBackground: true,
+      });
 
-    await soundRef.current.playAsync();
+      if (!soundRef.current) {
+        const { sound } = await Audio.Sound.createAsync(
+          require("@/assets/sounds/tadam.mp3"),
+          {
+            volume: 1,
+          }
+        );
+        soundRef.current = sound;
+      }
+
+      const status = await soundRef.current.getStatusAsync();
+      if (status.isLoaded) {
+        await soundRef.current.stopAsync();
+        await soundRef.current.playAsync();
+      }
+    } catch (error) {
+      console.log("Erreur lors de la lecture du tadam:", error);
+    }
   };
 
   useEffect(() => {
     return () => {
-      soundRef.current?.unloadAsync();
+      if (soundRef.current) {
+        soundRef.current.getStatusAsync().then((status) => {
+          if (status.isLoaded) {
+            soundRef.current?.unloadAsync();
+          }
+        });
+      }
     };
   }, []);
 
-  return playMusic;
+  return { playTadam };
 }
+
+export function useMusicSound() {
+  const soundRef = useRef<Audio.Sound | null>(null);
+
+  const playMusic = async () => {
+    try {
+      if (!soundRef.current) {
+        const { sound } = await Audio.Sound.createAsync(
+          require("@/assets/sounds/music.mp3"),
+          {
+            isLooping: true,
+            volume: 0.8,
+          }
+        );
+        soundRef.current = sound;
+      }
+
+      const status = await soundRef.current.getStatusAsync();
+      if (status.isLoaded && !status.isPlaying) {
+        await soundRef.current.playAsync();
+      }
+    } catch (error) {
+      console.log("Erreur lors de la lecture de la musique:", error);
+    }
+  };
+
+  const stopMusic = async () => {
+    try {
+      if (soundRef.current) {
+        const status = await soundRef.current.getStatusAsync();
+        if (status.isLoaded) {
+          await soundRef.current.stopAsync();
+          await soundRef.current.unloadAsync();
+          soundRef.current = null;
+        }
+      }
+    } catch (error) {
+      console.log("Erreur lors de l'arrêt de la musique:", error);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (soundRef.current) {
+        soundRef.current.getStatusAsync().then((status) => {
+          if (status.isLoaded) {
+            soundRef.current?.unloadAsync();
+          }
+        });
+      }
+    };
+  }, []);
+
+  return { playMusic, stopMusic };
+}
+

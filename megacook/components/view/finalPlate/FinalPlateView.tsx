@@ -7,21 +7,20 @@ import PixelatedPass from "@/components/postProd/PixelComposer";
 import PixelButton from "@/components/ui/button/PixelButtonComponent";
 import { OrbitControls } from "@react-three/drei";
 import { FinalPlateModel } from "./FinalPlateAnim";
-import { useTadamSound } from "@/hooks/useButtonSound";
 
 interface FinalPlateViewProps {
   onTimeout?: () => void;
+  onPlayTadam?: () => void;
 }
 
 export const FinalPlateView = forwardRef<View, FinalPlateViewProps>(
-  ({ onTimeout }, ref) => {
+  ({ onTimeout, onPlayTadam }, ref) => {
     const finalPlate = require("../../../assets/models/ingredients/finalplate.glb");
     const backgroundResult = require("../../../assets/images/background/backgroundresult.png");
-    const playTadamSound = useTadamSound();
 
     useEffect(() => {
-      playTadamSound();
-    }, []);
+      onPlayTadam?.();
+    }, [onPlayTadam]);
 
     return (
       <ImageBackground source={backgroundResult} style={styles.container} ref={ref}>

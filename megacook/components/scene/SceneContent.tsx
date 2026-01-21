@@ -51,9 +51,8 @@ import chefsData from "@/data/chefsData";
 
 import {
   useSwipeSound,
-  useMusicSound,
   useVictorySoundLoop,
-  useTadamSound,
+  useMusicSound,
 } from "@/hooks/useButtonSound";
 import Stepper from "../svg/gauge/Stepper";
 
@@ -65,6 +64,12 @@ import { useFonts } from "expo-font";
 
 type SceneProps = {
   onSceneReady?: () => void;
+  onMusicReady?: () => void;
+  onShowPlayerMachine?: (show: boolean) => void;
+  onShowFinalPlate?: (show: boolean) => void;
+  onShowAverageResult?: (show: boolean) => void;
+  onShowBurnedSalmon?: (show: boolean) => void;
+  onPlayTadam?: () => void;
 };
 
 function SceneReady({ onReady }: { onReady?: () => void }) {
@@ -74,12 +79,19 @@ function SceneReady({ onReady }: { onReady?: () => void }) {
   return null;
 }
 
-export default function SceneContent({ onSceneReady }: SceneProps) {
+export default function SceneContent({ 
+  onSceneReady, 
+  onMusicReady,
+  onShowPlayerMachine,
+  onShowFinalPlate,
+  onShowAverageResult,
+  onShowBurnedSalmon,
+  onPlayTadam
+}: SceneProps) {
   /* ---------------- HOOKS ---------------- */
   const playSwipeSound = useSwipeSound();
-  const playMusic = useMusicSound();
   const { playVictory, stopVictory } = useVictorySoundLoop();
-  const playTadamSound = useTadamSound();
+  const { playMusic, stopMusic } = useMusicSound();
 
   const ui = useSceneUI();
   const selection = useSceneSelection();
@@ -91,6 +103,28 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
 
   const cubeRef = useRef<Mesh>(null!);
   const cameraRef = useRef<any>(null);
+
+  // Signaler au parent (App.tsx) que la musique peut démarrer
+  useEffect(() => {
+    onMusicReady?.();
+  }, [onMusicReady]);
+
+  // Notifier App.tsx des changements de showPlayerMachine et showFinalPlate
+  useEffect(() => {
+    onShowPlayerMachine?.(ui.showPlayerMachine);
+  }, [ui.showPlayerMachine, onShowPlayerMachine]);
+
+  useEffect(() => {
+    onShowFinalPlate?.(ui.showFinalPlate);
+  }, [ui.showFinalPlate, onShowFinalPlate]);
+
+  useEffect(() => {
+    onShowAverageResult?.(ui.showAverageResult);
+  }, [ui.showAverageResult, onShowAverageResult]);
+
+  useEffect(() => {
+    onShowBurnedSalmon?.(ui.showBurnedSalmon);
+  }, [ui.showBurnedSalmon, onShowBurnedSalmon]);
 
   /* ---------------- STATE ---------------- */
 
@@ -475,7 +509,6 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                 <PlayerMachine
                   onVideoEnd={() => {
                     ui.setShowPlayerMachine(false);
-                    playTadamSound();
                     ui.setShowFinalPlate(true);
                   }}
                 />
@@ -485,6 +518,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
             {ui.showFinalPlate && (
               <View style={styles.playerMachineOverlay}>
                 <FinalPlateView
+                  onPlayTadam={onPlayTadam}
                   onTimeout={() => {
                     playVictory();
                     ui.setIsVictory(true);
