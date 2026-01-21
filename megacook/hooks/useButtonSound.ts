@@ -48,11 +48,11 @@ export const useSwipeSound = () => {
 
 export const useWarningSound = () => {
   return useSound(require("@/assets/sounds/warning.mp3"));
-};  
+};
 
 export const useAlertSound = () => {
-  return useSound(require("@/assets/sounds/alert.mp3"));
-}
+  return useSound(require("@/assets/sounds/warning1.mp3"));
+};
 
 export function useMusicSound() {
   const soundRef = useRef<Audio.Sound | null>(null);
@@ -64,7 +64,7 @@ export function useMusicSound() {
         {
           isLooping: true, // ⭐ BOUCLE ICI
           volume: 0.5,
-        }
+        },
       );
       soundRef.current = sound;
     }

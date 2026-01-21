@@ -21,8 +21,7 @@ export default function Stepper({
           position: "absolute",
           top: 24,
           left: 24,
-          zIndex: 10,
-          elevation: 20, // 🔥 ANDROID
+          zIndex: 2,
         }}
       >
         <Toc />
@@ -33,13 +32,11 @@ export default function Stepper({
           position: "absolute",
           top: 24,
           left: 77,
-          zIndex: 20,
+          zIndex: 2,
           elevation: 20,
         }}
       >
-        <Text style={styles.activeStepTitle}>
-          {stepTitles[currentStep] || `Step ${currentStep}`}
-        </Text>
+        <Text style={styles.activeStepTitle}>{stepTitles[currentStep]}</Text>
       </View>
 
       <View style={styles.container}>
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
     top: 50,
     left: 60,
     flexDirection: "row",
-    zIndex: 2,
+    zIndex: 1,
   },
   stepWrapper: {
     marginRight: STEP_GAP,
