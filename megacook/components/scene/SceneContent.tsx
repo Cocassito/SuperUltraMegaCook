@@ -49,7 +49,7 @@ import saucesData from "@/data/saucesData";
 import autresData from "@/data/autresData";
 import chefsData from "@/data/chefsData";
 
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Preload } from "@react-three/drei";
 
 import {
   useTicketSound,

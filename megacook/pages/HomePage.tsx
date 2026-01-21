@@ -10,13 +10,7 @@ import NewGameButton from "@/components/ui/button/NewGameButton";
 import LoadGameButton from "@/components/ui/button/LoadGameButton";
 import { SettingsButton } from "@/components/ui/button/SettingsButton";
 import { SettingsPopup } from "@/components/ui/popup/SettingsPopup";
-import { preloadModel } from "@/utils/PreloadModel";
 import { AnimLogo } from "@/components/AnimLogo";
-
-// import scene from "../assets/models/environment/scene.glb";
-// import customer from "../assets/models/character/customer.glb";
-// import sitdown from "../assets/models/character/sitdown.glb";
-// import walking from "../assets/models/character/walking.glb";
 
 import { LoadPopup } from "@/components/ui/popup/LoadPopup";
 
@@ -38,18 +32,6 @@ export default function HomePage() {
   useEffect(() => {
     async function preloadAssets() {
       await Promise.all([
-        // Asset.fromModule(scene).downloadAsync(),
-        // preloadModel(scene),
-
-        // Asset.fromModule(customer).downloadAsync(),
-        // preloadModel(customer),
-
-        // Asset.fromModule(sitdown).downloadAsync(),
-        // preloadModel(sitdown),
-
-        // Asset.fromModule(walking).downloadAsync(),
-        // preloadModel(walking),
-
         Asset.fromModule(
           require("../assets/images/logo/Logo_MC_CompletOmbrage2.webp"),
         ).downloadAsync(),
