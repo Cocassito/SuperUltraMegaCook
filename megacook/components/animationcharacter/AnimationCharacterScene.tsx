@@ -28,15 +28,9 @@ export const AnimationCharacterScene = () => {
       />
 
       <AnimationCharacterLoad
-        position={[-91, -10, 18]}
+        position={[-28, -17, 18]}
         rotation={[0, Math.PI / 2, 0]}
-        scale={15}
-        model="walking"
-      />
-      <AnimationCharacterLoad
-        position={[41, -10, -18]}
-        rotation={[0, -Math.PI / 2, 0]}
-        scale={15}
+        scale={17}
         model="walking"
       />
     </>
