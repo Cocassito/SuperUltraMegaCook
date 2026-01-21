@@ -1,65 +1,61 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { GLTFLoader, DRACOLoader, SkeletonUtils } from "three-stdlib";
-import { AnimationMixer, LoopRepeat } from "three";
-import * as THREE from "three";
+import { GLTFLoader, SkeletonUtils } from "three-stdlib";
+import { AnimationMixer, LoopRepeat, Object3D } from "three";
+import { configureGLTFLoader } from "@/three/gltfLoader";
+
+// ⚡ Imports statiques des modèles
+import sitdown from "@/assets/models/character/sitdown.glb";
+import customer from "@/assets/models/character/customer.glb";
+import walking from "@/assets/models/character/walking.glb";
+import dance1 from "@/assets/models/character/dance1.glb";
+import dance2 from "@/assets/models/character/dance2.glb";
+import dance3 from "@/assets/models/character/dance3.glb";
+
+// Map des modèles
+const MODELS = {
+  sitdown,
+  customer,
+  walking,
+  dance1,
+  dance2,
+  dance3,
+};
+
+// ⚡ PRELOAD (hors composant, s’exécute une fois)
+Object.values(MODELS).forEach((src) => {
+  useLoader.preload(GLTFLoader, src, configureGLTFLoader);
+});
+
+interface AnimationCharacterLoadProps {
+  position?: [number, number, number];
+  rotation?: [number, number, number];
+  scale?: number;
+  model?: keyof typeof MODELS;
+}
 
 export default function AnimationCharacterLoad({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   scale = 1,
   model = "sitdown",
-}: {
-  position?: [number, number, number];
-  rotation?: [number, number, number];
-  scale?: number;
-  model?: "sitdown" | "customer" | "walking" | "dance1" | "dance2" | "dance3";
-}) {
-  const dracoRef = useRef<DRACOLoader | null>(null);
+}: AnimationCharacterLoadProps) {
   const mixerRef = useRef<AnimationMixer | null>(null);
 
-  const getModelPath = () => {
-    switch (model) {
-      case "customer":
-        return require("@/assets/models/character/customer.glb");
-      case "walking":
-        return require("@/assets/models/character/walking.glb");
-      case "dance1":
-        return require("@/assets/models/character/dance1.glb");
-      case "dance2":
-        return require("@/assets/models/character/dance2.glb");
-      case "dance3":
-        return require("@/assets/models/character/dance3.glb");
-      case "sitdown":
-      default:
-        return require("@/assets/models/character/sitdown.glb");
-    }
-  };
-  
-  const gltf = useLoader(
-    GLTFLoader,
-    getModelPath(),
-    (loader) => {
-      const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath(
-        "https://www.gstatic.com/draco/versioned/decoders/1.4.1/"
-      );
-      loader.setDRACOLoader(dracoLoader as any);
-      dracoRef.current = dracoLoader;
-    }
-  );
+  // ⚡ Charge le modèle via loader global
+  const gltf = useLoader(GLTFLoader, MODELS[model], configureGLTFLoader);
 
-  // Clone the loaded scene so multiple instances can render independently
+  // Clone la scène pour permettre plusieurs instances
   const clonedScene = useMemo(() => {
-    return SkeletonUtils.clone(gltf.scene) as THREE.Object3D;
+    return SkeletonUtils.clone(gltf.scene) as Object3D;
   }, [gltf.scene]);
 
   useEffect(() => {
-    if (gltf.animations && gltf.animations.length > 0 && clonedScene) {
+    if (gltf.animations.length > 0 && clonedScene) {
       const mixer = new AnimationMixer(clonedScene);
       mixerRef.current = mixer;
 
-      // Jouer toutes les animations
+      // Jouer toutes les animations en boucle
       gltf.animations.forEach((clip) => {
         const action = mixer.clipAction(clip);
         action.setLoop(LoopRepeat, Infinity);
@@ -68,18 +64,15 @@ export default function AnimationCharacterLoad({
     }
 
     return () => {
+      // Stop mixer à la destruction
       if (mixerRef.current) {
         mixerRef.current.stopAllAction();
         mixerRef.current = null;
       }
-      if (dracoRef.current) {
-        dracoRef.current.dispose();
-        dracoRef.current = null;
-      }
     };
   }, [gltf, clonedScene]);
 
-  // Mettre à jour l'animation à chaque frame
+  // Met à jour l’animation à chaque frame
   useFrame((state, delta) => {
     if (mixerRef.current) {
       mixerRef.current.update(delta);
@@ -87,6 +80,11 @@ export default function AnimationCharacterLoad({
   });
 
   return (
-    <primitive object={clonedScene} position={position} rotation={rotation} scale={scale} />
+    <primitive
+      object={clonedScene}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+    />
   );
 }
