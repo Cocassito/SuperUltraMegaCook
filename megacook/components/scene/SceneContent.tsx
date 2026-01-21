@@ -36,7 +36,7 @@ import ScreenAverage from "../view/backview/ScreenAverage";
 import { AverageResult } from "../view/frontview/AverageResult";
 import { Order } from "../view/leftview/Order";
 import { ChefCard } from "../view/rightview/ingredients/ChefCard";
-import { BurnedSalmonAlert } from "../view/rightview/BurnedSalmonAlert";
+import { BurnedSalmonAlert } from "../ui/popup/BurnedSalmonAlertPopup";
 import { PlayerMachine } from "../PlayerMachine";
 import { FinalPlateView } from "../view/finalPlate/FinalPlateView";
 
@@ -380,20 +380,29 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                       !hasOpenedOrder && navigation.currentView === 2
                         ? "Bonjour, que puis-je pour vous ?"
                         : hasOpenedOrder && !selection.selectedBase
-                        ? "Très précis comme demande..."
-                        : validation.currentStep === 0
-                        ? selection.selectedBase && basesData[selection.selectedBase]
-                          ? basesData[selection.selectedBase].dialogue : null
-                        : validation.currentStep === 1
-                        ? selection.selectedFruit && fruitsData[selection.selectedFruit]
-                          ? fruitsData[selection.selectedFruit].dialogue : null
-                        : validation.currentStep === 2
-                        ? selection.selectedSauce && saucesData[selection.selectedSauce]
-                          ? saucesData[selection.selectedSauce].dialogue : null
-                        : validation.currentStep === 3
-                        ? selection.selectedAutre && autresData[selection.selectedAutre]
-                          ? autresData[selection.selectedAutre].dialogue : null
-                        : null
+                          ? "Très précis comme demande..."
+                          : validation.currentStep === 0
+                            ? selection.selectedBase &&
+                              basesData[selection.selectedBase]
+                              ? basesData[selection.selectedBase].dialogue
+                              : null
+                            : validation.currentStep === 1
+                              ? selection.selectedFruit &&
+                                fruitsData[selection.selectedFruit]
+                                ? fruitsData[selection.selectedFruit].dialogue
+                                : null
+                              : validation.currentStep === 2
+                                ? selection.selectedSauce &&
+                                  saucesData[selection.selectedSauce]
+                                  ? saucesData[selection.selectedSauce].dialogue
+                                  : null
+                                : validation.currentStep === 3
+                                  ? selection.selectedAutre &&
+                                    autresData[selection.selectedAutre]
+                                    ? autresData[selection.selectedAutre]
+                                        .dialogue
+                                    : null
+                                  : null
                     }
                   />
                 </>

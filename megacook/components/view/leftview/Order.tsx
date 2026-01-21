@@ -4,7 +4,7 @@ import DashLine from "@/components/svg/DashLine";
 import ordersData, { OrderType } from "@/data/ordersData";
 import Animated from "react-native-reanimated";
 import { useCardAnimation } from "@/hooks/useCardAnimation";
- 
+
 type OrderProps = {
   onClose: () => void;
   orderType: OrderType;
@@ -13,31 +13,31 @@ type OrderProps = {
 export const Order = ({ onClose, orderType }: OrderProps) => {
   const order = ordersData[orderType];
   const { animatedStyle, handleClose } = useCardAnimation(onClose);
-  
+
   return (
     <View style={styles.orderOverlay}>
       <Pressable style={StyleSheet.absoluteFill} onPress={handleClose} />
       <Animated.View style={[styles.orderCard, animatedStyle]}>
-          <View style={styles.container}>
-            <View style={styles.titleSection}>
-              <DashLine />
-              <Text style={styles.title}>Commande</Text>
-              <DashLine />
-            </View>
-            <View style={styles.contentSection}>
-              <Text style={styles.sectionLabel}>Demande Client</Text>
-              <Text style={styles.clientRequest}>"{order.clientRequest}"</Text>
-            </View>
+        <View style={styles.container}>
+          <View style={styles.titleSection}>
             <DashLine />
-            <View style={{ marginTop: 16 }}>
-              <Image
-                source={require("../../../assets/images/autres/codebarre.png")}
-                style={styles.barcode}
-                resizeMode="contain"
-              />
-            </View>
+            <Text style={styles.title}>Commande</Text>
+            <DashLine />
           </View>
-        </Animated.View>
+          <View style={styles.contentSection}>
+            <Text style={styles.sectionLabel}>Demande Client</Text>
+            <Text style={styles.clientRequest}>"{order.clientRequest}"</Text>
+          </View>
+          <DashLine />
+          <View style={{ marginTop: 16 }}>
+            <Image
+              source={require("../../../assets/images/autres/codebarre.png")}
+              style={styles.barcode}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
+      </Animated.View>
     </View>
   );
 };
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#000",
+    color: "#260100",
     textAlign: "center",
     marginVertical: 10,
     fontFamily: "pixelgridtrial-linedownboldm",

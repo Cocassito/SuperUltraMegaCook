@@ -14,6 +14,7 @@ import { preloadModel } from "@/utils/PreloadModel";
 import { AnimLogo } from "@/components/AnimLogo";
 
 import scene from "../assets/models/environment/scene.glb";
+import { LoadPopup } from "@/components/ui/popup/LoadPopup";
 
 const AMBIENT_VOLUME = 0.3;
 const FADE_DURATION = 1500;
@@ -22,6 +23,7 @@ const FADE_STEP = 50;
 export default function HomePage() {
   const [ready, setReady] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showLoad, setShowLoad] = useState(false);
   const [showLoading, setShowLoading] = useState(true);
 
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -36,11 +38,11 @@ export default function HomePage() {
         preloadModel(scene),
 
         Asset.fromModule(
-          require("../assets/images/logo/Logo_MC_CompletOmbrage2.webp")
+          require("../assets/images/logo/Logo_MC_CompletOmbrage2.webp"),
         ).downloadAsync(),
 
         Asset.fromModule(
-          require("../assets/video/VideoBDmegacook.mp4")
+          require("../assets/video/VideoBDmegacook.mp4"),
         ).downloadAsync(),
       ]);
 
@@ -60,6 +62,13 @@ export default function HomePage() {
     }).start();
   }, [showSettings]);
 
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: showLoad ? 0 : 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [showLoad]);
   /* ------------------ Audio helpers ------------------ */
 
   const fadeInSound = async (sound: Audio.Sound) => {
@@ -105,7 +114,7 @@ export default function HomePage() {
       {
         isLooping: true,
         volume: 0,
-      }
+      },
     );
 
     soundRef.current = sound;
@@ -122,7 +131,7 @@ export default function HomePage() {
         // HomePage blurred (NewGame / Load / back / etc.)
         fadeOutAndStopSound();
       };
-    }, [])
+    }, []),
   );
 
   /* ------------------ Render ------------------ */
@@ -148,11 +157,14 @@ export default function HomePage() {
     >
       <View style={styles.overlay} />
       {showSettings && <View style={styles.overlay2} />}
+      {showLoad && <View style={styles.overlay2} />}
 
       <SettingsPopup
         visible={showSettings}
         onClose={() => setShowSettings(false)}
       />
+
+      <LoadPopup visible={showLoad} onClose={() => setShowLoad(false)} />
 
       <SafeAreaView style={{ flex: 1 }}>
         <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
@@ -175,7 +187,7 @@ export default function HomePage() {
 
           <NewGameButton />
           <View style={{ marginTop: 6 }}>
-            <LoadGameButton />
+            <LoadGameButton onOpen={() => setShowLoad(true)} />
           </View>
         </Animated.View>
       </SafeAreaView>

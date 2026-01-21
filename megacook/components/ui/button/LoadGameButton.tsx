@@ -1,12 +1,14 @@
 import { useRouter } from "expo-router";
 import PixelButton from "./PixelButtonComponent";
 
-export default function LoadGameButton() {
-  const router = useRouter();
+type LoadGameButtonProps = {
+  onOpen: () => void;
+};
 
+export default function LoadGameButton({ onOpen }: LoadGameButtonProps) {
   return (
     <PixelButton
-      onPress={() => router.push("/App")}
+      onPress={onOpen}
       title="Charger la partie"
       colorPrimary="#C8A2DA"
       colorSecondary="#773B94"
