@@ -1,6 +1,18 @@
-import { Text, View, Image, StyleSheet, Pressable, useWindowDimensions } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Pressable,
+  useWindowDimensions,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import Animated, { useSharedValue, withTiming, useAnimatedStyle, runOnJS } from "react-native-reanimated";
+import Animated, {
+  useSharedValue,
+  withTiming,
+  useAnimatedStyle,
+  runOnJS,
+} from "react-native-reanimated";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import chefsData, { ChefType } from "@/data/chefsData";
 import { useCardAnimation } from "@/hooks/useCardAnimation";
@@ -10,7 +22,7 @@ import ArrowRight from "@/components/svg/ArrowRight";
 import Star from "@/components/svg/Star";
 import Line from "@/components/svg/Line";
 import { useDialogueSound } from "@/hooks/useButtonSound";
- 
+
 type ChefCardProps = {
   onClose: () => void;
   chefType: ChefType | null;
@@ -19,7 +31,13 @@ type ChefCardProps = {
   onValidate?: () => void;
 };
 
-export const ChefCard = ({ onClose, chefType, onPrev, onNext, onValidate }: ChefCardProps) => {
+export const ChefCard = ({
+  onClose,
+  chefType,
+  onPrev,
+  onNext,
+  onValidate,
+}: ChefCardProps) => {
   if (!chefType) return null;
   const { animatedStyle, handleClose } = useCardAnimation(onClose);
   const playDialogueSound = useDialogueSound();
@@ -91,21 +109,26 @@ export const ChefCard = ({ onClose, chefType, onPrev, onNext, onValidate }: Chef
   };
 
   // Swipe gesture for chef card navigation
-  const swipeGesture = Gesture.Pan()
-    .onEnd((event) => {
-      if (Math.abs(event.translationX) > 50) {
-        event.translationX > 0 ? handlePrev() : handleNext();
-      }
-    });
-  
+  const swipeGesture = Gesture.Pan().onEnd((event) => {
+    if (Math.abs(event.translationX) > 50) {
+      event.translationX > 0 ? handlePrev() : handleNext();
+    }
+  });
+
   return (
     <GestureDetector gesture={swipeGesture}>
       <View style={styles.orderOverlay}>
-      <Pressable style={StyleSheet.absoluteFill} />
-      <Animated.View style={[styles.orderCard, animatedStyle, cardAnimatedStyle]}>
+        <Pressable style={StyleSheet.absoluteFill} />
+        <Animated.View
+          style={[styles.orderCard, animatedStyle, cardAnimatedStyle]}
+        >
           <View style={styles.imageWrapper}>
-            <Image source={chef.image} style={styles.photo} resizeMode="cover" />
-            <View style={styles.stars}> 
+            <Image
+              source={chef.image}
+              style={styles.photo}
+              resizeMode="cover"
+            />
+            <View style={styles.stars}>
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
@@ -125,18 +148,24 @@ export const ChefCard = ({ onClose, chefType, onPrev, onNext, onValidate }: Chef
               <View style={styles.column}>
                 <Text style={styles.title}>Points forts</Text>
                 {chef.strengths.map((strength, idx) => (
-                  <Text key={`${displayChefType}-strength-${idx}`} style={styles.description}>
+                  <Text
+                    key={`${displayChefType}-strength-${idx}`}
+                    style={styles.description}
+                  >
                     {strength}
                   </Text>
                 ))}
               </View>
 
               <Line vertical strokeWidth={1} paddingHorizontal={3} />
-    
+
               <View style={styles.column}>
                 <Text style={styles.title}>Points faibles</Text>
                 {chef.weaknesses.map((weakness, idx) => (
-                  <Text key={`${displayChefType}-weakness-${idx}`} style={styles.description}>
+                  <Text
+                    key={`${displayChefType}-weakness-${idx}`}
+                    style={styles.description}
+                  >
                     {weakness}
                   </Text>
                 ))}
