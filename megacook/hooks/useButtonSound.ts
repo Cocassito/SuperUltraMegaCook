@@ -55,7 +55,33 @@ export const useDialogueSound = () => {
 }
 
 export const useTadamSound = () => {
-  return useSound(require("@/assets/sounds/tadam.mp3"));
+  const soundRef = useRef<Audio.Sound | null>(null);
+
+  const playTadamSound = async () => {
+    try {
+      // Si on a déjà une instance de son, la réutiliser
+      if (!soundRef.current) {
+        const { sound } = await Audio.Sound.createAsync(
+          require("@/assets/sounds/tadam.mp3")
+        );
+        soundRef.current = sound;
+      }
+
+      // Rembobiner et jouer
+      await soundRef.current.stopAsync();
+      await soundRef.current.playAsync();
+    } catch (error) {
+      console.log("Erreur lors de la lecture du son tadam:", error);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      soundRef.current?.unloadAsync();
+    };
+  }, []);
+
+  return playTadamSound;
 }
 
 export const useVictorySound = () => {

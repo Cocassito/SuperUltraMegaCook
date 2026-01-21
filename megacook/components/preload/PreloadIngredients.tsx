@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { Asset } from "expo-asset";
+import { useMemo } from "react";
 import { preloadModel } from "@/utils/PreloadModel";
 import basesData from "@/data/basesData";
 import fruitsData from "@/data/fruitsData";
@@ -7,7 +6,8 @@ import saucesData from "@/data/saucesData";
 import autresData from "@/data/autresData";
 
 export function PreloadIngredients() {
-  useEffect(() => {
+  // useMemo pour ne faire le preload qu'une seule fois
+  useMemo(() => {
     // Précharger les modèles de bases
     preloadModel(basesData.frites.model);
     preloadModel(basesData.riz.model);
@@ -27,10 +27,7 @@ export function PreloadIngredients() {
     preloadModel(autresData.chocolat.model);
     preloadModel(autresData.poulet.model);
     preloadModel(autresData.saumon.model);
-
-    // Précharger le model final
-    // preloadModel(require("../../data/assets/models/ingredients/final.glb"));
-  }, []);
+  }, []); // Dépendances vides = exécuté une seule fois
 
   return null;
 }

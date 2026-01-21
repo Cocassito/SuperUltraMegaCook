@@ -22,6 +22,7 @@ import ArrowRight from "@/components/svg/ArrowRight";
 import Star from "@/components/svg/Star";
 import Line from "@/components/svg/Line";
 import { useDialogueSound } from "@/hooks/useButtonSound";
+import { useDialogueAnimation } from "@/hooks/useDialogueAnimation";
 
 type ChefCardProps = {
   onClose: () => void;
@@ -41,10 +42,11 @@ export const ChefCard = ({
   if (!chefType) return null;
   const { animatedStyle, handleClose } = useCardAnimation(onClose);
   const playDialogueSound = useDialogueSound();
-
+  
   const [displayChefType, setDisplayChefType] = useState<ChefType>(chefType);
   const chef = chefsData[displayChefType];
 
+  const { opacity, displayedText } = useDialogueAnimation(chef.dialogue);
   if (!chef) return null;
 
   const rating = Math.max(1, Math.min(5, chef.price));
@@ -210,9 +212,9 @@ export const ChefCard = ({
         </View>
 
         {/* Dialogue Display */}
-        <View style={styles.dialogueContainer}>
-          <Text style={styles.dialogueText}>{chef.dialogue.toUpperCase()}</Text>
-        </View>
+        <Animated.View style={styles.dialogueContainer}>
+          <Text style={styles.dialogueText}>{displayedText.toUpperCase()}</Text>
+        </Animated.View>
       </View>
     </GestureDetector>
   );

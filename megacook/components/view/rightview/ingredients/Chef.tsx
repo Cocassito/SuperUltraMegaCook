@@ -35,7 +35,7 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
           onPointerUp={() => setSylvainScale(1)}
         >
           <mesh 
-            position={[0, 0, 0]}
+            position={[0, 0.2, 0]}
             rotation={[-Math.PI / 2, 0, -Math.PI / 13]}
           >
             <planeGeometry args={[2.8, 2.1]} />
@@ -44,7 +44,7 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
           <BorderFadeShader 
             position={[0, 0, 0.01]}
             rotation={[-Math.PI / 2, 0, -Math.PI / 13]}
-            planeSize={[3.1, 2.4]}
+            planeSize={[3.9, 3.1]}
           />
         </group>
 
@@ -59,7 +59,7 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
           onPointerUp={() => setMereCotteScale(1)}
         >
           <mesh 
-            position={[0, 0, 0]}
+            position={[0, 0.2, 0]}
             rotation={[-Math.PI / 2, 0, Math.PI / 13]}
           >
             <planeGeometry args={[2.8, 2.1]} />
@@ -68,7 +68,7 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
           <BorderFadeShader 
             position={[0, 0, 0.01]}
             rotation={[-Math.PI / 2, 0, Math.PI / 13]}
-            planeSize={[3.1, 2.4]}
+            planeSize={[3.9, 3.1]}
           />
         </group>
 
@@ -83,7 +83,7 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
           onPointerUp={() => setPhilippeScale(1)}
         >
           <mesh 
-            position={[0, 0, 0]}
+            position={[0, 0.2, 0]}
             rotation={[-Math.PI / 2, 0, -Math.PI / 18]}
           >
             <planeGeometry args={[2.8, 2.1]} />
@@ -92,7 +92,7 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
           <BorderFadeShader 
             position={[0, 0, 0.01]}
             rotation={[-Math.PI / 2, 0, -Math.PI / 13]}
-            planeSize={[3.1, 2.4]}
+            planeSize={[3.9, 3.1]}
           />
         </group>
 

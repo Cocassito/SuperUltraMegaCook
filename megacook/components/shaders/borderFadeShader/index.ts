@@ -13,7 +13,7 @@ export const fragmentShader = `
 
   void main() {    
     // Rose foncé et rose clair
-    vec3 roseDark = vec3(1.0, 1.0, 1.0);      // Rose foncé
+    vec3 roseDark = vec3(0.784, 0.635, 0.855);      // Rose foncé
     
     // Alpha avec smoothstep sur les bords
     float alpha = 1.0;

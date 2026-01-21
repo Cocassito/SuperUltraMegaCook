@@ -22,13 +22,21 @@ export function SceneLoader({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function preload() {
       try {
+        // Précharger en parallèle tous les assets critiques
         await Promise.all([
+          // Vidéo et modèle final
           Asset.fromModule(
             require("../assets/video/pixelvideo.mp4"),
           ).downloadAsync(),
           Asset.fromModule(finalplate).downloadAsync(),
-          preloadModel(finalplate),
+          
+          // Images de tous les ingrédients et chefs (en parallèle)
+          ...preloadImages(),
         ]);
+        
+        // Précharger le modèle 3D final (après le téléchargement de l'asset)
+        preloadModel(finalplate);
+        
         setReady(true);
       } catch (error) {
         console.error("Error preloading assets:", error);
@@ -37,14 +45,14 @@ export function SceneLoader({ children }: { children: React.ReactNode }) {
     preload();
   }, []);
 
-  if (!fontsLoaded) return null; // Wait for fonts to load
+  if (!fontsLoaded) return null;
 
   if (fontError) {
     console.error("Error loading fonts:", fontError);
-    return null; // Handle font loading error
+    return null;
   }
 
-  if (!ready) return null; // Wait for assets to preload
+  if (!ready) return null;
 
   return <>{children}</>;
 }
@@ -63,44 +71,49 @@ function getImageUri(image: ImageSourcePropType): string | undefined {
   return undefined;
 }
 
-// Preload images before rendering the component
-async function preloadImages() {
-  try {
-    await Promise.all([
-      ...Object.values(basesData).map((base) => {
-        const uri = getImageUri(base.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-      ...Object.values(fruitsData).map((fruit) => {
-        const uri = getImageUri(fruit.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-      ...Object.values(saucesData).map((sauce) => {
-        const uri = getImageUri(sauce.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-      ...Object.values(autresData).map((autre) => {
-        const uri = getImageUri(autre.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-      ...Object.values(chefsData).map((chef) => {
-        const uri = getImageUri(chef.image);
-        if (uri) {
-          return Asset.fromURI(uri).downloadAsync();
-        }
-      }),
-    ]);
-  } catch (error) {
-    console.error("Error preloading images:", error);
-  }
+// Précharger les images - retourne un tableau de promesses pour Promise.all
+function preloadImages(): Promise<any>[] {
+  const imagePromises: Promise<any>[] = [];
+  
+  // Bases
+  Object.values(basesData).forEach((base) => {
+    const uri = getImageUri(base.image);
+    if (uri) {
+      imagePromises.push(Asset.fromURI(uri).downloadAsync());
+    }
+  });
+  
+  // Fruits
+  Object.values(fruitsData).forEach((fruit) => {
+    const uri = getImageUri(fruit.image);
+    if (uri) {
+      imagePromises.push(Asset.fromURI(uri).downloadAsync());
+    }
+  });
+  
+  // Sauces
+  Object.values(saucesData).forEach((sauce) => {
+    const uri = getImageUri(sauce.image);
+    if (uri) {
+      imagePromises.push(Asset.fromURI(uri).downloadAsync());
+    }
+  });
+  
+  // Autres
+  Object.values(autresData).forEach((autre) => {
+    const uri = getImageUri(autre.image);
+    if (uri) {
+      imagePromises.push(Asset.fromURI(uri).downloadAsync());
+    }
+  });
+  
+  // Chefs
+  Object.values(chefsData).forEach((chef) => {
+    const uri = getImageUri(chef.image);
+    if (uri) {
+      imagePromises.push(Asset.fromURI(uri).downloadAsync());
+    }
+  });
+  
+  return imagePromises;
 }
-
-preloadImages();

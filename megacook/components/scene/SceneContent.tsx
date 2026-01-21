@@ -55,6 +55,7 @@ import {
   useSwipeSound,
   useMusicSound,
   useVictorySoundLoop,
+  useTadamSound,
 } from "@/hooks/useButtonSound";
 import Stepper from "../svg/gauge/Stepper";
 
@@ -80,6 +81,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
   const playSwipeSound = useSwipeSound();
   const playMusic = useMusicSound();
   const { playVictory, stopVictory } = useVictorySoundLoop();
+  const playTadamSound = useTadamSound();
 
   const ui = useSceneUI();
   const selection = useSceneSelection();
@@ -176,7 +178,6 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   selectedAutre={selection.selectedAutre}
                 />
 
-                <AnimationCharacterScene showDanceAnimations={ui.isVictory} />
 
                 {navigation.currentView === 0 && (
                   <FrontView
@@ -475,6 +476,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                 <PlayerMachine
                   onVideoEnd={() => {
                     ui.setShowPlayerMachine(false);
+                    playTadamSound();
                     ui.setShowFinalPlate(true);
                   }}
                 />
