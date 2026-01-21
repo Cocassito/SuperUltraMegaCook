@@ -49,8 +49,6 @@ import saucesData from "@/data/saucesData";
 import autresData from "@/data/autresData";
 import chefsData from "@/data/chefsData";
 
-import { OrbitControls, Preload } from "@react-three/drei";
-
 import {
   useSwipeSound,
   useMusicSound,
@@ -159,6 +157,8 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
               <Suspense fallback={null}>
                 <Environment />
 
+                <AnimationCharacterScene showDanceAnimations={ui.isVictory} />
+
                 <CameraControls
                   cubeRef={cubeRef}
                   currentView={navigation.currentView}
@@ -177,7 +177,6 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   hasValidatedChef={validation.hasValidatedChef}
                   selectedAutre={selection.selectedAutre}
                 />
-
 
                 {navigation.currentView === 0 && (
                   <FrontView
