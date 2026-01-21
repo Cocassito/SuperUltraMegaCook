@@ -1,10 +1,12 @@
-import AnimationCharacterLoad from "./AnimationCharacterLoad"
+import AnimationCharacterLoad from "./AnimationCharacterLoad";
 
 interface AnimationCharacterSceneProps {
   showDanceAnimations?: boolean;
 }
 
-export const AnimationCharacterScene = ({ showDanceAnimations = false }: AnimationCharacterSceneProps) => {
+export const AnimationCharacterScene = ({
+  showDanceAnimations = false,
+}: AnimationCharacterSceneProps) => {
   return (
     <>
       <AnimationCharacterLoad
@@ -13,29 +15,30 @@ export const AnimationCharacterScene = ({ showDanceAnimations = false }: Animati
         scale={15}
       />
       <AnimationCharacterLoad
-        position={[-75, -12, -15]}
+        position={[-80, -12, -15]}
         rotation={[0, -Math.PI / 2, 0]}
         scale={15}
+        model="sitdown3"
       />
 
       <AnimationCharacterLoad
-        position={[-22, -10, -41]}
+        position={[-22, -12, -43]}
         rotation={[0, Math.PI, 0]}
         scale={15}
-        model="customer"
+        model="sitdown3"
       />
       <AnimationCharacterLoad
-        position={[-71, -10, -58]}
+        position={[-71, -10, -66]}
         rotation={[0, 0, 0]}
         scale={15}
-        model="customer"
+        model="sitdown2"
       />
 
       <AnimationCharacterLoad
         position={[-28, -17, 18]}
         rotation={[0, Math.PI / 2, 0]}
-        scale={17}
-        model="walking"
+        scale={12}
+        model="customer"
       />
 
       {showDanceAnimations && (
@@ -61,5 +64,5 @@ export const AnimationCharacterScene = ({ showDanceAnimations = false }: Animati
         </>
       )}
     </>
-  )
-}
+  );
+};

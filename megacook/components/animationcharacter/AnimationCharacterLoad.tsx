@@ -5,18 +5,20 @@ import { AnimationMixer, LoopRepeat, Object3D } from "three";
 import { configureGLTFLoader } from "@/three/gltfLoader";
 
 // ⚡ Imports statiques des modèles
-import sitdown from "@/assets/models/character/sitdown.glb";
+import sitdown1 from "@/assets/models/character/sitdown1.glb";
+import sitdown2 from "@/assets/models/character/sitdown2.glb";
+import sitdown3 from "@/assets/models/character/sitdown3.glb";
 import customer from "@/assets/models/character/customer.glb";
-import walking from "@/assets/models/character/walking.glb";
 import dance1 from "@/assets/models/character/dance1.glb";
 import dance2 from "@/assets/models/character/dance2.glb";
 import dance3 from "@/assets/models/character/dance3.glb";
 
 // Map des modèles
 const MODELS = {
-  sitdown,
+  sitdown1,
+  sitdown2,
+  sitdown3,
   customer,
-  walking,
   dance1,
   dance2,
   dance3,
@@ -38,7 +40,7 @@ export default function AnimationCharacterLoad({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   scale = 1,
-  model = "sitdown",
+  model = "sitdown1",
 }: AnimationCharacterLoadProps) {
   const mixerRef = useRef<AnimationMixer | null>(null);
 

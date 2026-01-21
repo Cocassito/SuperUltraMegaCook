@@ -22,6 +22,7 @@ import ArrowRight from "@/components/svg/ArrowRight";
 import Star from "@/components/svg/Star";
 import Line from "@/components/svg/Line";
 import { useDialogueSound } from "@/hooks/useButtonSound";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type ChefCardProps = {
   onClose: () => void;
@@ -196,7 +197,6 @@ export const ChefCard = ({
             onPress={handleNext}
           />
         </View>
-
         {/* Valider Button - Bottom Center */}
         <View style={styles.validateButtonContainer}>
           <PixelButton
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
   },
   arrowLeftCenter: {
     position: "absolute",
-    left: 20,
+    left: 60,
     top: "50%",
     transform: [{ translateY: -24 }],
     zIndex: 3,
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   arrowRightCenter: {
     position: "absolute",
-    right: 20,
+    right: 60,
     top: "50%",
     transform: [{ translateY: -24 }],
     zIndex: 3,
