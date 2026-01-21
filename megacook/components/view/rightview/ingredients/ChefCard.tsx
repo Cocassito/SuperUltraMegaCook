@@ -198,7 +198,6 @@ export const ChefCard = ({
             onPress={handleNext}
           />
         </View>
-
         {/* Valider Button - Bottom Center */}
         <View style={styles.validateButtonContainer}>
           <PixelButton
@@ -288,7 +287,7 @@ const styles = StyleSheet.create({
   },
   arrowLeftCenter: {
     position: "absolute",
-    left: 20,
+    left: 60,
     top: "50%",
     transform: [{ translateY: -24 }],
     zIndex: 3,
@@ -296,7 +295,7 @@ const styles = StyleSheet.create({
   },
   arrowRightCenter: {
     position: "absolute",
-    right: 20,
+    right: 60,
     top: "50%",
     transform: [{ translateY: -24 }],
     zIndex: 3,
