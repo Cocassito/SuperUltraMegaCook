@@ -63,6 +63,7 @@ import { useSceneUI } from "@/hooks/useSceneUI";
 import { useSceneSelection } from "@/hooks/useSceneSelection";
 import { useSceneValidation } from "@/hooks/useSceneValidation";
 import { useSceneActions } from "@/hooks/useSceneAction";
+import { useFonts } from "expo-font";
 
 type SceneProps = {
   onSceneReady?: () => void;
@@ -130,6 +131,19 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
       event.translationX > 0 ? navigation.prevView() : navigation.nextView();
     }
   });
+
+  const [fontsLoaded, fontError] = useFonts({
+    "pixelgridtrial-linedownboldm": require("/assets/fonts/pixelgridtrial-linedownboldm.ttf"),
+    "pixelgridtrial-linedownbolds": require("/assets/fonts/pixelgridtrial-linedownbolds.ttf"),
+    "pixelgridtrial-linedownboldxl": require("/assets/fonts/pixelgridtrial-linedownboldxl.ttf"),
+  });
+
+  if (!fontsLoaded) return null; // Wait for fonts to load
+
+  if (fontError) {
+    console.error("Error loading fonts:", fontError);
+    return null; // Handle font loading error
+  }
 
   return (
     <View
@@ -382,7 +396,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   <DialogueDisplay
                     text={
                       !hasOpenedOrder && navigation.currentView === 2
-                        ? "Bonjour, que puis-je pour vous ?" 
+                        ? "Bonjour, que puis-je pour vous ?"
                         : hasOpenedOrder && !selection.selectedBase
                           ? "Très précis comme demande..."
                           : validation.currentStep === 0

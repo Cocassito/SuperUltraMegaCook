@@ -17,6 +17,7 @@ export interface SauceData {
     protein: number;
   };
   dialogue: string;
+  hidden?: boolean;
 }
 
 const citronModel = require("../assets/models/ingredients/citron.glb");
@@ -59,6 +60,7 @@ const saucesData: Record<SauceType, SauceData> = {
   sauce: {
     name: "Sauce",
     model: sauceModel,
+    hidden: true,
     image: require("../assets/images/ingredients/sauce.png"),
     price: 5,
     nutritional: {
