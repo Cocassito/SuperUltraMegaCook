@@ -1,10 +1,20 @@
 import { View, Text, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { useDialogueSound } from "@/hooks/useButtonSound";
 
 interface DialogueDisplayProps {
   text: string | null;
 }
 
 export const DialogueDisplay = ({ text }: DialogueDisplayProps) => {
+  const playDialogueSound = useDialogueSound();
+
+  useEffect(() => {
+    if (text) {
+      playDialogueSound();
+    }
+  }, [text]);
+
   if (!text) return null;
 
   return (

@@ -55,6 +55,7 @@ import {
   useTicketSound,
   useSwipeSound,
   useMusicSound,
+  useVictorySoundLoop,
 } from "@/hooks/useButtonSound";
 import Stepper from "../svg/gauge/Stepper";
 
@@ -79,6 +80,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
   const playTicketSound = useTicketSound();
   const playSwipeSound = useSwipeSound();
   const playMusic = useMusicSound();
+  const { playVictory, stopVictory } = useVictorySoundLoop();
 
   const ui = useSceneUI();
   const selection = useSceneSelection();
@@ -258,6 +260,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                 currentView={navigation.currentView}
                 onScreenClick={() => navigation.setCurrentView(4)}
                 onRestart={() => {
+                  stopVictory();
                   selection.setSelectedBase(null);
                   selection.setSelectedFruit(null);
                   selection.setSelectedSauce(null);
@@ -378,7 +381,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   <DialogueDisplay
                     text={
                       !hasOpenedOrder && navigation.currentView === 2
-                        ? "Bonjour, que puis-je pour vous ?"
+                        ? "Bonjour, que puis-je pour vous ?" 
                         : hasOpenedOrder && !selection.selectedBase
                         ? "Très précis comme demande..."
                         : validation.currentStep === 0
@@ -461,6 +464,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
               <View style={styles.playerMachineOverlay}>
                 <FinalPlateView
                   onTimeout={() => {
+                    playVictory();
                     ui.setShowFinalPlate(false);
                     playTicketSound();
                     navigation.setCurrentView(0);

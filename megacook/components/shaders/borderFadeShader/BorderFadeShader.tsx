@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { vertexShader, fragmentShader } from "./index";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 
 type BorderFadeShaderProps = {
   position?: THREE.Vector3 | [number, number, number];
@@ -12,15 +12,17 @@ type BorderFadeShaderProps = {
 export default function BorderFadeShader({ position = [0, 0, 0], rotation = [0, 0, 0], planeSize = [0.0, 0.0] }: BorderFadeShaderProps) {
 
   const shaderRef = useRef<THREE.ShaderMaterial>(null);
+  // Garder la référence des uniforms stable pour éviter les resets lors des re-renders
+  const uniforms = useMemo(() => ({ uTime: { value: 0 } }), []);
   
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (shaderRef.current) {
-      shaderRef.current.uniforms.uTime.value = clock.getElapsedTime();
+      uniforms.uTime.value += delta; // incrémenter avec le delta pour une animation continue
     }
   });
 
   return <>
-    <mesh position={position} rotation={rotation}>
+    <mesh position={position} rotation={rotation} frustumCulled={false}>
       <planeGeometry args={planeSize}/>
       <shaderMaterial
         ref={shaderRef}
@@ -28,9 +30,8 @@ export default function BorderFadeShader({ position = [0, 0, 0], rotation = [0, 
         fragmentShader={fragmentShader}
         side={THREE.DoubleSide}
         transparent={true}
-        uniforms={{
-          uTime: { value: 0 }
-        }}
+        uniforms={uniforms}
+        depthWrite={false}
       />
     </mesh>
   </>;

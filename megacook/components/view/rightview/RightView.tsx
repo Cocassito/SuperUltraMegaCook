@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Mesh } from 'three';
 import * as THREE from 'three';
 import { Base } from './ingredients/Base';
@@ -13,6 +14,7 @@ import { AutreType } from '@/data/autresData';
 import { ChefType } from '@/data/chefsData';
 
 import BorderFadeShader from '@/components/shaders/borderFadeShader/BorderFadeShader';
+import { BorderFadeFood } from './BorderFadeFood';
 
 type RightViewProps = {
   cubeRef: React.RefObject<Mesh>;
@@ -48,6 +50,32 @@ export const RightView = ({
   onChefClick,
   hasOpenedOrder = false,
 }: RightViewProps) => {
+  const [hasClickedFood, setHasClickedFood] = useState(false);
+
+  const handleBaseClick = (baseType: BaseType) => {
+    setHasClickedFood(true);
+    onBaseClick(baseType);
+  };
+
+  const handleFruitClick = (fruitType: FruitType) => {
+    setHasClickedFood(true);
+    onFruitClick(fruitType);
+  };
+
+  const handleSauceClick = (sauceType: SauceType) => {
+    setHasClickedFood(true);
+    onSauceClick(sauceType);
+  };
+
+  const handleAutreClick = (autreType: AutreType) => {
+    setHasClickedFood(true);
+    onAutreClick(autreType);
+  };
+
+  const handleChefClick = (chefType: ChefType) => {
+    setHasClickedFood(true);
+    onChefClick?.(chefType);
+  };
 
   return (
     <>
@@ -57,43 +85,49 @@ export const RightView = ({
         <meshBasicMaterial color="yellow" visible={false} />
       </mesh>
 
-      <BorderFadeShader
-        position={[18, 3, 2]} 
-        rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}
-        planeSize={[9.0, 7.5]}
-      />
+      {hasClickedFood && (
+        <BorderFadeShader
+          position={[18, 3, 2]} 
+          rotation={[-Math.PI / 8, -Math.PI / 7, -Math.PI / 20]}
+          planeSize={[9.0, 7.5]}
+        />
+      )}
+
+      {!(hasValidatedBase && hasValidatedFruit && hasValidatedSauce && hasValidatedAutre) && (
+        <BorderFadeFood />
+      )}
 
       {/* Base */}
       {hasOpenedOrder && !hasValidatedBase && (
         <group position={[0, 1, 0]}>
-          <Base onBaseClick={onBaseClick} />
+          <Base onBaseClick={handleBaseClick} />
         </group>
       )}
 
       {/* Fruit */}
       {hasValidatedBase && !hasValidatedFruit && (
         <group position={[0, 1, 0]}>
-          <Fruit onFruitClick={onFruitClick} />
+          <Fruit onFruitClick={handleFruitClick} />
         </group>
       )}
 
       {/* Sauce */}
       {hasValidatedBase && hasValidatedFruit && !hasValidatedSauce && (
         <group position={[0, 1, 0]}>
-          <Sauce onSauceClick={onSauceClick} />
+          <Sauce onSauceClick={handleSauceClick} />
         </group>
       )}
 
       {/* Autre */}
       {hasValidatedBase && hasValidatedFruit && hasValidatedSauce && (
         <group position={[0, 1, 0]}>
-          <Autres onAutreClick={onAutreClick} hasValidatedAutre={hasValidatedAutre} />
+          <Autres onAutreClick={handleAutreClick} hasValidatedAutre={hasValidatedAutre} />
         </group>
       )}
 
       {hasValidatedBase && hasValidatedFruit && hasValidatedSauce && hasValidatedAutre && (
         <group position={[0, 1, 0]}>
-          {onChefClick && <Chef onChefClick={onChefClick} hasValidatedChef={hasValidatedChef} />}
+          {onChefClick && <Chef onChefClick={handleChefClick} hasValidatedChef={hasValidatedChef} />}
         </group>
       )}
     </>

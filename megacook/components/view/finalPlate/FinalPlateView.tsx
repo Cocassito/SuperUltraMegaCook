@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from "react";
+import React, { forwardRef, useRef, useEffect } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Canvas, useThree } from "@react-three/fiber";
 import { PerspectiveCamera, useHelper } from "@react-three/drei";
@@ -7,6 +7,7 @@ import PixelatedPass from "@/components/postProd/PixelComposer";
 import PixelButton from "@/components/ui/button/PixelButtonComponent";
 import { OrbitControls } from "@react-three/drei";
 import { FinalPlateModel } from "./FinalPlateAnim";
+import { useTadamSound } from "@/hooks/useButtonSound";
 
 interface FinalPlateViewProps {
   onTimeout?: () => void;
@@ -16,6 +17,11 @@ export const FinalPlateView = forwardRef<View, FinalPlateViewProps>(
   ({ onTimeout }, ref) => {
     const finalPlate = require("../../../assets/models/ingredients/finalplate.glb");
     const backgroundResult = require("../../../assets/images/background/backgroundresult.png");
+    const playTadamSound = useTadamSound();
+
+    useEffect(() => {
+      playTadamSound();
+    }, []);
 
     return (
       <ImageBackground source={backgroundResult} style={styles.container} ref={ref}>

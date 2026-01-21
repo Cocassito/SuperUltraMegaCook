@@ -2,6 +2,7 @@ import { useState, Suspense } from 'react';
 import chefsData, { ChefType } from '@/data/chefsData';
 import Model from '@/components/Model';
 import { useSelectedFoodSound } from '@/hooks/useButtonSound';
+import BorderFadeShader from '@/components/shaders/borderFadeShader/BorderFadeShader';
 
 type ChefProps = {
   onChefClick: (chefType: ChefType) => void;
@@ -38,8 +39,13 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
             rotation={[-Math.PI / 2, 0, -Math.PI / 13]}
           >
             <planeGeometry args={[2.8, 2.1]} />
-            <meshBasicMaterial color="#ffffff" />
+            <meshBasicMaterial color="#FFF" />
           </mesh>
+          <BorderFadeShader 
+            position={[0, 0, 0.01]}
+            rotation={[-Math.PI / 2, 0, -Math.PI / 13]}
+            planeSize={[3.1, 2.4]}
+          />
         </group>
 
         {/* Mère Cotte */}
@@ -57,8 +63,13 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
             rotation={[-Math.PI / 2, 0, Math.PI / 13]}
           >
             <planeGeometry args={[2.8, 2.1]} />
-            <meshBasicMaterial color="#ffffff" />
+            <meshBasicMaterial color="#FFF" />
           </mesh>
+          <BorderFadeShader 
+            position={[0, 0, 0.01]}
+            rotation={[-Math.PI / 2, 0, Math.PI / 13]}
+            planeSize={[3.1, 2.4]}
+          />
         </group>
 
         {/* Philippe Etchebest */}
@@ -76,8 +87,13 @@ export const Chef = ({ onChefClick, hasValidatedChef = false }: ChefProps) => {
             rotation={[-Math.PI / 2, 0, -Math.PI / 18]}
           >
             <planeGeometry args={[2.8, 2.1]} />
-            <meshBasicMaterial color="#ffffff" />
+            <meshBasicMaterial color="#FFF" />
           </mesh>
+          <BorderFadeShader 
+            position={[0, 0, 0.01]}
+            rotation={[-Math.PI / 2, 0, -Math.PI / 13]}
+            planeSize={[3.1, 2.4]}
+          />
         </group>
 
       </group>

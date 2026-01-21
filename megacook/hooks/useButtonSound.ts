@@ -54,6 +54,53 @@ export const useAlertSound = () => {
   return useSound(require("@/assets/sounds/alert.mp3"));
 }
 
+export const useDialogueSound = () => {
+  return useSound(require("@/assets/sounds/dialogue.mp3"));
+}
+
+export const useTadamSound = () => {
+  return useSound(require("@/assets/sounds/tadam.mp3"));
+}
+
+export const useVictorySound = () => {
+  return useSound(require("@/assets/sounds/victory.mp3"));
+}
+
+export function useVictorySoundLoop() {
+  const soundRef = useRef<Audio.Sound | null>(null);
+
+  const playVictory = async () => {
+    if (!soundRef.current) {
+      const { sound } = await Audio.Sound.createAsync(
+        require("@/assets/sounds/victory.mp3"),
+        {
+          isLooping: true,
+          volume: 0.4,
+        }
+      );
+      soundRef.current = sound;
+    }
+
+    await soundRef.current.playAsync();
+  };
+
+  const stopVictory = async () => {
+    if (soundRef.current) {
+      await soundRef.current.stopAsync();
+      await soundRef.current.unloadAsync();
+      soundRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      soundRef.current?.unloadAsync();
+    };
+  }, []);
+
+  return { playVictory, stopVictory };
+}
+
 export function useMusicSound() {
   const soundRef = useRef<Audio.Sound | null>(null);
 
@@ -62,7 +109,7 @@ export function useMusicSound() {
       const { sound } = await Audio.Sound.createAsync(
         require("@/assets/sounds/music.mp3"),
         {
-          isLooping: true, // ⭐ BOUCLE ICI
+          isLooping: true, 
           volume: 0.5,
         }
       );

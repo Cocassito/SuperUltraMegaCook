@@ -50,7 +50,7 @@ export const Sauce = ({ onSauceClick }: SauceProps) => {
 
         {/* Sauce */}
         <group
-          position={[18, 1.3, 23]}
+          position={[18, 1.5, 23]}
           scale={sauceScale}
           rotation={[0, -Math.PI / 2, 0]}
           onPointerDown={() => {

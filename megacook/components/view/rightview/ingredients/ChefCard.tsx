@@ -9,6 +9,7 @@ import ArrowLeft from "@/components/svg/ArrowLeft";
 import ArrowRight from "@/components/svg/ArrowRight";
 import Star from "@/components/svg/Star";
 import Line from "@/components/svg/Line";
+import { useDialogueSound } from "@/hooks/useButtonSound";
  
 type ChefCardProps = {
   onClose: () => void;
@@ -21,6 +22,7 @@ type ChefCardProps = {
 export const ChefCard = ({ onClose, chefType, onPrev, onNext, onValidate }: ChefCardProps) => {
   if (!chefType) return null;
   const { animatedStyle, handleClose } = useCardAnimation(onClose);
+  const playDialogueSound = useDialogueSound();
 
   const [displayChefType, setDisplayChefType] = useState<ChefType>(chefType);
   const chef = chefsData[displayChefType];
@@ -62,6 +64,13 @@ export const ChefCard = ({ onClose, chefType, onPrev, onNext, onValidate }: Chef
       pendingDir.current = null;
     }
   }, [chefType]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      playDialogueSound();
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [displayChefType, playDialogueSound]);
 
   const handlePrev = () => {
     pendingDir.current = "prev";
