@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     backgroundColor: "#FFF2DD",
-    color: "#000000",
+    color: "#260100",
   },
   finishedWrapper: {
     flex: 1,
@@ -364,12 +364,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "pixelgridtrial-linedownboldxl",
     textTransform: "uppercase",
-    color: "#000000",
+    color: "#260100",
   },
   selectChefText: {
     fontSize: 12,
     fontWeight: "bold",
     fontFamily: "pixelgridtrial-linedownbolds",
-    color: "#000000",
+    color: "#260100",
   },
 });

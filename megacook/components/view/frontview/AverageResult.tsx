@@ -7,10 +7,14 @@ import { SauceType } from "@/data/saucesData";
 import { AutreType } from "@/data/autresData";
 import ordersData, { OrderType } from "@/data/ordersData";
 import { computeIngredientsAverage } from "@/utils/nutrition";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+} from "react-native-reanimated";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import { useCardAnimation } from "@/hooks/useCardAnimation";
- 
+
 type AverageResultProps = {
   onClose: () => void;
   validatedBase?: BaseType | null;
@@ -35,20 +39,39 @@ const RatingRow = ({ label, value, stacked }: RatingRowProps) => (
   </View>
 );
 
-export const AverageResult = ({ onClose, validatedBase, validatedFruit, validatedSauce, validatedAutre, orderType }: AverageResultProps) => {
+export const AverageResult = ({
+  onClose,
+  validatedBase,
+  validatedFruit,
+  validatedSauce,
+  validatedAutre,
+  orderType,
+}: AverageResultProps) => {
   const { animatedStyle, handleClose } = useCardAnimation(onClose);
   const cardTranslateY = useSharedValue(0);
 
-  const panGesture = Gesture.Pan()
-    .onChange((event) => {
-      cardTranslateY.value = event.translationY;
-    })
+  const panGesture = Gesture.Pan().onChange((event) => {
+    cardTranslateY.value = event.translationY;
+  });
 
   const cardAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: cardTranslateY.value }, { rotate: '3deg' }],
+    transform: [{ translateY: cardTranslateY.value }, { rotate: "3deg" }],
   }));
-  
-  const average = computeIngredientsAverage(validatedBase || null, validatedFruit || null, validatedSauce || null, validatedAutre || null) || { sweet: 0, salty: 0, fat: 0, bitter: 0, acidity: 0, spicy: 0, protein: 0 };
+
+  const average = computeIngredientsAverage(
+    validatedBase || null,
+    validatedFruit || null,
+    validatedSauce || null,
+    validatedAutre || null,
+  ) || {
+    sweet: 0,
+    salty: 0,
+    fat: 0,
+    bitter: 0,
+    acidity: 0,
+    spicy: 0,
+    protein: 0,
+  };
 
   const target = ordersData[orderType]?.nutritional;
 
@@ -79,54 +102,57 @@ export const AverageResult = ({ onClose, validatedBase, validatedFruit, validate
     <View style={styles.orderOverlay}>
       <Pressable style={StyleSheet.absoluteFill} onPress={handleClose} />
       <GestureDetector gesture={panGesture}>
-        <Animated.View style={[styles.orderCard, animatedStyle, cardAnimatedStyle]}>
+        <Animated.View
+          style={[styles.orderCard, animatedStyle, cardAnimatedStyle]}
+        >
           <View style={styles.container}>
+            <View style={styles.titleSection}>
+              <DashLine />
+              <Text style={styles.title}>Résultats</Text>
+              <DashLine />
+            </View>
 
-          <View style={styles.titleSection}>
+            <View style={styles.contentSection}>
+              <Text style={styles.sectionLabel}>Goûts</Text>
+              <RatingRow label="Sucré" value={average.sweet} />
+              <RatingRow label="Salé" value={average.salty} />
+              <RatingRow label="Acidité" value={average.acidity} />
+              <RatingRow label="Épicé" value={average.spicy} />
+              <RatingRow label="Protéines" value={average.protein} />
+              <RatingRow label="Amer" value={average.bitter} />
+              <RatingRow label="Gras" value={average.fat} />
+            </View>
+
+            <LineSVG />
+
+            <View style={styles.contentSection}>
+              <Text style={styles.sectionLabel}>Note du client</Text>
+              <RatingRow
+                label="Respect de la demande"
+                value={respectScore}
+                stacked
+              />
+              <RatingRow label="Originalité" value={3} stacked />
+            </View>
 
             <DashLine />
-            <Text style={styles.title}>Résultats</Text>
-            <DashLine />
 
-          </View>
+            <View style={styles.contentSection}>
+              <Text style={styles.sectionLabel}>Total</Text>
+              <View style={styles.flexSection}>
+                <Text style={styles.text}>Prix</Text>
+                <Text style={styles.text}>$59.90</Text>
+              </View>
+            </View>
 
-          <View style={styles.contentSection}>
-            <Text style={styles.sectionLabel}>Goûts</Text>
-            <RatingRow label="Sucré" value={average.sweet} />
-            <RatingRow label="Salé" value={average.salty} />
-            <RatingRow label="Acidité" value={average.acidity} />
-            <RatingRow label="Épicé" value={average.spicy} />
-            <RatingRow label="Protéines" value={average.protein} />
-            <RatingRow label="Amer" value={average.bitter} />
-            <RatingRow label="Gras" value={average.fat} />
-          </View>
-
-          <LineSVG />
-
-          <View style={styles.contentSection}>
-            <Text style={styles.sectionLabel}>Note du client</Text>
-            <RatingRow label="Respect de la demande" value={respectScore} stacked />
-            <RatingRow label="Originalité" value={3} stacked />
-          </View>
-
-          <DashLine />
-
-          <View style={styles.contentSection}>
-            <Text style={styles.sectionLabel}>Total</Text>
-            <View style={styles.flexSection}>
-              <Text style={styles.text}>Prix</Text>
-              <Text style={styles.text}>$59.90</Text>
+            <View style={{ marginTop: 8 }}>
+              <Image
+                source={require("../../../assets/images/autres/codebarre.png")}
+                style={styles.barcode}
+                resizeMode="contain"
+              />
             </View>
           </View>
-
-          <View style={{ marginTop: 8 }}>
-            <Image
-              source={require("../../../assets/images/autres/codebarre.png")}
-              style={styles.barcode}
-              resizeMode="contain"
-            />
-          </View>
-        </View>
         </Animated.View>
       </GestureDetector>
     </View>
@@ -165,7 +191,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#000",
+    color: "#260100",
     textAlign: "center",
     marginVertical: 1,
   },
