@@ -123,6 +123,11 @@ export default function Screen({
               : null
             : null;
 
+  const isHiddenSauce =
+    isSaucePhase && selectedSauce
+      ? saucesData[selectedSauce].hidden === true
+      : false;
+
   return (
     <>
       <group
@@ -178,7 +183,7 @@ export default function Screen({
                     <View style={styles.gaugeWrapper}>
                       <GaugeSummary
                         nutritional={
-                          isSaucePhase
+                          isHiddenSauce
                             ? {
                                 sweet: 0,
                                 salty: 0,
@@ -200,7 +205,8 @@ export default function Screen({
                         }
                         labelSize={9}
                       />
-                      {isSaucePhase && (
+
+                      {isHiddenSauce && (
                         <View style={styles.questionMarkOverlay}>
                           <Text style={styles.questionMark}>???</Text>
                         </View>
