@@ -164,7 +164,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   selectedAutre={selection.selectedAutre}
                 />
 
-                <AnimationCharacterScene />
+                <AnimationCharacterScene showDanceAnimations={ui.isVictory} />
 
                 {navigation.currentView === 0 && (
                   <FrontView
@@ -261,6 +261,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                 onScreenClick={() => navigation.setCurrentView(4)}
                 onRestart={() => {
                   stopVictory();
+                  ui.setIsVictory(false);
                   selection.setSelectedBase(null);
                   selection.setSelectedFruit(null);
                   selection.setSelectedSauce(null);
@@ -474,6 +475,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                 <FinalPlateView
                   onTimeout={() => {
                     playVictory();
+                    ui.setIsVictory(true);
                     ui.setShowFinalPlate(false);
                     playTicketSound();
                     navigation.setCurrentView(0);

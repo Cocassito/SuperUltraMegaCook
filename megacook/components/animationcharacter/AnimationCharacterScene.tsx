@@ -1,6 +1,10 @@
 import AnimationCharacterLoad from "./AnimationCharacterLoad"
 
-export const AnimationCharacterScene = () => {
+interface AnimationCharacterSceneProps {
+  showDanceAnimations?: boolean;
+}
+
+export const AnimationCharacterScene = ({ showDanceAnimations = false }: AnimationCharacterSceneProps) => {
   return (
     <>
       <AnimationCharacterLoad
@@ -33,6 +37,29 @@ export const AnimationCharacterScene = () => {
         scale={17}
         model="walking"
       />
+
+      {showDanceAnimations && (
+        <>
+          <AnimationCharacterLoad
+            position={[0, -15, -10]}
+            rotation={[0, 0, 0]}
+            scale={15}
+            model="dance1"
+          />
+          <AnimationCharacterLoad
+            position={[-10, -15, -10]}
+            rotation={[0, 0, 0]}
+            scale={15}
+            model="dance2"
+          />
+          <AnimationCharacterLoad
+            position={[10, -15, -10]}
+            rotation={[0, 0, 0]}
+            scale={15}
+            model="dance3"
+          />
+        </>
+      )}
     </>
   )
 }

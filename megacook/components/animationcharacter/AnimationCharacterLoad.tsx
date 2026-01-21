@@ -13,7 +13,7 @@ export default function AnimationCharacterLoad({
   position?: [number, number, number];
   rotation?: [number, number, number];
   scale?: number;
-  model?: "sitdown" | "customer" | "walking";
+  model?: "sitdown" | "customer" | "walking" | "dance1" | "dance2" | "dance3";
 }) {
   const dracoRef = useRef<DRACOLoader | null>(null);
   const mixerRef = useRef<AnimationMixer | null>(null);
@@ -24,6 +24,12 @@ export default function AnimationCharacterLoad({
         return require("@/assets/models/character/customer.glb");
       case "walking":
         return require("@/assets/models/character/walking.glb");
+      case "dance1":
+        return require("@/assets/models/character/dance1.glb");
+      case "dance2":
+        return require("@/assets/models/character/dance2.glb");
+      case "dance3":
+        return require("@/assets/models/character/dance3.glb");
       case "sitdown":
       default:
         return require("@/assets/models/character/sitdown.glb");

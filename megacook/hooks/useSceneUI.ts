@@ -7,6 +7,7 @@ export function useSceneUI() {
   const [showPlayerMachine, setShowPlayerMachine] = useState(false);
   const [showFinalPlate, setShowFinalPlate] = useState(false);
   const [showBurnedSalmon, setShowBurnedSalmon] = useState(false);
+  const [isVictory, setIsVictory] = useState(false);
 
   return {
     showOrder,
@@ -15,11 +16,13 @@ export function useSceneUI() {
     showPlayerMachine,
     showFinalPlate,
     showBurnedSalmon,
+    isVictory,
     setShowOrder,
     setShowChefCard,
     setShowAverageResult,
     setShowPlayerMachine,
     setShowFinalPlate,
     setShowBurnedSalmon,
+    setIsVictory,
   };
 }
