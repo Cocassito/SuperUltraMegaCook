@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   },
   barFill: {
     height: "100%",
-    backgroundColor: "#000000ff",
+    backgroundColor: "#260100",
   },
   text: {
     fontSize: 14,

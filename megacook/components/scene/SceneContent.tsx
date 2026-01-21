@@ -52,7 +52,6 @@ import chefsData from "@/data/chefsData";
 import { OrbitControls } from "@react-three/drei";
 
 import {
-  useTicketSound,
   useSwipeSound,
   useMusicSound,
   useVictorySoundLoop,
@@ -78,7 +77,6 @@ function SceneReady({ onReady }: { onReady?: () => void }) {
 
 export default function SceneContent({ onSceneReady }: SceneProps) {
   /* ---------------- HOOKS ---------------- */
-  const playTicketSound = useTicketSound();
   const playSwipeSound = useSwipeSound();
   const playMusic = useMusicSound();
   const { playVictory, stopVictory } = useVictorySoundLoop();
@@ -86,7 +84,7 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
   const ui = useSceneUI();
   const selection = useSceneSelection();
   const validation = useSceneValidation();
-  const actions = useSceneActions(playTicketSound);
+  const actions = useSceneActions();
 
   const window = useWindowDimensions();
   const navigation = useViewNavigation();
@@ -349,7 +347,6 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                       chefsData[selection.selectedChef].name,
                     );
                     validation.setHasValidatedChef(true);
-                    playTicketSound();
                   }
                   navigation.setCurrentView(0);
                 }}
@@ -490,8 +487,8 @@ export default function SceneContent({ onSceneReady }: SceneProps) {
                   onTimeout={() => {
                     playVictory();
                     ui.setIsVictory(true);
+                    ui.setShowAverageResult(true);
                     ui.setShowFinalPlate(false);
-                    playTicketSound();
                     navigation.setCurrentView(0);
                   }}
                 />

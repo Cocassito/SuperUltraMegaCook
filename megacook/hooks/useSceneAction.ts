@@ -7,7 +7,7 @@ import saucesData from "@/data/saucesData";
 import autresData from "@/data/autresData";
 import chefsData from "@/data/chefsData";
 
-export function useSceneActions(playTicketSound: () => void) {
+export function useSceneActions() {
   const selection = useSceneSelection();
   const validation = useSceneValidation();
 
@@ -53,7 +53,6 @@ export function useSceneActions(playTicketSound: () => void) {
     } else if (!validation.hasValidatedChef && selection.selectedChef) {
       setValidatedChefModel(chefsData[selection.selectedChef].name);
       validation.setHasValidatedChef(true);
-      playTicketSound();
     }
   };
 

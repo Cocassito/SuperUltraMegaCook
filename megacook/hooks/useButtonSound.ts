@@ -38,10 +38,6 @@ export const useConfirmButtonSound = () => {
   return useSound(require("@/assets/sounds/confirmbutton.mp3"));
 };
 
-export const useTicketSound = () => {
-  return useSound(require("@/assets/sounds/ticket.mp3"));
-};
-
 export const useSwipeSound = () => {
   return useSound(require("@/assets/sounds/swipe.mp3"));
 };

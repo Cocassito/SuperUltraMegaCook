@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useEffect } from "react";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useDialogueSound } from "@/hooks/useButtonSound";
+import { useDialogueAnimation } from "@/hooks/useDialogueAnimation";
 
 interface DialogueDisplayProps {
   text: string | null;
@@ -8,18 +9,23 @@ interface DialogueDisplayProps {
 
 export const DialogueDisplay = ({ text }: DialogueDisplayProps) => {
   const playDialogueSound = useDialogueSound();
+  const { opacity, displayedText } = useDialogueAnimation(text);
 
-  useEffect(() => {
-    if (text) {
-      playDialogueSound();
-    }
-  }, [text]);
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
 
   if (!text) return null;
 
+  if (text) {
+    playDialogueSound();
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{text.toUpperCase()}</Text>
+      <Animated.View style={animatedStyle}>
+        <Text style={styles.text}>{displayedText.toUpperCase()}</Text>
+      </Animated.View>
     </View>
   );
 };
