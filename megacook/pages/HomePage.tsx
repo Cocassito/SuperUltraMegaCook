@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, View, Animated } from "react-native";
+import { StyleSheet, View, Animated } from "react-native";
 import { Image } from "expo-image";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Asset } from "expo-asset";
@@ -11,7 +11,6 @@ import LoadGameButton from "@/components/ui/button/LoadGameButton";
 import { SettingsButton } from "@/components/ui/button/SettingsButton";
 import { SettingsPopup } from "@/components/ui/popup/SettingsPopup";
 import { AnimLogo } from "@/components/AnimLogo";
-
 import { LoadPopup } from "@/components/ui/popup/LoadPopup";
 
 const AMBIENT_VOLUME = 0.3;
@@ -19,6 +18,20 @@ const FADE_DURATION = 1500;
 const FADE_STEP = 50;
 
 export default function HomePage() {
+  /* ------------------ Backgrounds ------------------ */
+  const BACKGROUNDS = [
+    require("../assets/images/starter/1.png"),
+    require("../assets/images/starter/2.png"),
+    require("../assets/images/starter/3.png"),
+    require("../assets/images/starter/4.png"),
+  ];
+
+  const [bgIndex, setBgIndex] = useState(0);
+  const opacity = useRef(new Animated.Value(1)).current;
+  const translateX = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
+
+  /* ------------------ State ------------------ */
   const [ready, setReady] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showLoad, setShowLoad] = useState(false);
@@ -27,20 +40,17 @@ export default function HomePage() {
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const soundRef = useRef<Audio.Sound | null>(null);
 
-  /* ------------------ Assets ------------------ */
-
+  /* ------------------ Preload assets ------------------ */
   useEffect(() => {
     async function preloadAssets() {
       await Promise.all([
         Asset.fromModule(
           require("../assets/images/logo/Logo_MC_CompletOmbrage2.webp"),
         ).downloadAsync(),
-
         Asset.fromModule(
           require("../assets/video/VideoBDmegacook.mp4"),
         ).downloadAsync(),
       ]);
-
       setReady(true);
     }
 
@@ -48,7 +58,6 @@ export default function HomePage() {
   }, []);
 
   /* ------------------ UI fade ------------------ */
-
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: showSettings ? 0 : 1,
@@ -64,8 +73,46 @@ export default function HomePage() {
       useNativeDriver: true,
     }).start();
   }, [showLoad]);
-  /* ------------------ Audio helpers ------------------ */
 
+  /* ------------------ Background animation ------------------ */
+  useEffect(() => {
+    const animateBackground = () => {
+      opacity.setValue(0);
+      translateX.setValue(0);
+      translateY.setValue(0);
+
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(opacity, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(translateX, {
+            toValue: -15,
+            duration: 8000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(translateY, {
+            toValue: -20,
+            duration: 8000,
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        setBgIndex((prev) => (prev + 1) % BACKGROUNDS.length);
+      });
+    };
+
+    animateBackground();
+  }, [bgIndex]);
+
+  /* ------------------ Audio helpers ------------------ */
   const fadeInSound = async (sound: Audio.Sound) => {
     let volume = 0;
     await sound.setVolumeAsync(0);
@@ -118,19 +165,15 @@ export default function HomePage() {
   };
 
   /* ------------------ Navigation focus handling ------------------ */
-
   useFocusEffect(
     useCallback(() => {
-      // HomePage focused
       return () => {
-        // HomePage blurred (NewGame / Load / back / etc.)
         fadeOutAndStopSound();
       };
     }, []),
   );
 
-  /* ------------------ Render ------------------ */
-
+  /* ------------------ Conditional render ------------------ */
   if (!ready) return null;
 
   if (showLoading) {
@@ -144,23 +187,35 @@ export default function HomePage() {
     );
   }
 
+  /* ------------------ Main render ------------------ */
   return (
-    <ImageBackground
-      source={require("../assets/images/background/BackgroundScene.png")}
-      style={styles.container}
-      resizeMode="cover"
-    >
+    <View style={styles.container}>
+      {/* Animated Background */}
+      <Animated.Image
+        source={BACKGROUNDS[bgIndex]}
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            opacity,
+            transform: [{ translateX }, { translateY }, { scale: 1.6 }],
+          },
+        ]}
+        resizeMode="cover"
+      />
+
+      {/* Overlay layers */}
       <View style={styles.overlay} />
       {showSettings && <View style={styles.overlay2} />}
       {showLoad && <View style={styles.overlay2} />}
 
+      {/* Popups */}
       <SettingsPopup
         visible={showSettings}
         onClose={() => setShowSettings(false)}
       />
-
       <LoadPopup visible={showLoad} onClose={() => setShowLoad(false)} />
 
+      {/* UI */}
       <SafeAreaView style={{ flex: 1 }}>
         <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
           <View
@@ -186,17 +241,17 @@ export default function HomePage() {
           </View>
         </Animated.View>
       </SafeAreaView>
-    </ImageBackground>
+    </View>
   );
 }
 
 /* ------------------ Styles ------------------ */
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
     height: "100%",
+    backgroundColor: "#FFF2DD",
   },
 
   overlay: {
@@ -205,7 +260,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: "rgba(0, 0, 0, 0.15)",
   },
 
   overlay2: {
