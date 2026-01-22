@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
   titleSection: {
     width: "100%",
     alignItems: "center",
+    fontFamily: "pixelgridtrial-linedownboldm",
   },
   title: {
     fontSize: 20,
@@ -194,11 +195,13 @@ const styles = StyleSheet.create({
     color: "#260100",
     textAlign: "center",
     marginVertical: 1,
+    fontFamily: "pixelgridtrial-linedownboldm",
   },
   sectionLabel: {
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 4,
+    fontFamily: "pixelgridtrial-linedownboldm",
   },
   contentSection: {
     marginVertical: 8,
@@ -236,6 +239,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
+    fontFamily: "pixelgridtrial-linedownbolds",
   },
   barcode: {
     width: 160,
