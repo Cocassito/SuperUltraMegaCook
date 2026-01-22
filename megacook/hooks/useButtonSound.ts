@@ -52,11 +52,11 @@ export const useAlertSound = () => {
 
 export const useDialogueSound = () => {
   return useSound(require("@/assets/sounds/dialogue.mp3"));
-}
+};
 
 export const useVictorySound = () => {
   return useSound(require("@/assets/sounds/victory.mp3"));
-}
+};
 
 export function useVictorySoundLoop() {
   const soundRef = useRef<Audio.Sound | null>(null);
@@ -68,7 +68,7 @@ export function useVictorySoundLoop() {
         {
           isLooping: true,
           volume: 0.4,
-        }
+        },
       );
       soundRef.current = sound;
     }
@@ -109,7 +109,7 @@ export function useTadamSound() {
           require("@/assets/sounds/tadam.mp3"),
           {
             volume: 1,
-          }
+          },
         );
         soundRef.current = sound;
       }
@@ -149,8 +149,8 @@ export function useMusicSound() {
           require("@/assets/sounds/music.mp3"),
           {
             isLooping: true,
-            volume: 0.8,
-          }
+            volume: 0.5,
+          },
         );
         soundRef.current = sound;
       }
@@ -193,4 +193,3 @@ export function useMusicSound() {
 
   return { playMusic, stopMusic };
 }
-
